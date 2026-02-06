@@ -17,36 +17,60 @@
     </div>
 
     <script>
-        async function loadCatalog() {
-            const db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
-            const response = await fetch('data.json');
-            const data = await response.json();
-            const grid = document.getElementById('catalog');
+        async function loadCatalog(filter = 'all') {
+    const grid = document.getElementById('catalogGrid');
+    grid.innerHTML = '<p class="text-center col-span-full py-10">Cargando catálogo técnico...</p>';
+    
+    try {
+        const db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+        const response = await fetch('data.json'); //
+        const data = await response.json();
+        
+        grid.innerHTML = ''; // Limpiamos el mensaje de carga
 
-            data.forEach(p => {
-                let variantsHtml = '';
-                p.variantes.forEach(v => {
-                    const info = db[v.sku_id] || { price: '0.00', stock: true };
-                    if(info.stock) {
-                        variantsHtml += `
-                            <div class="flex justify-between border-b py-2 text-sm">
-                                <span>${v.medida}</span>
-                                <span class="font-bold text-blue-700">${info.price !== '0.00' ? '$' + info.price : 'Consultar'}</span>
-                            </div>`;
-                    }
-                });
+        data.forEach(p => {
+            // Lógica de categorización dinámica
+            const text = (p.nombre + p.descripcion).toLowerCase();
+            let category = 'Al Agua';
+            if (text.includes('ciaflex') || text.includes('emborrachada')) category = 'Emborrachada';
+            else if (text.includes('sintético') || text.includes('solvente')) category = 'Sintético';
 
-                grid.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm border p-6">
-                        <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-bold uppercase">${p.categoria}</span>
-                        <h2 class="text-xl font-bold mt-2 text-gray-800">${p.nombre}</h2>
-                        <p class="text-gray-500 text-xs my-3 italic">${p.argumento_venta}</p>
-                        <div class="my-4">${variantsHtml || '<p class="text-red-500 font-bold">Sin Stock</p>'}</div>
-                        <div class="text-[10px] text-gray-400">Rendimiento: ${p.variantes[0].rendimiento.split('(')[0]}</div>
-                    </div>`;
+            if (filter !== 'all' && category !== filter) return;
+
+            let variantsHtml = '';
+            p.variantes.forEach(v => {
+                const info = db[v.sku_id] || { price: '0.00', stock: true };
+                if(info.stock) {
+                    variantsHtml += `
+                        <div class="flex justify-between border-b border-gray-100 py-2 text-sm">
+                            <span class="text-gray-600">${v.medida}</span>
+                            <span class="font-bold text-blue-700">${info.price !== '0.00' ? '$ ' + info.price : 'Consulte precio'}</span>
+                        </div>`;
+                }
             });
-        }
-        loadCatalog();
+
+            grid.innerHTML += `
+                <div class="bg-white rounded-3xl shadow-sm border p-6 hover:shadow-xl transition-all">
+                    <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded-full font-black uppercase tracking-tighter">${category}</span>
+                    <h2 class="text-xl font-bold mt-2 text-gray-800">${p.nombre}</h2>
+                    <p class="text-gray-500 text-xs my-3 italic leading-relaxed">"${p.argumento_venta}"</p>
+                    <div class="my-4 space-y-1">${variantsHtml || '<p class="text-red-500 font-bold text-xs uppercase">Sin Stock Temporal</p>'}</div>
+                    <div class="bg-gray-50 p-3 rounded-xl mt-4">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase">Rendimiento Estimado</p>
+                        <p class="text-xs font-bold text-gray-700">${p.variantes[0].rendimiento.split('(')[0]}</p>
+                    </div>
+                </div>`;
+        });
+    } catch (error) {
+        grid.innerHTML = '<p class="text-red-500 text-center col-span-full">Error al conectar con la base de datos.</p>';
+    }
+}
+
+// Función global para los botones de filtro
+window.filterCat = function(c) { loadCatalog(c); }
+
+// Iniciar carga al abrir la web
+document.addEventListener('DOMContentLoaded', () => loadCatalog());
     </script>
 </body>
 </html>
