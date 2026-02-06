@@ -3,80 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Ciacollor</title>
+    <title>Admin Ciacollor - Gestión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+        /* Switch Toggle Estilo iOS */
+        .toggle-checkbox:checked { right: 0; border-color: #22c55e; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #22c55e; }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <header class="bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto flex flex-col md:row justify-between items-center gap-4">
-            <h1 class="font-bold text-xl uppercase tracking-tighter text-yellow-500">Admin Ciacollor</h1>
-            <input type="text" id="searchInput" placeholder="Buscar producto..." class="p-2 rounded bg-slate-800 text-white w-full md:w-64 border border-slate-700">
+<body class="pb-20">
+
+    <header class="bg-white border-b sticky top-0 z-50 px-4 py-3 shadow-sm">
+        <div class="container mx-auto max-w-5xl flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 leading-none">Inventario</h1>
+                    <p class="text-[10px] text-slate-400 font-medium tracking-wide uppercase">Panel Administrativo</p>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-96 relative">
+                <input type="text" id="adminSearch" placeholder="Buscar por nombre, ID o medida..." 
+                       class="w-full bg-slate-100 text-slate-700 border-none rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <i class="fas fa-search absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+            </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-6">
-        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <p class="text-center col-span-full">Cargando base de datos...</p>
+    <main class="container mx-auto max-w-5xl p-4">
+        <div id="adminGrid" class="space-y-3">
+            <div class="text-center py-10 text-slate-400">Cargando sistema...</div>
         </div>
     </main>
 
     <script>
-        let productData = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
-        let rawProducts = [];
+        let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+        let products = [];
 
-        // Función para cargar el archivo JSON real que subiste a GitHub
-        async function loadData() {
+        async function initAdmin() {
             try {
-                const response = await fetch('data.json');
-                rawProducts = await response.json();
-                render();
-            } catch (e) {
-                document.getElementById('productGrid').innerHTML = "Error cargando data.json";
+                const res = await fetch('data.json'); //
+                products = await res.json();
+                renderAdmin();
+            } catch (error) {
+                document.getElementById('adminGrid').innerHTML = '<p class="text-red-500 text-center">Error cargando data.json. Asegúrate de subirlo a GitHub.</p>';
             }
         }
 
-        function render(search = '') {
-            const grid = document.getElementById('productGrid');
+        function renderAdmin(filter = '') {
+            const grid = document.getElementById('adminGrid');
             grid.innerHTML = '';
 
-            rawProducts.forEach(product => {
-                if(!product.nombre.toLowerCase().includes(search.toLowerCase())) return;
+            products.forEach(p => {
+                p.variantes.forEach(v => {
+                    // Filtrado inteligente
+                    const searchText = `${p.nombre} ${v.medida} ${v.sku_id}`.toLowerCase();
+                    if(filter && !searchText.includes(filter.toLowerCase())) return;
 
-                product.variantes.forEach(variant => {
-                    const sku = variant.sku_id;
-                    const info = productData[sku] || { price: '0.00', stock: true };
+                    const sku = v.sku_id;
+                    const data = db[sku] || { price: '', stock: true };
                     
-                    const card = document.createElement('div');
-                    card.className = `bg-white p-4 rounded-xl shadow-sm border-2 ${info.stock ? 'border-transparent' : 'border-red-200 opacity-60'}`;
-                    card.innerHTML = `
-                        <p class="text-[10px] font-bold text-gray-400">ID: ${sku}</p>
-                        <h2 class="font-bold text-sm mb-2 h-10 overflow-hidden">${product.nombre}</h2>
-                        <p class="text-blue-600 font-bold text-xs mb-4">${variant.medida}</p>
-                        
-                        <label class="block text-[10px] uppercase font-bold text-gray-500">Precio</label>
-                        <input type="number" value="${info.price}" onblur="save(${sku}, 'price', this.value)" 
-                               class="w-full p-2 bg-gray-100 rounded mb-4 font-bold">
+                    // Tarjeta de Edición (Fila)
+                    const row = document.createElement('div');
+                    row.className = `bg-white rounded-xl p-4 border transition-all flex flex-col md:flex-row gap-4 items-center shadow-sm hover:shadow-md ${data.stock ? 'border-slate-100' : 'border-red-100 bg-red-50/30'}`;
+                    
+                    row.innerHTML = `
+                        <div class="flex items-center gap-4 w-full md:w-auto">
+                            <div class="w-16 h-16 bg-slate-50 rounded-lg border border-slate-100 flex-shrink-0 flex items-center justify-center p-1 relative">
+                                <span class="absolute top-0 left-0 bg-slate-200 text-[8px] font-bold px-1 rounded-br text-slate-500">#${sku}</span>
+                                <img src="imagenes/${sku}.jpg" onerror="this.src='https://via.placeholder.com/60?text=IMG'" class="max-h-full object-contain mix-blend-multiply">
+                            </div>
+                            <div class="flex-1 min-w-[200px]">
+                                <h3 class="font-bold text-slate-700 text-sm leading-tight">${p.nombre}</h3>
+                                <span class="inline-block bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-full mt-1 uppercase tracking-wider">
+                                    ${v.medida}
+                                </span>
+                                <p class="text-[10px] text-slate-400 mt-1">
+                                    <i class="fas fa-brush mr-1"></i>Cubritivo: <span class="font-medium text-slate-600">${v.rendimiento}</span>
+                                </p>
+                            </div>
+                        </div>
 
-                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded">
-                            <span class="text-xs font-bold">${info.stock ? 'DISPONIBLE' : 'SIN STOCK'}</span>
-                            <input type="checkbox" ${info.stock ? 'checked' : ''} onchange="save(${sku}, 'stock', this.checked)">
+                        <div class="flex items-center gap-3 w-full md:w-auto md:ml-auto bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            
+                            <div class="relative group">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
+                                <input type="number" step="0.01" value="${data.price}" 
+                                    onchange="updateDB(${sku}, 'price', this.value)"
+                                    placeholder="0.00"
+                                    class="w-28 bg-white border border-slate-200 text-right text-slate-700 font-bold rounded-lg py-2 pr-2 pl-6 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm transition-all"
+                                >
+                            </div>
+
+                            <div class="relative inline-block w-12 h-6 align-middle select-none">
+                                <input type="checkbox" id="toggle-${sku}" ${data.stock ? 'checked' : ''} 
+                                       onchange="updateDB(${sku}, 'stock', this.checked)"
+                                       class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 right-6 border-slate-300"/>
+                                <label for="toggle-${sku}" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-all duration-300"></label>
+                            </div>
                         </div>
                     `;
-                    grid.appendChild(card);
+                    grid.appendChild(row);
                 });
             });
         }
 
-        function save(sku, field, value) {
-            if(!productData[sku]) productData[sku] = { price: '0.00', stock: true };
-            productData[sku][field] = field === 'price' ? value : value;
-            localStorage.setItem('ciacollor_db', JSON.stringify(productData));
-            if(field === 'stock') render(document.getElementById('searchInput').value);
+        function updateDB(sku, field, value) {
+            if(!db[sku]) db[sku] = { price: '', stock: true };
+            db[sku][field] = value;
+            localStorage.setItem('ciacollor_db', JSON.stringify(db));
+            
+            // Feedback visual sutil (parpadeo verde en el borde)
+            const card = document.activeElement.closest('.bg-white');
+            if(card) {
+                card.classList.add('border-green-400');
+                setTimeout(() => card.classList.remove('border-green-400'), 500);
+            }
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e) => render(e.target.value));
-        loadData();
+        document.getElementById('adminSearch').addEventListener('input', (e) => renderAdmin(e.target.value));
+        initAdmin();
     </script>
 </body>
 </html>
