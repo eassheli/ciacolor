@@ -3,276 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Ciacollor</title>
+    <title>Catálogo Ciacollor Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
-        .product-card { transition: all 0.2s ease-in-out; }
-        .product-card:active { transform: scale(0.98); }
+        /* Transiciones suaves para elementos interactivos */
+        .product-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animación de entrada para el modal */
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-animate { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
 <body>
 
-    <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 px-4 py-3 shadow-sm">
-        <div class="container mx-auto max-w-lg">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black italic text-xs">C</div>
-                    <span class="font-bold text-slate-800 text-xl tracking-tight italic">Ciacollor</span>
+    <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 px-6 py-4 shadow-sm">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-900 rounded-xl flex items-center justify-center text-white font-black italic text-sm shadow-lg shadow-blue-900/20">C</div>
+                    <div>
+                        <h1 class="font-bold text-slate-800 text-2xl tracking-tight italic leading-none">Ciacollor</h1>
+                        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Catálogo Digital</p>
+                    </div>
                 </div>
-                <div id="counter" class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                <div id="counter" class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
                     Cargando...
                 </div>
             </div>
 
-            <div class="relative group">
-                <input type="text" id="searchInput" placeholder="Buscar producto..." 
-                       class="w-full bg-slate-100 border-none rounded-2xl py-3 pl-11 pr-4 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500 outline-none">
-                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
-            </div>
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="relative group flex-1">
+                    <input type="text" id="searchInput" placeholder="Buscar producto, código o característica..." 
+                           class="w-full bg-slate-100 border-transparent rounded-xl py-3 pl-12 pr-4 text-slate-700 font-medium focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all shadow-sm">
+                    <i class="fas fa-search absolute left-4 top-3.5 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                </div>
 
-            <div class="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
-                <button onclick="filterBy('all')" class="filter-btn active bg-slate-800 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">Todo</button>
-                <button onclick="filterBy('Emborrachada')" class="filter-btn bg-slate-100 text-slate-500 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">Emborrachada</button>
-                <button onclick="filterBy('Al Agua')" class="filter-btn bg-slate-100 text-slate-500 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">Al Agua</button>
-                <button onclick="filterBy('Sintético')" class="filter-btn bg-slate-100 text-slate-500 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">Metales/Madera</button>
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0 items-center">
+                    <button onclick="filterBy('all')" class="filter-btn active bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap shadow-lg shadow-slate-800/20 transition-all">Todo</button>
+                    <button onclick="filterBy('Emborrachada')" class="filter-btn bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Emborrachada</button>
+                    <button onclick="filterBy('Al Agua')" class="filter-btn bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Al Agua</button>
+                    <button onclick="filterBy('Sintético')" class="filter-btn bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Metales/Madera</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto max-w-lg p-4 pb-24">
-        <div id="catalogGrid" class="flex flex-col gap-3">
-            <div class="animate-pulse space-y-3">
-                <div class="h-24 bg-slate-200 rounded-2xl"></div>
-                <div class="h-24 bg-slate-200 rounded-2xl"></div>
-            </div>
+    <main class="container mx-auto p-6 pb-24">
+        <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
         </div>
     </main>
 
     <div id="productModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0" id="modalBackdrop" onclick="closeModal()"></div>
 
-        <div class="absolute bottom-0 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[450px] h-[90vh] md:h-auto bg-white md:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden transition-transform transform translate-y-full md:translate-y-0" id="modalPanel">
+        <div class="absolute bottom-0 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[500px] h-[95vh] md:h-auto md:max-h-[90vh] bg-white md:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden transform translate-y-full md:translate-y-10 transition-transform duration-300" id="modalPanel">
             
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors">
                 <i class="fas fa-times"></i>
             </button>
 
-            <div class="overflow-y-auto p-6 pb-32 no-scrollbar flex-1">
-                <div class="flex justify-between items-start mb-2">
-                    <p id="m-sku" class="text-[10px] font-black text-slate-300 uppercase tracking-widest">ID: ---</p>
-                    <span id="m-tag" class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">---</span>
+            <div class="overflow-y-auto p-8 pb-32 no-scrollbar flex-1">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex flex-col gap-1">
+                        <span id="m-tag" class="w-fit bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">---</span>
+                        <p id="m-sku" class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">ID: ---</p>
+                    </div>
                 </div>
                 
-                <h2 id="m-title" class="text-2xl font-black text-slate-800 leading-tight mb-4">---</h2>
+                <h2 id="m-title" class="text-2xl font-black text-slate-800 leading-tight mb-6">---</h2>
 
-                <div id="m-variants-container" class="flex flex-wrap gap-2 mb-6">
+                <div id="m-variants-container" class="flex flex-wrap gap-2 mb-8">
                     </div>
                 
-                <div class="bg-slate-50 rounded-2xl p-6 mb-6 border border-slate-100 flex justify-center relative">
-                    <img id="m-img" src="" class="h-48 object-contain drop-shadow-xl transition-all duration-300" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
+                <div class="bg-slate-50 rounded-2xl p-8 mb-8 border border-slate-100 flex justify-center relative group">
+                    <div class="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                    <img id="m-img" src="" class="h-56 object-contain drop-shadow-xl transition-all duration-300 transform group-hover:scale-105" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
                 </div>
 
-                <div class="mb-6">
-                    <h3 class="text-xs font-bold text-slate-900 uppercase mb-2 flex items-center gap-2">
-                        <i class="fas fa-info-circle text-blue-500"></i> Descripción
+                <div class="mb-8">
+                    <h3 class="text-xs font-bold text-slate-900 uppercase mb-3 flex items-center gap-2">
+                        <i class="fas fa-align-left text-blue-500"></i> Descripción
                     </h3>
-                    <p id="m-desc" class="text-sm text-slate-500 leading-relaxed">---</p>
+                    <p id="m-desc" class="text-sm text-slate-500 leading-relaxed text-justify">---</p>
                 </div>
 
-                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100 transition-all duration-300">
-                    <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Rendimiento Técnico (Cubritivo)</h3>
-                    <p id="m-rendimiento" class="text-sm font-bold text-blue-900 flex items-start gap-2">
-                        <i class="fas fa-fill-drip mt-1 opacity-50"></i>
-                        <span>---</span>
-                    </p>
-                    <p id="m-secado" class="text-[10px] font-bold text-blue-400 mt-2 text-right">---</p>
+                <div class="bg-blue-50/50 rounded-2xl p-5 border border-blue-100 transition-all duration-300">
+                    <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Ficha Técnica</h3>
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Rendimiento (Cubritivo)</p>
+                            <p id="m-rendimiento" class="text-sm font-bold text-blue-900 flex items-start gap-2">
+                                <i class="fas fa-fill-drip mt-1 opacity-50"></i>
+                                <span>---</span>
+                            </p>
+                        </div>
+                        <div class="border-t border-blue-100 pt-2">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Tiempo de Secado</p>
+                            <p id="m-secado" class="text-xs font-bold text-slate-600">---</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="absolute bottom-0 left-0 right-0 bg-white border-t p-4 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-                <div>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">Precio Lista</p>
-                    <p id="m-price" class="text-3xl font-black text-slate-800 tracking-tight">---</p>
+            <div class="absolute bottom-0 left-0 right-0 bg-white border-t p-5 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-10">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">Precio de Lista</span>
+                    <span id="m-price" class="text-3xl font-black text-slate-800 tracking-tight">---</span>
                 </div>
-                <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-200 transition-all active:scale-95">
-                    <i class="fab fa-whatsapp text-lg"></i> Consultar
+                <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white pl-6 pr-8 py-3 rounded-2xl font-bold flex items-center gap-3 shadow-lg shadow-green-500/30 transition-all active:scale-95 group">
+                    <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition-transform"></i>
+                    <span>Pedir</span>
                 </a>
             </div>
         </div>
     </div>
 
     <script>
-        let allData = [];
+        // --- GESTIÓN DE DATOS ---
+        let allProducts = []; // Array de productos (padres)
         let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
 
-        async function loadCatalog() {
+        async function initSystem() {
             try {
                 const response = await fetch('data.json'); 
                 const rawData = await response.json();
                 
-                allData = [];
-                rawData.forEach(product => {
+                // Procesamiento inicial: Asignar Categorías Inteligentes
+                allProducts = rawData.map(product => {
                     const text = (product.nombre + product.descripcion).toLowerCase();
-                    let category = 'Al Agua';
-                    if (text.includes('ciaflex') || text.includes('emborrachada')) category = 'Emborrachada';
-                    else if (text.includes('sintético') || text.includes('solvente')) category = 'Sintético';
-
-                    product.variantes.forEach(variant => {
-                        allData.push({
-                            parent: product, // Guardamos el padre completo para acceder a los hermanos
-                            variant: variant,
-                            sku: variant.sku_id,
-                            category: category,
-                            fullName: `${product.nombre} ${variant.medida}`,
-                            price: db[variant.sku_id]?.price || "0.00",
-                            stock: db[variant.sku_id]?.stock ?? true
-                        });
-                    });
+                    let cat = 'Al Agua';
+                    if (text.includes('ciaflex') || text.includes('emborrachada')) cat = 'Emborrachada';
+                    else if (text.includes('sintético') || text.includes('solvente') || text.includes('esmalte')) cat = 'Sintético';
+                    
+                    return { ...product, smartCategory: cat };
                 });
+
                 renderCatalog();
             } catch (error) {
-                console.error(error);
-                document.getElementById('catalogGrid').innerHTML = '<p class="text-center text-red-400 py-10">Error cargando catálogo.</p>';
+                console.error("Error crítico:", error);
+                document.getElementById('catalogGrid').innerHTML = 
+                    `<div class="col-span-full text-center py-20">
+                        <i class="fas fa-wifi text-4xl text-slate-300 mb-4"></i>
+                        <p class="text-slate-500">No se pudo cargar el inventario.</p>
+                    </div>`;
             }
         }
 
+        // --- RENDERIZADO DEL GRID (Agrupado por ID) ---
         function renderCatalog(filter = 'all', search = '') {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = '';
             
-            let filtered = allData.filter(item => {
-                if (filter !== 'all' && item.category !== filter) return false;
-                if (search && !item.fullName.toLowerCase().includes(search.toLowerCase()) && !item.sku.toString().includes(search)) return false;
+            // Filtros
+            const filtered = allProducts.filter(p => {
+                if (filter !== 'all' && p.smartCategory !== filter) return false;
+                if (search && !p.nombre.toLowerCase().includes(search.toLowerCase())) return false;
                 return true;
             });
 
             document.getElementById('counter').innerText = `${filtered.length} PRODS`;
 
-            filtered.forEach(item => {
-                const badgeColor = item.category === 'Emborrachada' ? 'bg-purple-100 text-purple-600' : 
-                                   item.category === 'Sintético' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600';
-                const opacity = item.stock ? 'opacity-100' : 'opacity-60 grayscale';
+            filtered.forEach(product => {
+                // Usamos la variante principal (generalmente la primera) para la tarjeta
+                const mainVariant = product.variantes[0];
+                const price = db[mainVariant.sku_id]?.price || "0.00";
+                
+                // Detectar si hay stock en ALGUNA variante
+                const hasStock = product.variantes.some(v => (db[v.sku_id]?.stock ?? true));
+                
+                // Estilos dinámicos
+                const badgeStyle = product.smartCategory === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : 
+                                   product.smartCategory === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
 
                 const card = document.createElement('div');
-                card.className = `product-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 cursor-pointer ${opacity}`;
-                // Pasamos el item completo a openModal
-                card.onclick = () => openModal(item); 
+                card.className = `product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${hasStock ? '' : 'opacity-70 grayscale'}`;
+                card.onclick = () => openModal(product);
 
+                // HTML de la Tarjeta
                 card.innerHTML = `
-                    <div class="w-20 h-20 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center p-2 relative">
-                        <img src="imagenes/${item.sku}.jpg" onerror="this.src='https://via.placeholder.com/150?text=IMG'" class="max-h-full object-contain mix-blend-multiply">
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${badgeStyle}">${product.smartCategory}</span>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${badgeColor}">${item.category}</span>
-                            <span class="text-[9px] font-bold text-slate-300">#${item.sku}</span>
+
+                    <div class="w-full h-40 bg-slate-50 rounded-2xl flex items-center justify-center p-4 mb-4 relative">
+                        <img src="imagenes/${mainVariant.sku_id}.jpg" 
+                             onerror="this.src='https://via.placeholder.com/200?text=${product.nombre.substring(0,3)}'" 
+                             class="h-full object-contain mix-blend-multiply transition-transform hover:scale-110 duration-500">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-bold text-slate-300">#${mainVariant.sku_id}</span>
+                            ${!hasStock ? '<span class="text-[9px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">AGOTADO</span>' : ''}
                         </div>
-                        <h3 class="font-bold text-slate-700 text-sm leading-tight truncate">${item.fullName}</h3>
-                        ${!item.stock ? '<span class="text-[10px] font-bold text-red-500 uppercase">Sin Stock</span>' : ''}
+                        <h3 class="font-bold text-slate-800 text-sm leading-snug mb-1 line-clamp-2 min-h-[2.5rem]">${product.nombre}</h3>
+                        
+                        <div class="flex items-center gap-1 mb-4">
+                            <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                            <p class="text-[10px] text-slate-400 font-semibold">
+                                ${product.variantes.length > 1 ? product.variantes.length + ' medidas disponibles' : mainVariant.medida}
+                            </p>
+                        </div>
                     </div>
-                    <div class="text-right">
-                         <span class="block text-xs font-bold text-slate-400 mb-1">Precio</span>
-                         <span class="block text-lg font-black text-slate-800 tracking-tight">$${item.price}</span>
+
+                    <div class="border-t border-slate-100 pt-3 mt-auto flex items-end justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">Desde</p>
+                            <p class="text-xl font-black text-slate-800 tracking-tight">$${price}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i class="fas fa-arrow-right text-xs"></i>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // LÓGICA DEL MODAL CON BOTONES
-        let currentParent = null; // Para recordar el producto padre actual
+        // --- LÓGICA DEL MODAL (Corazón del sistema) ---
+        let currentProductContext = null;
 
-        function openModal(item) {
-            currentParent = item.parent; // Guardamos el padre para buscar hermanos
-            updateModalContent(item.variant); // Iniciamos con la variante clickeada
+        function openModal(product) {
+            currentProductContext = product;
             
-            const modal = document.getElementById('productModal');
+            // Resetear animación
             const panel = document.getElementById('modalPanel');
+            panel.classList.remove('modal-animate');
+            void panel.offsetWidth; // Trigger reflow
+            panel.classList.add('modal-animate');
+
+            // Mostrar Modal
+            const modal = document.getElementById('productModal');
+            const backdrop = document.getElementById('modalBackdrop');
             modal.classList.remove('hidden');
-            setTimeout(() => { panel.classList.remove('translate-y-full'); }, 10);
+            setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+
+            // Cargar la primera variante por defecto
+            updateModalContent(product.variantes[0]);
         }
 
-        // Función auxiliar que actualiza todo el contenido del modal
         function updateModalContent(variant) {
             const sku = variant.sku_id;
             const price = db[sku]?.price || "0.00";
             
-            // 1. Textos Básicos
-            document.getElementById('m-sku').innerText = `SKU: ${sku}`;
-            document.getElementById('m-title').innerText = `${currentParent.nombre}`;
-            document.getElementById('m-desc').innerText = currentParent.descripcion;
-            document.getElementById('m-tag').innerText = currentParent.categoria; // Usamos categoria original del JSON
+            // 1. Inyectar Textos Estáticos del Producto Padre
+            document.getElementById('m-title').innerText = currentProductContext.nombre;
+            document.getElementById('m-desc').innerText = currentProductContext.descripcion;
+            document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
 
-            // 2. Datos Técnicos Variables
-            document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
-            document.getElementById('m-secado').innerText = `Secado: ${variant.secado}`;
+            // 2. Inyectar Datos Dinámicos de la Variante Hija
+            document.getElementById('m-sku').innerText = `SKU: ${sku}`;
+            document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`; //
+            document.getElementById('m-secado').innerText = variant.secado;
             document.getElementById('m-price').innerText = `$ ${price}`;
-            
-            // 3. Imagen
+
+            // 3. Actualizar Imagen
             const img = document.getElementById('m-img');
-            img.style.opacity = '0'; // Efecto fade
+            img.style.opacity = '0.5';
             setTimeout(() => {
                 img.src = `imagenes/${sku}.jpg`;
                 img.style.opacity = '1';
-            }, 150);
+            }, 200);
 
-            // 4. GENERAR BOTONES DE TAMAÑO
+            // 4. GENERAR BOTONES DE VARIANTES
             const container = document.getElementById('m-variants-container');
-            container.innerHTML = ''; // Limpiar botones anteriores
+            container.innerHTML = '';
 
-            currentParent.variantes.forEach(v => {
-                const btn = document.createElement('button');
-                const isSelected = v.sku_id === sku;
-                
-                // Estilos: Si está seleccionado es Azul Oscuro, si no, es Gris claro
-                btn.className = `px-4 py-2 rounded-lg text-xs font-bold border transition-all ${
-                    isSelected 
-                    ? 'bg-slate-800 text-white border-slate-800 shadow-md transform scale-105' 
-                    : 'bg-white text-slate-500 border-slate-200 hover:border-slate-400'
-                }`;
-                btn.innerText = v.medida;
-                
-                // Al hacer clic, actualizamos la vista con ESTA variante
-                btn.onclick = () => updateModalContent(v);
-                
-                container.appendChild(btn);
-            });
+            // Solo mostramos botones si hay opciones reales
+            if (currentProductContext.variantes.length > 1) {
+                currentProductContext.variantes.forEach(v => {
+                    const btn = document.createElement('button');
+                    const isActive = v.sku_id === sku;
+                    
+                    // Estilos condicionales (Activo vs Inactivo)
+                    btn.className = `px-4 py-2 rounded-xl text-xs font-bold border-2 transition-all duration-200 transform ${
+                        isActive 
+                        ? 'bg-slate-800 text-white border-slate-800 scale-105 shadow-md' 
+                        : 'bg-white text-slate-500 border-slate-100 hover:border-slate-300 hover:text-slate-700'
+                    }`;
+                    btn.innerText = v.medida;
+                    btn.onclick = () => updateModalContent(v); // Cambio en caliente
+                    container.appendChild(btn);
+                });
+            } else {
+                // Si es producto único, mostramos la medida como texto simple
+                container.innerHTML = `<span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-lg">${variant.medida}</span>`;
+            }
 
-            // 5. Link WhatsApp Actualizado
-            const msg = `Hola, me interesa: ${currentParent.nombre} - ${variant.medida} (SKU: ${sku})`;
-            document.getElementById('m-whatsapp').href = `https://wa.me/595999999999?text=${encodeURIComponent(msg)}`;
+            // 5. Link WhatsApp Inteligente
+            const msg = `Hola Ciacollor, consulta sobre: ${currentProductContext.nombre} (${variant.medida}) - SKU ${sku}`;
+            document.getElementById('m-whatsapp').href = `https://wa.me/595981123456?text=${encodeURIComponent(msg)}`;
         }
 
         function closeModal() {
             const modal = document.getElementById('productModal');
+            const backdrop = document.getElementById('modalBackdrop');
             const panel = document.getElementById('modalPanel');
-            panel.classList.add('translate-y-full');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            
+            // Animación de salida
+            panel.style.transform = "translateY(100%)";
+            backdrop.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                panel.style.transform = ""; // Reset inline style
+            }, 300);
         }
 
-        function filterBy(cat) {
+        // --- FILTROS Y EVENTOS ---
+        function filterBy(category) {
+            // Gestión visual de los botones de filtro
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                if(btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todo')) {
-                    btn.classList.add('bg-slate-800', 'text-white');
-                    btn.classList.remove('bg-slate-100', 'text-slate-500');
+                const isSelected = btn.innerText.includes(category) || (category === 'all' && btn.innerText === 'Todo');
+                if (isSelected) {
+                    btn.className = "filter-btn active bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap shadow-lg shadow-slate-800/20 transition-all";
                 } else {
-                    btn.classList.remove('bg-slate-800', 'text-white');
-                    btn.classList.add('bg-slate-100', 'text-slate-500');
+                    btn.className = "filter-btn bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all";
                 }
             });
-            renderCatalog(cat, document.getElementById('searchInput').value);
+            renderCatalog(category, document.getElementById('searchInput').value);
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
-            renderCatalog('all', e.target.value);
+            // Mantener filtro activo
+            const activeCatBtn = document.querySelector('.filter-btn.bg-slate-800');
+            let currentCat = 'all';
+            if (activeCatBtn.innerText === 'Emborrachada') currentCat = 'Emborrachada';
+            else if (activeCatBtn.innerText === 'Al Agua') currentCat = 'Al Agua';
+            else if (activeCatBtn.innerText.includes('Metales')) currentCat = 'Sintético';
+            
+            renderCatalog(currentCat, e.target.value);
         });
 
-        loadCatalog();
+        // Iniciar
+        initSystem();
     </script>
 </body>
 </html>
