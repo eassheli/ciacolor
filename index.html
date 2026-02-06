@@ -3,109 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Pinturas Ciacollor</title>
+    <title>Catálogo Ciacollor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-slate-50">
+    <nav class="bg-blue-700 p-6 text-white text-center shadow-lg">
+        <h1 class="text-3xl font-black italic">CIACOLLOR</h1>
+        <p class="text-blue-100 opacity-80">Catálogo Digital de Pinturas</p>
+    </nav>
 
-    <section class="bg-gradient-to-r from-blue-800 to-blue-600 text-white pb-20 pt-10 px-4">
-        <div class="container mx-auto text-center">
-            <h1 class="text-4xl font-extrabold mb-4">Línea Ciacollor</h1>
-            <p class="text-xl text-blue-100">Encuentra la solución perfecta para tu proyecto</p>
-        </div>
-    </section>
-
-    <div class="container mx-auto px-4 -mt-10">
-        <div class="bg-white rounded-2xl shadow-xl p-4 flex flex-wrap gap-4 justify-center items-center">
-            <button onclick="filterCat('all')" class="px-6 py-2 rounded-xl font-bold transition hover:bg-blue-50 text-blue-800 border-2 border-blue-100">Todo</button>
-            <button onclick="filterCat('Al Agua')" class="px-6 py-2 rounded-xl font-bold transition hover:bg-blue-50 text-blue-800 border-2 border-blue-100"><i class="fas fa-tint mr-2"></i>Interiores (Al Agua)</button>
-            <button onclick="filterCat('Sintético')" class="px-6 py-2 rounded-xl font-bold transition hover:bg-orange-50 text-orange-800 border-2 border-orange-100"><i class="fas fa-oil-can mr-2"></i>Metales y Madera</button>
-            <button onclick="filterCat('Emborrachada')" class="px-6 py-2 rounded-xl font-bold transition hover:bg-purple-50 text-purple-800 border-2 border-purple-100"><i class="fas fa-shield-alt mr-2"></i>Fachadas y Grietas</button>
-        </div>
+    <div class="container mx-auto p-6">
+        <div id="catalog" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
     </div>
 
-    <main class="container mx-auto px-4 py-12">
-        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
-    </main>
-
     <script>
-        const rawData =;
-        let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+        async function loadCatalog() {
+            const db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+            const response = await fetch('data.json');
+            const data = await response.json();
+            const grid = document.getElementById('catalog');
 
-        function translate(text) {
-            const map = { 'fosco': 'Mate', 'acetinado': 'Satinado', 'brilhante': 'Brillante', 'mãos': 'capas' };
-            return text.split(' ').map(w => map[w.toLowerCase()] || w).join(' ');
-        }
-
-        function renderCatalog(filter = 'all') {
-            const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = '';
-
-            rawData.forEach(product => {
-                const text = (product.nombre + product.descripcion).toLowerCase();
-                let category = 'Al Agua';
-                if (text.includes('ciaflex') || text.includes('emborrachada')) category = 'Emborrachada';
-                else if (text.includes('sintético') || text.includes('solvente')) category = 'Sintético';
-
-                if (filter !== 'all' && category !== filter) return;
-
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 group";
-                
-                // Variantes y Precios
+            data.forEach(p => {
                 let variantsHtml = '';
-                product.variantes.forEach(v => {
-                    const info = db[v.sku_id] || { price: 'Consultar', stock: true };
-                    if (info.stock) {
+                p.variantes.forEach(v => {
+                    const info = db[v.sku_id] || { price: '0.00', stock: true };
+                    if(info.stock) {
                         variantsHtml += `
-                            <div class="flex justify-between items-center py-2 border-b border-dashed">
-                                <span class="text-sm font-medium text-gray-600">${v.medida}</span>
-                                <span class="font-bold text-blue-700">${info.price !== '0.00' ? '$ ' + info.price : 'Consultar'}</span>
-                            </div>
-                        `;
+                            <div class="flex justify-between border-b py-2 text-sm">
+                                <span>${v.medida}</span>
+                                <span class="font-bold text-blue-700">${info.price !== '0.00' ? '$' + info.price : 'Consultar'}</span>
+                            </div>`;
                     }
                 });
 
-                card.innerHTML = `
-                    <div class="h-48 bg-gray-100 relative overflow-hidden">
-                        <div class="absolute inset-0 flex items-center justify-center text-gray-300 text-6xl">
-                             <i class="fas fa-paint-roller opacity-20"></i>
-                        </div>
-                        <span class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black uppercase text-gray-500 shadow-sm">
-                            ${category}
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">${product.nombre}</h3>
-                        <p class="text-sm text-gray-500 mb-4 line-clamp-2 italic">"${product.argumento_venta}"</p>
-                        
-                        <div class="space-y-1 mb-6">
-                            ${variantsHtml || '<p class="text-red-500 text-sm font-bold">Temporalmente sin stock</p>'}
-                        </div>
-
-                        <div class="bg-blue-50 p-4 rounded-2xl">
-                            <h4 class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">Ficha Técnica</h4>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <p class="text-[10px] text-blue-400 font-bold uppercase">Secado</p>
-                                    <p class="text-xs font-bold text-blue-900">${product.variantes[0].secado}</p>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] text-blue-400 font-bold uppercase">Rendimiento</p>
-                                    <p class="text-xs font-bold text-blue-900">${product.variantes[0].rendimiento.split('(')[0]}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-sm border p-6">
+                        <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-bold uppercase">${p.categoria}</span>
+                        <h2 class="text-xl font-bold mt-2 text-gray-800">${p.nombre}</h2>
+                        <p class="text-gray-500 text-xs my-3 italic">${p.argumento_venta}</p>
+                        <div class="my-4">${variantsHtml || '<p class="text-red-500 font-bold">Sin Stock</p>'}</div>
+                        <div class="text-[10px] text-gray-400">Rendimiento: ${p.variantes[0].rendimiento.split('(')[0]}</div>
+                    </div>`;
             });
         }
-
-        function filterCat(c) { renderCatalog(c); }
-        renderCatalog();
+        loadCatalog();
     </script>
 </body>
 </html>
