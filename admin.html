@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Ciacollor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans min-h-screen">
+
+    <header class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-xl font-bold flex items-center tracking-wider">
+                <i class="fas fa-tools mr-2 text-yellow-400"></i> GESTIÓN DE STOCK CIACOLLOR
+            </h1>
+            <div class="relative w-full md:w-1/3">
+                <input type="text" id="searchInput" placeholder="Buscar por ID, nombre o técnica..." 
+                       class="w-full p-2 pl-10 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <div class="container mx-auto mt-4 flex flex-wrap gap-2 justify-center">
+            <button onclick="filterCategory('all')" class="bg-white/20 hover:bg-white/40 px-4 py-1 rounded-full text-sm font-medium transition">Todos</button>
+            <button onclick="filterCategory('Emborrachada')" class="bg-white/20 hover:bg-white/40 px-4 py-1 rounded-full text-sm font-medium transition">Emborrachada</button>
+            <button onclick="filterCategory('Al Agua')" class="bg-white/20 hover:bg-white/40 px-4 py-1 rounded-full text-sm font-medium transition">Al Agua</button>
+            <button onclick="filterCategory('Sintético')" class="bg-white/20 hover:bg-white/40 px-4 py-1 rounded-full text-sm font-medium transition">Sintético</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <script>
+        // Datos integrados (Simulando la lectura del JSON)
+        const rawData =; // Aquí se inyectan los datos del archivo
+
+        // Estado local (Simulación de DB)
+        let productData = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+
+        // Función de traducción técnica
+        function translate(text) {
+            const map = {
+                'fosco': 'Mate',
+                'acetinado': 'Satinado',
+                'brilhante': 'Brillante',
+                'demãos': 'capas',
+                'mãos': 'capas',
+                'rendimento': 'Rendimiento',
+                'secado': 'Secado',
+                'diluicao': 'Dilución'
+            };
+            let translated = text.toLowerCase();
+            Object.keys(map).forEach(key => {
+                translated = translated.replace(new RegExp(key, 'g'), map[key]);
+            });
+            return translated.charAt(0).toUpperCase() + translated.slice(1);
+        }
+
+        // Determinar Categoría Dinámica
+        function getCategory(item) {
+            const text = (item.nombre + item.descripcion).toLowerCase();
+            if (text.includes('ciaflex') || text.includes('emborrachada')) return 'Emborrachada';
+            if (text.includes('sintético') || text.includes('solvente') || text.includes('aguarrás') || text.includes('thinner')) return 'Sintético';
+            return 'Al Agua';
+        }
+
+        function renderProducts(filter = 'all', search = '') {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            rawData.forEach(product => {
+                const category = getCategory(product);
+                if (filter !== 'all' && category !== filter) return;
+
+                const searchMatch = product.nombre.toLowerCase().includes(search.toLowerCase()) || 
+                                    product.id.toLowerCase().includes(search.toLowerCase()) ||
+                                    product.descripcion.toLowerCase().includes(search.toLowerCase());
+                if (!searchMatch) return;
+
+                product.variantes.forEach(variant => {
+                    const skuId = variant.sku_id;
+                    const stock = productData[skuId]?.stock ?? true;
+                    const price = productData[skuId]?.price ?? '0.00';
+
+                    const card = document.createElement('div');
+                    card.className = `bg-white rounded-xl shadow-md overflow-hidden border-2 transition-all ${stock ? 'border-transparent' : 'border-red-200 opacity-75 grayscale-[0.5]'}`;
+                    
+                    card.innerHTML = `
+                        <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-400">SKU: ${skuId}</span>
+                            <span class="text-[10px] uppercase px-2 py-0.5 rounded-full ${category === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : category === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'} font-bold">
+                                ${category}
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-gray-800 text-sm h-10 mb-2 overflow-hidden">${product.nombre}</h3>
+                            <p class="text-xs text-blue-600 font-semibold mb-3">${variant.medida} - ${translate(product.categoria)}</p>
+                            
+                            <div class="mb-4">
+                                <label class="block text-[10px] text-gray-500 font-bold uppercase mb-1">Precio de Venta</label>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-2 text-gray-400 font-bold">$</span>
+                                    <input type="number" step="0.01" value="${price}" 
+                                           onblur="updatePrice(${skuId}, this.value)"
+                                           class="w-full bg-gray-100 border-none rounded p-2 pl-7 font-bold text-gray-700 focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between bg-gray-50 p-2 rounded-lg">
+                                <span class="text-xs font-bold ${stock ? 'text-green-600' : 'text-red-500'} uppercase">
+                                    ${stock ? 'Disponible' : 'Sin Stock'}
+                                </span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" ${stock ? 'checked' : ''} onchange="toggleStock(${skuId})" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        function updatePrice(skuId, value) {
+            if (!productData[skuId]) productData[skuId] = { stock: true };
+            productData[skuId].price = value;
+            localStorage.setItem('ciacollor_db', JSON.stringify(productData));
+        }
+
+        function toggleStock(skuId) {
+            if (!productData[skuId]) productData[skuId] = { price: '0.00' };
+            productData[skuId].stock = !productData[skuId].stock;
+            localStorage.setItem('ciacollor_db', JSON.stringify(productData));
+            renderProducts(currentFilter, currentSearch);
+        }
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            renderProducts(currentFilter, currentSearch);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderProducts(currentFilter, currentSearch);
+        });
+
+        // Inicio
+        renderProducts();
+    </script>
+</body>
+</html>
