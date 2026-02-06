@@ -3,143 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Ciacollor - Premium</title>
+    <title>Catálogo Ciacollor</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; }
-        .product-card { transition: transform 0.2s; cursor: pointer; }
-        .product-card:hover { transform: translateY(-2px); shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .modal-overlay { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .product-card { transition: all 0.2s ease-in-out; }
+        .product-card:active { transform: scale(0.98); }
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.2s; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: all 0.2s; }
+        
+        /* Ocultar barra de scroll en modal pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
 
-    <header class="bg-white border-b sticky top-0 z-40 p-4">
-        <div class="container mx-auto flex flex-col items-center">
-            <div class="w-full flex justify-between items-center mb-4">
+    <header class="bg-white/90 backdrop-blur-md border-b sticky top-0 z-40 px-4 py-3 shadow-sm">
+        <div class="container mx-auto max-w-lg">
+            <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
-                    <img src="https://www.ciacollor.com.br/assets/images/logo.png" alt="Ciacollor" class="h-8">
-                    <span class="font-bold text-slate-700 text-xl italic">Ciacollor</span>
+                    <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center text-white font-black italic text-xs">C</div>
+                    <span class="font-bold text-slate-800 text-xl tracking-tight italic">Ciacollor</span>
                 </div>
-                <div id="productCount" class="bg-slate-100 px-3 py-1 rounded-full text-xs font-bold text-slate-500">
-                    0 prods
+                <div id="counter" class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                    Cargando...
                 </div>
             </div>
-            <div class="relative w-full max-w-2xl">
-                <input type="text" id="mainSearch" placeholder="Buscar..." 
-                       class="w-full bg-slate-100 border-none rounded-xl p-3 pl-10 focus:ring-2 focus:ring-blue-500 outline-none">
-                <i class="fas fa-search absolute left-4 top-4 text-slate-400"></i>
+
+            <div class="relative group">
+                <input type="text" id="searchInput" placeholder="¿Qué estás buscando hoy?" 
+                       class="w-full bg-slate-100 border-none rounded-2xl py-3 pl-11 pr-4 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none placeholder-slate-400">
+                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+            </div>
+
+            <div class="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
+                <button onclick="filterBy('all')" class="filter-btn active bg-slate-800 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors">Todo</button>
+                <button onclick="filterBy('Emborrachada')" class="filter-btn bg-slate-100 text-slate-500 hover:bg-slate-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors">Emborrachada</button>
+                <button onclick="filterBy('Al Agua')" class="filter-btn bg-slate-100 text-slate-500 hover:bg-slate-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors">Al Agua</button>
+                <button onclick="filterBy('Sintético')" class="filter-btn bg-slate-100 text-slate-500 hover:bg-slate-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors">Metales/Madera</button>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-4 max-w-4xl">
-        <div id="mainGrid" class="space-y-4 pt-4">
+    <main class="container mx-auto max-w-lg p-4 pb-20">
+        <div id="catalogGrid" class="flex flex-col gap-3">
+            <div class="animate-pulse space-y-3">
+                <div class="h-24 bg-slate-200 rounded-2xl"></div>
+                <div class="h-24 bg-slate-200 rounded-2xl"></div>
+                <div class="h-24 bg-slate-200 rounded-2xl"></div>
             </div>
+        </div>
     </main>
 
-    <div id="productModal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-4 right-4 bg-slate-100 w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200">
+    <div id="productModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+        <div class="absolute bottom-0 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[450px] md:h-auto h-[90vh] bg-white md:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col overflow-hidden transition-transform transform translate-y-full md:translate-y-0" id="modalPanel">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200">
                 <i class="fas fa-times"></i>
             </button>
-            
-            <div class="p-8">
-                <p id="m-id" class="text-[10px] font-bold text-slate-400 uppercase mb-1">ID: 0000</p>
-                <h2 id="m-nombre" class="text-xl font-bold text-slate-800 leading-tight mb-6">Nombre del Producto</h2>
+
+            <div class="overflow-y-auto p-6 pb-32 no-scrollbar flex-1">
+                <p id="m-sku" class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-2">ID: ---</p>
+                <h2 id="m-title" class="text-2xl font-black text-slate-800 leading-tight mb-6">---</h2>
                 
-                <div class="bg-slate-50 rounded-2xl p-6 flex justify-center mb-6 border border-slate-100">
-                    <img id="m-img" src="" alt="Producto" class="max-h-64 object-contain">
+                <div class="bg-slate-50 rounded-2xl p-8 mb-6 border border-slate-100 flex justify-center relative">
+                    <span id="m-tag" class="absolute top-3 left-3 bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">---</span>
+                    <img id="m-img" src="" class="h-48 object-contain drop-shadow-xl" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
                 </div>
 
-                <div class="border-2 border-dashed border-blue-200 rounded-xl p-4 flex flex-col items-center justify-center gap-2 mb-6">
-                    <div class="text-blue-500 font-bold flex items-center gap-2">
-                        <i class="fas fa-upload"></i> Subir / Previsualizar
-                    </div>
-                    <p class="text-[9px] text-slate-400 text-center uppercase tracking-widest">
-                        *Para guardar: nombre la foto como ID.jpg y súbala a la carpeta 'imagenes'
-                    </p>
-                </div>
-
-                <div class="space-y-4">
-                    <h3 class="text-[10px] font-black text-slate-400 uppercase flex items-center gap-2">
-                        <i class="fas fa-align-left"></i> Descripción (Español)
+                <div class="mb-6">
+                    <h3 class="text-xs font-bold text-slate-900 uppercase mb-2 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-blue-500"></i> Descripción
                     </h3>
-                    <div id="m-desc" class="bg-slate-50 p-4 rounded-xl text-sm text-slate-600 leading-relaxed border border-slate-100">
-                        </div>
+                    <p id="m-desc" class="text-sm text-slate-500 leading-relaxed">---</p>
                 </div>
 
-                <div class="mt-8 pt-6 border-t flex justify-between items-end">
-                    <span class="text-slate-400 text-sm font-medium">Precio Actual:</span>
-                    <span id="m-precio" class="text-3xl font-black text-blue-600 font-mono">R$ 0.00</span>
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                    <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Rendimiento Técnico (Cubritivo)</h3>
+                    <p id="m-rendimiento" class="text-sm font-bold text-blue-900 flex items-start gap-2">
+                        <i class="fas fa-brush mt-1 opacity-50"></i>
+                        <span>---</span>
+                    </p>
+                    <p id="m-secado" class="text-[10px] font-bold text-blue-400 mt-2 text-right">---</p>
                 </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 right-0 bg-white border-t p-4 flex items-center justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Precio Lista</p>
+                    <p id="m-price" class="text-3xl font-black text-slate-800 tracking-tight">---</p>
+                </div>
+                <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-200 transition-all active:scale-95">
+                    <i class="fab fa-whatsapp text-lg"></i> Consultar
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        let allProducts = [];
+        let allData = [];
         let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
 
-        async function init() {
-            const res = await fetch('data.json'); //
-            allProducts = await res.json();
-            render();
-        }
+        // 1. Cargar Datos
+        async function loadCatalog() {
+            try {
+                const response = await fetch('data.json'); //
+                const rawData = await response.json();
+                
+                // Aplanamos los datos: Creamos un objeto por cada VARIANTE
+                allData = [];
+                rawData.forEach(product => {
+                    // Determinar Categoría (Smart Tagging)
+                    const text = (product.nombre + product.descripcion).toLowerCase();
+                    let smartCat = 'Al Agua';
+                    let color = 'blue';
 
-        function render(search = '') {
-            const grid = document.getElementById('mainGrid');
-            grid.innerHTML = '';
-            let count = 0;
+                    if (text.includes('ciaflex') || text.includes('emborrachada')) {
+                        smartCat = 'Emborrachada';
+                        color = 'purple';
+                    } else if (text.includes('sintético') || text.includes('solvente') || text.includes('esmalte')) {
+                        smartCat = 'Sintético';
+                        color = 'orange';
+                    }
 
-            allProducts.forEach(p => {
-                // Filtro de búsqueda
-                if(search && !p.nombre.toLowerCase().includes(search.toLowerCase())) return;
-
-                p.variantes.forEach(v => {
-                    count++;
-                    const sku = v.sku_id;
-                    const price = db[sku]?.price || "0.00";
-                    
-                    const card = document.createElement('div');
-                    card.className = "product-card bg-white rounded-2xl p-4 flex items-center gap-6 shadow-sm border border-slate-100";
-                    card.onclick = () => openModal(p, v, price);
-
-                    card.innerHTML = `
-                        <div class="w-24 h-24 bg-slate-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                            <img src="imagenes/${sku}.jpg" onerror="this.src='https://via.placeholder.com/100?text=Pintura'" class="max-h-20 object-contain">
-                        </div>
-                        <div class="flex-grow">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-50 text-blue-500">${p.categoria}</span>
-                                <span class="text-[9px] font-bold text-slate-300">#${sku}</span>
-                            </div>
-                            <h3 class="font-bold text-slate-800 text-sm leading-tight">${p.nombre} ${v.medida}</h3>
-                            <p class="text-xl font-black text-slate-800 mt-2 font-mono">R$ ${price}</p>
-                        </div>
-                    `;
-                    grid.appendChild(card);
+                    product.variantes.forEach(variant => {
+                        allData.push({
+                            parent: product,
+                            variant: variant,
+                            sku: variant.sku_id,
+                            category: smartCat,
+                            color: color,
+                            fullName: `${product.nombre} ${variant.medida}`,
+                            price: db[variant.sku_id]?.price || "0.00",
+                            stock: db[variant.sku_id]?.stock ?? true
+                        });
+                    });
                 });
-            });
-            document.getElementById('productCount').innerText = `${count} prods`;
+
+                renderCatalog();
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('catalogGrid').innerHTML = '<p class="text-center text-red-400 py-10">Error cargando catálogo.</p>';
+            }
         }
 
-        function openModal(p, v, price) {
-            document.getElementById('m-id').innerText = `ID: ${v.sku_id}`;
-            document.getElementById('m-nombre').innerText = `${p.nombre} ${v.medida}`;
-            document.getElementById('m-img').src = `imagenes/${v.sku_id}.jpg`;
-            document.getElementById('m-desc').innerText = p.descripcion;
-            document.getElementById('m-precio').innerText = `R$ ${price}`;
-            document.getElementById('productModal').classList.remove('hidden');
+        // 2. Renderizar Lista
+        function renderCatalog(filter = 'all', search = '') {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+            
+            let filtered = allData.filter(item => {
+                // Filtro Categoría
+                if (filter !== 'all' && item.category !== filter) return false;
+                // Filtro Búsqueda
+                if (search && !item.fullName.toLowerCase().includes(search.toLowerCase()) && !item.sku.toString().includes(search)) return false;
+                return true;
+            });
+
+            document.getElementById('counter').innerText = `${filtered.length} PRODS`;
+
+            if(filtered.length === 0) {
+                grid.innerHTML = '<div class="text-center py-10 text-slate-400">No se encontraron productos.</div>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                // Estilos dinámicos según categoría
+                const badgeColor = item.category === 'Emborrachada' ? 'bg-purple-100 text-purple-600' : 
+                                   item.category === 'Sintético' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600';
+
+                // Si no hay stock, se ve gris
+                const opacity = item.stock ? 'opacity-100' : 'opacity-60 grayscale';
+
+                card.className = `product-card bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 cursor-pointer ${opacity}`;
+                card.onclick = () => openModal(item);
+
+                card.innerHTML = `
+                    <div class="w-20 h-20 bg-slate-50 rounded-xl flex-shrink-0 flex items-center justify-center p-2 relative">
+                        <img src="imagenes/${item.sku}.jpg" onerror="this.src='https://via.placeholder.com/150?text=IMG'" class="max-h-full object-contain mix-blend-multiply">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${badgeColor}">${item.category}</span>
+                            <span class="text-[9px] font-bold text-slate-300">#${item.sku}</span>
+                        </div>
+                        <h3 class="font-bold text-slate-700 text-sm leading-tight truncate">${item.fullName}</h3>
+                        ${!item.stock ? '<span class="text-[10px] font-bold text-red-500 uppercase">Sin Stock</span>' : ''}
+                    </div>
+                    <div class="text-right">
+                         <span class="block text-xs font-bold text-slate-400 mb-1">Precio</span>
+                         <span class="block text-lg font-black text-slate-800 tracking-tight">$${item.price}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 3. Abrir Modal con Datos Específicos
+        function openModal(item) {
+            const modal = document.getElementById('productModal');
+            const panel = document.getElementById('modalPanel');
+
+            // Llenar datos
+            document.getElementById('m-sku').innerText = `SKU: ${item.sku}`;
+            document.getElementById('m-title').innerText = item.fullName;
+            document.getElementById('m-img').src = `imagenes/${item.sku}.jpg`;
+            document.getElementById('m-tag').innerText = item.category;
+            
+            // Descripción general + Argumento de venta
+            document.getElementById('m-desc').innerHTML = `
+                <span class="block font-bold text-slate-700 mb-2">"${item.parent.argumento_venta}"</span>
+                ${item.parent.descripcion}
+            `;
+
+            // DATOS ESPECÍFICOS DE LA VARIANTE (Lo que pediste)
+            document.getElementById('m-rendimiento').innerHTML = `
+                <i class="fas fa-fill-drip mt-0.5 text-blue-500"></i>
+                <span>${item.variant.rendimiento}</span>
+            `;
+            document.getElementById('m-secado').innerText = `Secado: ${item.variant.secado}`;
+            document.getElementById('m-price').innerText = `$ ${item.price}`;
+
+            // Botón de WhatsApp personalizado
+            const msg = `Hola, me interesa el producto: ${item.fullName} (ID: ${item.sku})`;
+            document.getElementById('m-whatsapp').href = `https://wa.me/595999999999?text=${encodeURIComponent(msg)}`; // CAMBIA EL NÚMERO AQUÍ
+
+            // Animación Entrada
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                panel.classList.remove('translate-y-full');
+            }, 10);
         }
 
         function closeModal() {
-            document.getElementById('productModal').classList.add('hidden');
+            const modal = document.getElementById('productModal');
+            const panel = document.getElementById('modalPanel');
+            panel.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
         }
 
-        document.getElementById('mainSearch').addEventListener('input', (e) => render(e.target.value));
-        init();
+        // 4. Filtros
+        function filterBy(cat) {
+            // Actualizar botones visualmente
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if(btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'Todo')) {
+                    btn.classList.add('bg-slate-800', 'text-white');
+                    btn.classList.remove('bg-slate-100', 'text-slate-500');
+                } else {
+                    btn.classList.remove('bg-slate-800', 'text-white');
+                    btn.classList.add('bg-slate-100', 'text-slate-500');
+                }
+            });
+            renderCatalog(cat, document.getElementById('searchInput').value);
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeBtn = document.querySelector('.filter-btn.bg-slate-800');
+            let currentFilter = 'all';
+            if(activeBtn.innerText === 'Emborrachada') currentFilter = 'Emborrachada';
+            if(activeBtn.innerText === 'Al Agua') currentFilter = 'Al Agua';
+            if(activeBtn.innerText.includes('Metales')) currentFilter = 'Sintético';
+            
+            renderCatalog(currentFilter, e.target.value);
+        });
+
+        // Inicializar
+        loadCatalog();
+
     </script>
 </body>
 </html>
