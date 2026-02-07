@@ -3,119 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Ciacollor</title>
+    <title>Admin Ciacollor - Nube</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f1f5f9; font-family: 'Inter', sans-serif; }
-        .toggle-checkbox:checked { right: 0; border-color: #22c55e; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #22c55e; }
-        .row-animate { transition: all 0.2s ease-out; }
-        .row-animate:hover { transform: scale(1.01); }
+        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Switch iOS mejorado */
+        .toggle-checkbox:checked { right: 0; border-color: #10b981; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
+        
+        /* Animación suave */
+        .item-row { transition: all 0.2s; }
+        .item-row:focus-within { transform: scale(1.01); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #3b82f6; }
+
+        /* Toast Notificación */
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-24">
 
-    <header class="bg-slate-900 text-white border-b sticky top-0 z-50 px-4 py-4 shadow-md">
-        <div class="container mx-auto max-w-4xl flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
-                    <i class="fas fa-user-shield"></i>
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto max-w-3xl px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">
+                    <i class="fas fa-sliders-h"></i>
                 </div>
                 <div>
-                    <h1 class="font-black leading-none text-lg uppercase italic tracking-tighter">Panel de Precios</h1>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Gestión de Stock Ciacollor</p>
+                    <h1 class="font-black text-lg leading-none tracking-tight">ADMIN</h1>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Gestión de Precios</p>
                 </div>
             </div>
-            
-            <div class="relative w-full md:w-96">
-                <input type="text" id="adminSearch" placeholder="Buscar por ID o nombre..." 
-                       class="w-full bg-slate-800 text-white border-none rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-blue-500 transition-all font-medium placeholder-slate-500">
+            <div id="statusIndicator" class="text-[10px] font-bold bg-green-500/20 text-green-400 px-3 py-1 rounded-full flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> En Línea
+            </div>
+        </div>
+        
+        <div class="bg-slate-800 p-2 pb-4 px-4 shadow-inner">
+            <div class="container mx-auto max-w-3xl relative">
                 <i class="fas fa-search absolute left-4 top-3.5 text-slate-500"></i>
+                <input type="text" id="adminSearch" placeholder="Filtrar por nombre, ID o medida..." 
+                       class="w-full bg-slate-700 text-white placeholder-slate-500 rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-blue-500 outline-none font-medium transition-all">
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto max-w-4xl p-4">
+    <main class="container mx-auto max-w-3xl p-4">
         <div id="adminGrid" class="space-y-3">
-            <div class="text-center py-20 text-slate-400">
-                <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
-                <p>Sincronizando base de datos...</p>
+            <div class="flex flex-col items-center justify-center py-20 text-slate-400 gap-4">
+                <i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i>
+                <p class="font-medium animate-pulse">Conectando con Supabase...</p>
             </div>
         </div>
     </main>
 
+    <div id="toast"><i class="fas fa-check-circle text-green-400 mr-2"></i> Cambios guardados</div>
+
     <script>
-        let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+        // ==========================================
+        // 1. TUS LLAVES DE SUPABASE (PÉGALAS AQUÍ)
+        // ==========================================
+        const SB_URL = "https://nblkwaxgxiwpctlzwdgp.supabase.co";
+        const SB_KEY = "sb_publishable_lGT51czKNSfkzH83RGvplQ_C5nlDIGX";
+        // ==========================================
+
         let products = [];
+        let dbMap = {};
 
         async function initAdmin() {
             try {
-                const res = await fetch('data.json'); //
-                products = await res.json(); //
+                // 1. Cargar JSON (Base de productos)
+                const resJSON = await fetch('data.json');
+                if (!resJSON.ok) throw new Error("No se encontró data.json");
+                products = await resJSON.json();
+
+                // 2. Cargar Precios (Nube)
+                const resSB = await fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, {
+                    headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}` }
+                });
+                
+                if (!resSB.ok) throw new Error("Error conectando a Supabase");
+                
+                const cloudData = await resSB.json();
+                
+                // Mapear para acceso rápido: dbMap[sku] = {precio, stock}
+                cloudData.forEach(item => dbMap[item.sku_id] = item);
+
                 renderAdmin();
+
             } catch (error) {
-                document.getElementById('adminGrid').innerHTML = '<div class="bg-red-100 text-red-700 p-6 rounded-2xl text-center font-bold">Error: No se encontró data.json en la raíz.</div>';
+                console.error(error);
+                document.getElementById('statusIndicator').className = "text-[10px] font-bold bg-red-500/20 text-red-400 px-3 py-1 rounded-full flex items-center gap-2";
+                document.getElementById('statusIndicator').innerHTML = `<span class="w-2 h-2 bg-red-500 rounded-full"></span> Error`;
+                document.getElementById('adminGrid').innerHTML = `<div class="bg-red-100 text-red-600 p-6 rounded-2xl text-center font-bold shadow-sm">⚠️ ${error.message}</div>`;
             }
         }
 
         function renderAdmin(filter = '') {
             const grid = document.getElementById('adminGrid');
             grid.innerHTML = '';
-
             let count = 0;
 
             products.forEach(p => {
                 p.variantes.forEach(v => {
-                    const searchText = `${p.nombre} ${v.medida} ${v.sku_id}`.toLowerCase();
-                    if(filter && !searchText.includes(filter.toLowerCase())) return;
+                    const searchStr = `${p.nombre} ${v.medida} ${v.sku_id} ${p.categoria}`.toLowerCase();
+                    if(filter && !searchStr.includes(filter.toLowerCase())) return;
 
-                    const sku = v.sku_id;
-                    const data = db[sku] || { price: '', stock: true };
-                    
-                    // LÓGICA DE IMAGEN: Si el JSON no tiene el campo, buscamos el patrón SKU_1.png
-                    const imgName = v.imagen || `${sku}_1.png`; 
-                    
                     count++;
+                    const sku = v.sku_id;
+                    // Datos de la nube o valores por defecto
+                    const precio = dbMap[sku]?.precio || "";
+                    const stock = dbMap[sku]?.disponible ?? true; // Por defecto true si no existe en DB
+                    
+                    // Imagen (detectando si existe en JSON o usando patrón)
+                    const imgName = v.imagen || `${sku}_1.png`;
 
                     const row = document.createElement('div');
-                    row.className = `row-animate bg-white rounded-2xl p-4 border transition-all flex flex-col sm:flex-row gap-4 items-center shadow-sm ${data.stock ? 'border-transparent' : 'border-red-200 bg-red-50/50 grayscale opacity-75'}`;
+                    row.className = `item-row bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 items-center ${!stock ? 'opacity-70 grayscale bg-slate-50' : ''}`;
                     
                     row.innerHTML = `
-                        <div class="flex items-center gap-4 w-full sm:w-auto flex-1">
-                            <div class="w-20 h-20 bg-slate-50 rounded-xl border border-slate-100 flex-shrink-0 flex items-center justify-center p-1 relative overflow-hidden">
-                                <span class="absolute top-0 left-0 bg-slate-200 text-[8px] font-bold px-1.5 py-0.5 rounded-br-lg text-slate-500 z-10">#${sku}</span>
-                                <img src="${imgName}" class="max-h-full object-contain mix-blend-multiply" onerror="this.src='https://via.placeholder.com/100?text=SIN+FOTO'">
+                        <div class="flex items-center gap-4 w-full sm:flex-1">
+                            <div class="relative w-16 h-16 bg-slate-50 rounded-xl border border-slate-200 flex-shrink-0 p-1">
+                                <span class="absolute -top-2 -left-2 bg-slate-800 text-white text-[9px] font-bold px-2 py-0.5 rounded-md shadow-sm">#${sku}</span>
+                                <img src="${imgName}" class="w-full h-full object-contain mix-blend-multiply" onerror="this.src='https://via.placeholder.com/60?text=IMG'">
                             </div>
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-slate-700 text-sm leading-tight mb-1">${p.nombre}</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
-                                        ${v.medida}
-                                    </span>
-                                    <span class="text-[10px] text-slate-400 font-bold uppercase truncate">${p.categoria}</span>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="font-bold text-slate-800 text-sm leading-tight mb-1 truncate">${p.nombre}</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-blue-100 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded uppercase">${v.medida}</span>
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">${p.categoria}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-xl">
-                            <div class="relative group">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
-                                <input type="number" step="0.01" value="${data.price}" 
-                                    onchange="updateDB(${sku}, 'price', this.value)"
-                                    placeholder="0.00"
-                                    class="w-28 bg-white border-2 border-slate-200 text-right text-slate-800 font-black rounded-xl py-2.5 pr-3 pl-7 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all shadow-sm"
+                        <div class="flex items-center justify-between w-full sm:w-auto gap-4 border-t sm:border-0 pt-3 sm:pt-0 border-slate-100">
+                            
+                            <div class="relative group w-32">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">$</span>
+                                <input type="number" step="0.01" value="${precio}" placeholder="0.00"
+                                    onchange="saveData(${sku}, 'price', this.value, this)"
+                                    class="w-full bg-slate-50 border-2 border-slate-200 text-right text-slate-800 font-bold rounded-xl py-2 pr-3 pl-6 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all"
                                 >
                             </div>
 
-                            <div class="flex items-center gap-2">
-                                <div class="relative inline-block w-12 h-6 align-middle select-none">
-                                    <input type="checkbox" id="toggle-${sku}" ${data.stock ? 'checked' : ''} 
-                                           onchange="updateDB(${sku}, 'stock', this.checked)"
-                                           class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 right-6 border-slate-300"/>
-                                    <label for="toggle-${sku}" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-all duration-300"></label>
+                            <div class="flex flex-col items-center gap-1">
+                                <div class="relative inline-block w-12 h-7 align-middle select-none">
+                                    <input type="checkbox" id="toggle-${sku}" ${stock ? 'checked' : ''} 
+                                           onchange="saveData(${sku}, 'stock', this.checked, this)"
+                                           class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 right-6 top-1 border-slate-300 shadow-sm"/>
+                                    <label for="toggle-${sku}" class="toggle-label block overflow-hidden h-7 rounded-full bg-slate-300 cursor-pointer transition-all duration-300"></label>
                                 </div>
+                                <span class="text-[9px] font-bold ${stock ? 'text-green-600' : 'text-slate-400'} uppercase status-text">${stock ? 'Stock' : 'Agotado'}</span>
                             </div>
                         </div>
                     `;
@@ -123,21 +163,88 @@
                 });
             });
 
-            if(count === 0) grid.innerHTML = '<div class="text-center py-20 text-slate-400 font-bold">No se encontraron productos con ese nombre o ID.</div>';
+            if(count === 0) grid.innerHTML = '<div class="text-center py-10 text-slate-400">No hay resultados.</div>';
         }
 
-        function updateDB(sku, field, value) {
-            if(!db[sku]) db[sku] = { price: '', stock: true };
-            db[sku][field] = value;
-            localStorage.setItem('ciacollor_db', JSON.stringify(db));
+        // --- FUNCIÓN DE GUARDADO EN NUBE ---
+        async function saveData(sku, type, value, element) {
+            // Feedback visual de carga
+            const originalColor = element.style.borderColor;
+            element.style.borderColor = "#f59e0b"; // Naranja mientras carga
+            if(type === 'stock') {
+                const row = element.closest('.item-row');
+                const statusText = row.querySelector('.status-text');
+                statusText.innerText = "Guardando...";
+            }
+
+            // Preparar datos para "Upsert" (Insertar o Actualizar)
+            // Necesitamos enviar tanto precio como stock para no borrar el dato que no estamos editando
+            // Buscamos el estado actual en memoria local
+            let current = dbMap[sku] || { precio: 0, disponible: true };
             
-            if(field === 'stock') {
-                const search = document.getElementById('adminSearch').value;
-                renderAdmin(search); 
+            let payload = {
+                sku_id: sku,
+                precio: current.precio,
+                disponible: current.disponible
+            };
+
+            if (type === 'price') payload.precio = parseFloat(value) || 0;
+            if (type === 'stock') payload.disponible = value;
+
+            try {
+                const res = await fetch(`${SB_URL}/rest/v1/precios_stock`, {
+                    method: 'POST',
+                    headers: { 
+                        "apikey": SB_KEY, 
+                        "Authorization": `Bearer ${SB_KEY}`,
+                        "Content-Type": "application/json",
+                        "Prefer": "resolution=merge-duplicates" // Esto hace la magia del UPSERT
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if(!res.ok) throw new Error("Fallo al guardar");
+
+                // Actualizar memoria local
+                dbMap[sku] = payload;
+
+                // Feedback visual de Éxito
+                element.style.borderColor = "#10b981"; // Verde
+                setTimeout(() => element.style.borderColor = "", 1000);
+                
+                if(type === 'stock') {
+                    const row = element.closest('.item-row');
+                    const statusText = row.querySelector('.status-text');
+                    statusText.innerText = value ? "Stock" : "Agotado";
+                    statusText.className = `text-[9px] font-bold uppercase status-text ${value ? 'text-green-600' : 'text-slate-400'}`;
+                    
+                    if(!value) {
+                        row.classList.add('opacity-70', 'grayscale', 'bg-slate-50');
+                    } else {
+                        row.classList.remove('opacity-70', 'grayscale', 'bg-slate-50');
+                    }
+                }
+
+                showToast(`Producto #${sku} actualizado`);
+
+            } catch (error) {
+                console.error(error);
+                element.style.borderColor = "#ef4444"; // Rojo error
+                showToast("❌ Error al guardar. Revisa tu internet.");
             }
         }
 
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerHTML = msg;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Evento Buscador
         document.getElementById('adminSearch').addEventListener('input', (e) => renderAdmin(e.target.value));
+
+        // Iniciar
         initAdmin();
     </script>
 </body>
