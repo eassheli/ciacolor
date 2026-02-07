@@ -9,121 +9,171 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; padding-top: 180px; }
-        
-        /* --- CAMBIA AQUÍ EL NOMBRE DE LA FUENTE PARA PROBAR --- */
-        .brush-font { 
-            font-family: 'Permanent Marker', cursive; /* Opción 1 */
-            /* font-family: 'Rock Salt', cursive;      Opción 2 */
-            /* font-family: 'Caveat Brush', cursive;   Opción 3 */
+        body { 
+            background-color: #f8fafc; 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            padding-top: 0; /* Controlado por JS */
         }
-        /* ----------------------------------------------------- */
 
-        .product-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
+        /* Tarjetas con Vida (Animaciones y Sombras) */
+        .product-card { transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        
+        /* Scroll invisible */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        #main-header { transition: transform 0.3s ease, opacity 0.3s ease; }
+        /* Animaciones del Header */
+        #main-header { transition: transform 0.4s ease, opacity 0.4s ease; }
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-        #sticky-bar { transition: top 0.3s ease; }
+        
+        #sticky-bar { transition: top 0.4s ease; top: -100px; } /* Oculto al inicio */
         .sticky-active { top: 0 !important; box-shadow: 0 4px 20px -5px rgba(0,0,0,0.1); }
-        .filter-btn.active { background-color: #1e293b; color: white; border-color: #1e293b; }
+
+        /* Filtros Activos */
+        .filter-btn.active { background-color: #1e3a8a; color: white; border-color: #1e3a8a; box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3); }
+
+        /* Modal */
+        #modalPanel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; }
+        .modal-open #modalPanel { transform: translateY(0) scale(1); opacity: 1; }
+        .modal-closed #modalPanel { transform: translateY(20px) scale(0.98); opacity: 0; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-20">
 
-    <header id="main-header" class="fixed top-0 left-0 w-full bg-white z-40 border-b border-slate-100 h-[180px] flex items-center justify-center">
-        <div class="container mx-auto max-w-6xl px-6 flex flex-col items-center justify-center text-center">
+    <header id="main-header" class="w-full bg-white z-40 border-b border-slate-100 min-h-[220px] flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-50/50 to-white pointer-events-none"></div>
+        
+        <div class="container mx-auto max-w-6xl px-6 flex flex-col items-center justify-center text-center relative z-10 py-8">
             
-            <div class="flex items-center gap-4 mb-2 relative">
-                <span class="text-5xl md:text-6xl filter drop-shadow-sm transform rotate-[135deg] absolute -left-16 -top-2 grayscale opacity-90">🖌️</span>
-                
-                <div class="flex flex-col items-center">
-                    <h1 class="brush-font text-6xl md:text-7xl text-black leading-none tracking-wide">
-                        SHELI
-                    </h1>
-                    <h2 class="text-xl md:text-2xl font-black tracking-[0.4em] text-black uppercase leading-none mt-1">
-                        COLOR
-                    </h2>
-                </div>
-            </div>
+            <img src="logo_home.png" 
+                 alt="SHELI COLOR" 
+                 class="h-32 md:h-40 object-contain drop-shadow-sm mb-4 transition-transform hover:scale-105 duration-500"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
             
-            <p class="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-slate-400 italic mt-3">
+            <h1 class="hidden text-5xl font-black text-blue-900 tracking-tighter">SHELI COLOR</h1>
+
+            <p class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-blue-400 mt-2">
                 transforma tu mundo
             </p>
         </div>
     </header>
 
-    <div id="sticky-bar" class="fixed top-[180px] left-0 w-full z-50 px-4 py-3 bg-white/95 backdrop-blur-md border-b border-slate-200/50 transition-all duration-300">
+    <div id="sticky-bar" class="fixed left-0 w-full z-50 px-4 py-3 bg-white/95 backdrop-blur-md border-b border-slate-200/50 transition-all duration-300">
         <div class="container mx-auto max-w-6xl space-y-3">
-            <div class="relative w-full group">
-                <input type="text" id="searchInput" placeholder="Buscar..." 
-                       class="w-full bg-slate-100 border-none rounded-xl py-3 pl-10 pr-4 text-sm font-bold focus:ring-2 focus:ring-black focus:bg-white transition-all outline-none text-slate-900 placeholder-slate-400 shadow-inner">
-                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
-                <div id="counter" class="absolute right-3 top-2.5 bg-white text-slate-400 text-[9px] font-black px-2 py-1 rounded border border-slate-200">...</div>
+            
+            <div class="flex gap-3 items-center">
+                <img src="logo.png" class="w-10 h-10 object-contain rounded-lg bg-white border border-slate-100 p-0.5 shadow-sm" alt="Logo">
+                
+                <div class="relative w-full group">
+                    <input type="text" id="searchInput" placeholder="Buscar color, producto..." 
+                           class="w-full bg-slate-100 border-none rounded-xl py-2.5 pl-10 pr-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none text-slate-700 placeholder-slate-400">
+                    <i class="fas fa-search absolute left-3.5 top-3 text-slate-400"></i>
+                </div>
             </div>
+
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="filterCategory('all')" class="filter-btn active whitespace-nowrap px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-slate-200 bg-white text-slate-500 transition-all">Todos</button>
                 <button onclick="filterCategory('Emborrachada')" class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-slate-200 bg-white text-slate-500 transition-all">Emborrachada</button>
                 <button onclick="filterCategory('Sintético')" class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-slate-200 bg-white text-slate-500 transition-all">Sintéticos</button>
                 <button onclick="filterCategory('Spray')" class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-slate-200 bg-white text-slate-500 transition-all">Spray</button>
-                <button onclick="filterCategory('Impermeabilizante')" class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-full text-[10px] font-black uppercase border border-slate-200 bg-white text-slate-500 transition-all">Impermeabilizantes</button>
             </div>
         </div>
     </div>
 
-    <main class="container mx-auto max-w-6xl p-4 pt-10">
-        <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    <main class="container mx-auto max-w-6xl p-4">
+        
+        <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+        </div>
+
+        <div id="loadMoreContainer" class="text-center mt-12 hidden">
+            <button onclick="loadMore()" class="bg-white border border-blue-100 text-blue-600 font-black uppercase text-xs tracking-widest px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1 active:scale-95 group">
+                <i class="fas fa-sync-alt mr-2 group-hover:rotate-180 transition-transform"></i> Ver más productos
+            </button>
+            <p class="text-[10px] text-slate-400 mt-2 font-medium">Mostrando <span id="showingCount">0</span> de <span id="totalCount">0</span></p>
+        </div>
+
     </main>
 
     <div id="productModal" class="fixed inset-0 z-50 hidden modal-closed" role="dialog">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0 duration-300" id="modalBackdrop" onclick="closeModal()"></div>
         <div class="fixed inset-0 pointer-events-none flex items-end md:items-center justify-center p-0 md:p-4">
             <div id="modalPanel" class="pointer-events-auto w-full md:w-[500px] h-[92vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-[2rem] md:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden ring-1 ring-slate-900/5">
+                
                 <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-start bg-white/80 backdrop-blur z-10 sticky top-0">
                     <div>
-                        <span id="m-tag" class="inline-block bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest mb-1.5 border border-slate-200">---</span>
+                        <span id="m-tag" class="inline-block bg-blue-50 text-blue-600 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest mb-1.5 border border-blue-100">---</span>
                         <h2 id="m-title" class="text-xl font-black text-slate-900 leading-tight tracking-tight pr-4">---</h2>
                     </div>
-                    <button onclick="closeModal()" class="w-9 h-9 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-all flex-shrink-0"><i class="fas fa-times"></i></button>
+                    <button onclick="closeModal()" class="w-9 h-9 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-all flex-shrink-0">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
+
                 <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-50/50">
                     <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 hidden">Presentación</div>
                     <div id="m-variants-container" class="flex flex-wrap gap-2 mb-8"></div>
+
                     <div class="bg-white rounded-3xl p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 mb-8 flex justify-center relative group">
                         <img id="m-img" src="" class="h-56 object-contain mix-blend-multiply transition-all duration-500 group-hover:scale-105" onerror="this.src='https://via.placeholder.com/300?text=Cargando'">
+                        <div class="absolute -bottom-3 right-6 bg-yellow-400 text-yellow-950 text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg rotate-[-2deg] border-2 border-white">¡Calidad Premium!</div>
                     </div>
+
                     <div id="m-gallery-section" class="mb-8 hidden">
-                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i class="fas fa-palette text-slate-800"></i> Catálogo</h3>
+                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <i class="fas fa-palette text-blue-500"></i> Catálogo de Colores
+                        </h3>
                         <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-4 pt-1 px-1 no-scrollbar -mx-1"></div>
                     </div>
+
                     <div class="mb-8">
                         <h3 class="text-xs font-black text-slate-900 uppercase tracking-wide mb-3">Sobre este producto</h3>
-                        <div class="bg-slate-100/50 rounded-xl p-4 border border-slate-200/50 mb-3"><p id="m-hook" class="text-sm font-bold text-slate-700 italic leading-snug">---</p></div>
+                        <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100/50 mb-3">
+                            <p id="m-hook" class="text-sm font-bold text-blue-700 italic leading-snug">---</p>
+                        </div>
                         <p id="m-desc" class="text-sm text-slate-600 leading-relaxed font-medium">---</p>
                     </div>
+
                     <div class="bg-slate-100/50 rounded-2xl p-5 border border-slate-200/60">
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200/60"><h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ficha Técnica</h3><span id="m-sku" class="text-[9px] font-bold text-slate-400 font-mono bg-slate-200 px-1.5 py-0.5 rounded">ID: ---</span></div>
-                        <div class="mb-4"><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Rendimiento</p><p id="m-rendimiento" class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-800"></span> <span>---</span></p></div>
-                        <div class="grid grid-cols-2 gap-6"><div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Dilución</p><p id="m-dilucion" class="text-xs font-bold text-slate-700">---</p></div><div><p class="text-[9px] font-bold text-slate-400 uppercase mb-1 text-right">Secado</p><p id="m-secado" class="text-xs font-bold text-slate-700 text-right">---</p></div></div>
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200/60">
+                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ficha Técnica</h3>
+                            <span id="m-sku" class="text-[9px] font-bold text-slate-400 font-mono bg-slate-200 px-1.5 py-0.5 rounded">ID: ---</span>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Rendimiento</p>
+                            <p id="m-rendimiento" class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <span>---</span></p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Dilución</p>
+                                <p id="m-dilucion" class="text-xs font-bold text-slate-700">---</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1 text-right">Secado</p>
+                                <p id="m-secado" class="text-xs font-bold text-slate-700 text-right">---</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] z-20">
-                    <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio Lista</p><p id="m-price" class="text-2xl font-black text-slate-900 tracking-tighter">---</p></div>
-                    <a href="#" id="m-whatsapp" target="_blank" class="bg-black hover:bg-slate-800 text-white px-7 py-3.5 rounded-2xl font-bold flex items-center gap-2.5 shadow-lg shadow-slate-900/20 transition-all active:scale-95 group hover:-translate-y-0.5">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                        <div class="flex flex-col items-start leading-none"><span class="text-[9px] font-bold opacity-80 uppercase tracking-wide">Solicitar</span><span id="m-btn-text" class="text-sm font-black">Pedir Ahora</span></div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio Lista</p>
+                        <p id="m-price" class="text-2xl font-black text-slate-900 tracking-tighter">---</p>
+                    </div>
+                    <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-7 py-3.5 rounded-2xl font-bold flex items-center gap-2.5 shadow-lg shadow-green-500/30 transition-all active:scale-95 group hover:-translate-y-0.5">
+                        <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition-transform duration-300"></i>
+                        <div class="flex flex-col items-start leading-none">
+                            <span class="text-[9px] font-bold opacity-80 uppercase tracking-wide">Solicitar</span>
+                            <span id="m-btn-text" class="text-sm font-black">Pedir Ahora</span>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -133,89 +183,166 @@
     <script>
         const SB_URL = "https://nblkwaxgxiwpctlzwdgp.supabase.co";
         const SB_KEY = "sb_publishable_lGT51czKNSfkzH83RGvplQ_C5nlDIGX";
-        let allProducts=[], currentProductContext=null, activeCategory='all';
+        
+        let allProducts = [];
+        let currentFiltered = [];
+        let currentProductContext = null;
+        let activeCategory = 'all';
+        let itemsToShow = 10; // CARGA INICIAL: 10 PRODUCTOS
+        const LOAD_STEP = 10; // CARGAR MÁS DE 10 EN 10
 
         // HEADER SCROLL
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             const h = document.getElementById('main-header');
             const s = document.getElementById('sticky-bar');
-            if (scrollY > 50) { h.classList.add('header-hidden'); s.classList.add('sticky-active'); s.style.top='0'; } 
-            else { h.classList.remove('header-hidden'); s.classList.remove('sticky-active'); s.style.top='180px'; }
+            
+            if (scrollY > 150) { 
+                h.classList.add('header-hidden'); 
+                s.classList.add('sticky-active'); 
+            } else { 
+                h.classList.remove('header-hidden'); 
+                s.classList.remove('sticky-active'); 
+            }
         });
 
         async function init() {
             try {
-                const [resJSON, resSB] = await Promise.all([fetch('data.json'), fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} })]);
-                const rawData = await resJSON.json(), cloudData = await resSB.json(), dbMap = {};
+                const [resJSON, resSB] = await Promise.all([
+                    fetch('data.json'),
+                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} })
+                ]);
+                
+                const rawData = await resJSON.json();
+                const cloudData = await resSB.json();
+                const dbMap = {};
+                
                 if(cloudData) cloudData.forEach(item => dbMap[item.sku_id] = item);
+                
                 allProducts = rawData.map(p => {
-                    let cat='Otros'; const txt=(p.nombre+p.descripcion).toLowerCase();
-                    if(txt.includes('ciaflex')||txt.includes('emborrachada')) cat='Emborrachada';
-                    else if(txt.includes('sintético')||txt.includes('solvente')) cat='Sintético';
-                    else if(txt.includes('spray')) cat='Spray';
-                    else if(txt.includes('impermeabilizante')) cat='Impermeabilizante';
+                    const text = (p.nombre + p.descripcion).toLowerCase();
+                    let cat = 'Otros';
+                    if (text.includes('ciaflex') || text.includes('emborrachada')) cat = 'Emborrachada';
+                    else if (text.includes('sintético') || text.includes('solvente')) cat = 'Sintético';
+                    else if (text.includes('spray')) cat = 'Spray';
+                    else if (text.includes('impermeabilizante')) cat = 'Impermeabilizante';
+
                     p.variantes.forEach(v => {
-                        const info=dbMap[v.sku_id]; v.precio=info?info.precio:0; v.stock=info?info.disponible:true; if(!v.imagen) v.imagen=`${v.sku_id}_1.png`;
+                        const info = dbMap[v.sku_id];
+                        v.precio = info ? info.precio : 0;
+                        v.stock = info ? info.disponible : true;
+                        if(!v.imagen) v.imagen = `${v.sku_id}_1.png`;
                     });
                     return { ...p, smartCategory: cat };
                 });
-                renderCatalog();
-            } catch (e) { document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-20 text-center text-slate-400 font-bold">Sin conexión</div>'; }
+
+                // Inicializar filtro
+                applyFilters();
+
+            } catch (e) { 
+                document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-20 text-center text-slate-400 font-bold">Sin conexión</div>'; 
+            }
         }
 
         function filterCategory(cat) {
             activeCategory = cat;
+            itemsToShow = LOAD_STEP; // Resetear paginación al cambiar filtro
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 if(btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat==='all' && btn.innerText==='TODOS')) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
-            renderCatalog(document.getElementById('searchInput').value);
+            applyFilters();
         }
 
-        function renderCatalog(search = '') {
-            const grid = document.getElementById('catalogGrid'); grid.innerHTML = '';
-            const filtered = allProducts.filter(p => {
-                const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase());
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            
+            currentFiltered = allProducts.filter(p => {
+                const matchSearch = p.nombre.toLowerCase().includes(search);
                 const matchCat = activeCategory === 'all' || p.smartCategory === activeCategory;
                 return matchSearch && matchCat;
             });
-            document.getElementById('counter').innerText = `${filtered.length}`;
+
+            renderGrid();
+        }
+
+        function loadMore() {
+            itemsToShow += LOAD_STEP;
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('catalogGrid');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
             
-            filtered.forEach(p => {
-                const mainVariant = p.variantes[0], hasPrice = mainVariant.precio > 0;
-                let hook="Calidad Pro"; if(p.argumento_venta) hook=p.argumento_venta.split(' ').slice(0,3).join(' ')+'...';
+            // Si es la primera carga (itemsToShow == LOAD_STEP), limpiar el grid
+            // Si estamos cargando más, NO limpiamos, solo agregamos? No, re-renderizamos el slice es más seguro.
+            grid.innerHTML = '';
+
+            // Cortar el array según itemsToShow
+            const visibleProducts = currentFiltered.slice(0, itemsToShow);
+
+            // Actualizar contadores
+            document.getElementById('showingCount').innerText = visibleProducts.length;
+            document.getElementById('totalCount').innerText = currentFiltered.length;
+
+            // Mostrar/Ocultar botón de Cargar Más
+            if (visibleProducts.length < currentFiltered.length) {
+                loadMoreContainer.classList.remove('hidden');
+            } else {
+                loadMoreContainer.classList.add('hidden');
+            }
+
+            visibleProducts.forEach(p => {
+                const mainVariant = p.variantes[0];
+                const hasPrice = mainVariant.precio > 0;
                 
-                let badgeClass='bg-slate-100 text-slate-600';
-                if(p.smartCategory==='Emborrachada') badgeClass='bg-slate-800 text-white';
-                if(p.smartCategory==='Sintético') badgeClass='bg-slate-200 text-slate-800';
+                // Gancho Marketing
+                let hook = "Calidad Pro"; 
+                if(p.argumento_venta) hook = p.argumento_venta.split(' ').slice(0,3).join(' ') + '...';
+                
+                // Color de Categoría
+                let badgeClass = 'bg-slate-100 text-slate-600';
+                if(p.smartCategory === 'Emborrachada') badgeClass = 'bg-indigo-50 text-indigo-600 border border-indigo-100';
+                if(p.smartCategory === 'Sintético') badgeClass = 'bg-orange-50 text-orange-600 border border-orange-100';
+                if(p.smartCategory === 'Spray') badgeClass = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
 
                 const card = document.createElement('div');
                 card.className = "product-card bg-white p-5 rounded-[1.5rem] shadow-sm border border-slate-100 cursor-pointer flex flex-col h-full relative overflow-hidden group";
                 card.onclick = () => openModal(p);
+                
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4 z-10 relative">
                         <span class="${badgeClass} px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wide">${p.smartCategory}</span>
-                        <div class="bg-white border border-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-300 group-hover:bg-black group-hover:text-white transition-all shadow-sm"><i class="fas fa-plus text-[10px]"></i></div>
+                        <div class="bg-white border border-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shadow-sm"><i class="fas fa-plus text-[10px]"></i></div>
                     </div>
+                    
                     <div class="w-full h-44 mb-6 flex items-center justify-center p-2 relative">
+                        <div class="absolute w-32 h-32 bg-slate-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <img src="${mainVariant.imagen}" class="max-h-full object-contain mix-blend-multiply relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-2" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
-                        ${p.variantes.length>1 ? `<div class="absolute bottom-0 right-0 bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-sm">+${p.variantes.length-1}</div>` : ''}
+                        ${p.variantes.length > 1 ? `<div class="absolute bottom-0 right-0 bg-slate-800 text-white text-[9px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">+${p.variantes.length - 1}</div>` : ''}
                     </div>
+                    
                     <div class="flex-1">
-                        <span class="inline-block bg-black text-white text-[9px] font-black px-2 py-0.5 rounded uppercase mb-2">${hook}</span>
-                        <h3 class="font-bold text-slate-900 text-[15px] leading-tight line-clamp-2 mb-1">${p.nombre}</h3>
+                        <span class="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded uppercase mb-2 shadow-sm tracking-wide">${hook}</span>
+                        <h3 class="font-bold text-slate-800 text-[15px] leading-tight line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">${p.nombre}</h3>
                     </div>
-                    <div class="pt-4 mt-2 border-t border-slate-50">
-                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio</p>
-                        <p class="text-lg font-black text-slate-900 tracking-tight leading-none">${hasPrice ? '$'+mainVariant.precio.toLocaleString('es-PY') : 'Consultar'}</p>
+                    
+                    <div class="pt-4 mt-2 border-t border-slate-50 flex justify-between items-end">
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio</p>
+                            <p class="text-lg font-black text-slate-900 tracking-tight leading-none">
+                                ${hasPrice ? '$' + mainVariant.precio.toLocaleString('es-PY') : 'Consultar'}
+                            </p>
+                        </div>
                     </div>`;
                 grid.appendChild(card);
             });
         }
 
-        function openModal(p) { currentProductContext=p; document.getElementById('productModal').classList.remove('hidden'); setTimeout(()=>{document.getElementById('productModal').classList.remove('modal-closed');document.getElementById('productModal').classList.add('modal-open');},10); updateModalContent(p.variantes[0]); }
-        function closeModal() { document.getElementById('productModal').classList.remove('modal-open'); document.getElementById('productModal').classList.add('modal-closed'); setTimeout(()=>{document.getElementById('productModal').classList.add('hidden');},300); }
+        // --- FUNCIONES MODAL (SIN CAMBIOS DE LÓGICA) ---
+        function openModal(p) { currentProductContext=p; document.getElementById('productModal').classList.remove('hidden'); setTimeout(()=>{document.getElementById('productModal').classList.remove('modal-closed');document.getElementById('productModal').classList.add('modal-open');document.getElementById('modalBackdrop').classList.remove('opacity-0');},10); updateModalContent(p.variantes[0]); }
+        function closeModal() { document.getElementById('productModal').classList.remove('modal-open'); document.getElementById('productModal').classList.add('modal-closed'); document.getElementById('modalBackdrop').classList.add('opacity-0'); setTimeout(()=>{document.getElementById('productModal').classList.add('hidden');},300); }
         function updateModalContent(v) {
             document.getElementById('m-title').innerText=currentProductContext.nombre;
             document.getElementById('m-desc').innerText=currentProductContext.descripcion;
@@ -225,23 +352,23 @@
             document.getElementById('m-rendimiento').innerHTML=`<span>${v.rendimiento}</span>`;
             document.getElementById('m-dilucion').innerText=v.dilucion||'Ver ficha';
             document.getElementById('m-secado').innerText=v.secado;
-            const pEl=document.getElementById('m-price'), bEl=document.getElementById('m-whatsapp');
-            if(!v.stock){pEl.innerText="Agotado";pEl.className="text-red-500 font-black text-2xl";bEl.classList.add('grayscale','opacity-50');}
-            else{pEl.innerText=v.precio>0?`$ ${v.precio.toLocaleString('es-PY')}`:"Consultar";pEl.className="text-slate-900 font-black text-2xl";bEl.classList.remove('grayscale','opacity-50');}
+            const pEl=document.getElementById('m-price'), bEl=document.getElementById('m-whatsapp'), tEl=document.getElementById('m-btn-text');
+            if(!v.stock){pEl.innerText="Agotado";pEl.className="text-2xl font-black text-red-500 tracking-tighter";bEl.classList.add('grayscale','opacity-50','pointer-events-none'); tEl.innerText="Sin Stock";}
+            else{pEl.innerText=v.precio>0?`$ ${v.precio.toLocaleString('es-PY')}`:"Consultar";pEl.className="text-2xl font-black text-slate-900 tracking-tighter";bEl.classList.remove('grayscale','opacity-50','pointer-events-none'); tEl.innerText="Pedir Ahora";}
             document.getElementById('m-img').src=v.imagen;
             bEl.href=`https://wa.me/595987212934?text=${encodeURIComponent('Hola, me interesa: '+currentProductContext.nombre)}`;
             const c=document.getElementById('m-variants-container'); c.innerHTML='';
             if(currentProductContext.variantes.length>1){ document.getElementById('m-variants-title').classList.remove('hidden'); currentProductContext.variantes.forEach(va=>{
-                const b=document.createElement('button'); b.className=`px-5 py-2.5 rounded-xl text-xs font-bold border ${va.sku_id===v.sku_id?'bg-black text-white':'bg-white text-slate-500'}`;
+                const b=document.createElement('button'); b.className=`px-5 py-2.5 rounded-xl text-xs font-bold border transition-all ${va.sku_id===v.sku_id?'bg-slate-900 text-white shadow-lg scale-105':'bg-white text-slate-500 hover:bg-slate-50'}`;
                 b.innerText=va.medida; b.onclick=()=>updateModalContent(va); c.appendChild(b);
             });} else { document.getElementById('m-variants-title').classList.add('hidden'); }
             const g=document.getElementById('m-gallery-container'); g.innerHTML='';
             if(v.galeria&&v.galeria.length){ document.getElementById('m-gallery-section').classList.remove('hidden'); v.galeria.forEach(f=>{
-                const i=document.createElement('img'); i.src=f; i.className="h-20 w-20 rounded-xl border border-slate-200 cursor-pointer"; i.onclick=()=>window.open(f); g.appendChild(i);
+                const i=document.createElement('img'); i.src=f; i.className="h-20 w-20 rounded-xl border-2 border-white shadow-md cursor-pointer hover:scale-110"; i.onclick=()=>window.open(f); g.appendChild(i);
             });} else { document.getElementById('m-gallery-section').classList.add('hidden'); }
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e)=>renderCatalog(e.target.value));
+        document.getElementById('searchInput').addEventListener('input', (e) => { itemsToShow = LOAD_STEP; applyFilters(); });
         init();
     </script>
 </body>
