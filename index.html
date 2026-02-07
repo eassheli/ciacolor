@@ -2,156 +2,173 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Catálogo Ciacollor Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .product-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
+        /* CONFIGURACIÓN DE TIPOGRAFÍA DE LUJO */
+        body { 
+            background-color: #f8fafc; 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased; /* Texto nítido en iPhone */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Tarjetas con efecto flotante suave */
+        .product-card { transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        
+        /* Scroll invisible pero funcional */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animaciones Modal */
-        #modalPanel { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
-        .modal-open #modalPanel { transform: translateY(0); }
-        .modal-closed #modalPanel { transform: translateY(100%); }
-        @media (min-width: 768px) {
-            .modal-closed #modalPanel { transform: scale(0.95); opacity: 0; }
-            .modal-open #modalPanel { transform: scale(1); opacity: 1; }
-        }
+        /* Animaciones Modal Pro */
+        #modalPanel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; }
+        .modal-open #modalPanel { transform: translateY(0) scale(1); opacity: 1; }
+        .modal-closed #modalPanel { transform: translateY(20px) scale(0.98); opacity: 0; }
 
-        /* Estilo para el Gancho */
+        /* Badge de Marketing (El Gancho) */
         .hook-badge {
-            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            font-size: 0.65rem;
+            font-size: 0.60rem;
             font-weight: 800;
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             display: inline-block;
-            margin-bottom: 4px;
-            box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+            margin-bottom: 6px;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 pb-20">
 
-    <header class="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-40 px-4 py-3 shadow-sm">
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
         <div class="container mx-auto max-w-6xl">
             <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-3">
                     
                     <img src="logo.png" 
-                         class="w-10 h-10 object-contain rounded-lg shadow-sm" 
-                         alt="Logo Ciacollor"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"> 
+                         alt="Logo Ciacollor" 
+                         class="w-11 h-11 object-contain rounded-xl shadow-sm border border-slate-100 bg-white p-0.5"
+                         onerror="this.style.display='none'; document.getElementById('backup-logo').classList.remove('hidden'); document.getElementById('backup-logo').classList.add('flex');">
                     
-                    <div class="w-9 h-9 bg-blue-700 rounded-lg hidden items-center justify-center text-white font-black italic shadow-blue-200 shadow-lg">C</div>
-                    
-                    <div>
-                        <h1 class="font-bold text-xl leading-none tracking-tight">Ciacollor</h1>
-                        <p class="text-[10px] text-slate-400 font-medium uppercase">Catálogo Oficial</p>
+                    <div id="backup-logo" class="w-10 h-10 bg-blue-700 rounded-xl hidden items-center justify-center text-white font-black italic shadow-blue-200 shadow-lg text-lg">C</div>
+
+                    <div class="flex flex-col">
+                        <h1 class="font-black text-xl leading-none tracking-tighter text-slate-900">Ciacollor</h1>
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Profesional</p>
                     </div>
                 </div>
-                <div id="counter" class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded text-center min-w-[60px]">...</div>
+                
+                <div id="counter" class="bg-slate-100 text-slate-500 text-[9px] font-black px-2 py-1 rounded-md text-center border border-slate-200">...</div>
             </div>
 
-            <div class="relative w-full">
-                <input type="text" id="searchInput" placeholder="¿Qué estás buscando hoy?" 
-                       class="w-full bg-slate-100 border-0 rounded-xl py-3 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none">
-                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+            <div class="relative w-full group">
+                <input type="text" id="searchInput" placeholder="Buscar pintura, color o código..." 
+                       class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-semibold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all outline-none text-slate-700 placeholder-slate-400 shadow-sm group-hover:shadow-md">
+                <i class="fas fa-search absolute left-4.5 top-4 text-slate-400 transition-colors group-hover:text-blue-500"></i>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto max-w-6xl p-4 pb-24">
+    <main class="container mx-auto max-w-6xl p-4">
         <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
-            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
+            <div class="h-72 bg-white rounded-3xl border border-slate-100 shadow-sm p-4 animate-pulse flex flex-col justify-between">
+                <div class="w-full h-40 bg-slate-100 rounded-xl"></div>
+                <div class="h-4 bg-slate-100 rounded w-3/4 mt-4"></div>
+                <div class="h-4 bg-slate-100 rounded w-1/2 mt-2"></div>
+            </div>
         </div>
     </main>
 
     <div id="productModal" class="fixed inset-0 z-50 hidden modal-closed" role="dialog">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] transition-opacity opacity-0 duration-300" id="modalBackdrop" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0 duration-300" id="modalBackdrop" onclick="closeModal()"></div>
         <div class="fixed inset-0 pointer-events-none flex items-end md:items-center justify-center p-0 md:p-4">
-            <div id="modalPanel" class="pointer-events-auto w-full md:w-[550px] h-[90vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+            <div id="modalPanel" class="pointer-events-auto w-full md:w-[500px] h-[92vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-[2rem] md:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden ring-1 ring-slate-900/5">
                 
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-white z-10">
+                <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-start bg-white/80 backdrop-blur z-10 sticky top-0">
                     <div>
-                        <span id="m-tag" class="inline-block bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider mb-1">---</span>
-                        <h2 id="m-title" class="text-lg font-black text-slate-800 leading-tight pr-4">---</h2>
+                        <span id="m-tag" class="inline-block bg-blue-50 text-blue-600 px-2.5 py-1 rounded-md text-[9px] font-black uppercase tracking-widest mb-1.5 border border-blue-100">---</span>
+                        <h2 id="m-title" class="text-xl font-black text-slate-900 leading-tight tracking-tight pr-4">---</h2>
                     </div>
-                    <button onclick="closeModal()" class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 flex-shrink-0">
+                    <button onclick="closeModal()" class="w-9 h-9 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 hover:text-slate-600 transition-all flex-shrink-0">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
 
                 <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-50/50">
                     
-                    <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase mb-2 hidden">Selecciona presentación:</div>
-                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-6"></div>
+                    <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 hidden">Presentación</div>
+                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-8"></div>
 
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 flex justify-center relative transition-all">
-                        <img id="m-img" src="" class="h-48 object-contain transition-all duration-300" onerror="this.src='https://via.placeholder.com/300?text=Cargando'">
-                        <div class="absolute bottom-4 right-4 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded shadow-sm rotate-[-2deg]">
+                    <div class="bg-white rounded-3xl p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 mb-8 flex justify-center relative group">
+                        <img id="m-img" src="" class="h-56 object-contain mix-blend-multiply transition-all duration-500 group-hover:scale-105" onerror="this.src='https://via.placeholder.com/300?text=Cargando'">
+                        <div class="absolute -bottom-3 right-6 bg-yellow-400 text-yellow-950 text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg rotate-[-2deg] border-2 border-white">
                             ¡Calidad Premium!
                         </div>
                     </div>
 
-                    <div id="m-gallery-section" class="mb-6 hidden">
-                        <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-2 flex items-center gap-2">
-                            <i class="fas fa-palette text-blue-500"></i> Colores Disponibles
+                    <div id="m-gallery-section" class="mb-8 hidden">
+                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <i class="fas fa-palette text-blue-500"></i> Catálogo de Colores
                         </h3>
-                        <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar"></div>
+                        <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-4 pt-1 px-1 no-scrollbar -mx-1"></div>
                     </div>
 
-                    <div class="mb-6">
-                        <h3 class="text-xs font-bold text-slate-900 uppercase mb-2">Descripción</h3>
-                        <p id="m-hook" class="text-sm font-bold text-blue-600 mb-2 italic">---</p>
-                        <p id="m-desc" class="text-sm text-slate-600 leading-relaxed">---</p>
+                    <div class="mb-8">
+                        <h3 class="text-xs font-black text-slate-900 uppercase tracking-wide mb-3">Sobre este producto</h3>
+                        <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100/50 mb-3">
+                            <p id="m-hook" class="text-sm font-bold text-blue-700 italic leading-snug">---</p>
+                        </div>
+                        <p id="m-desc" class="text-sm text-slate-600 leading-relaxed font-medium">---</p>
                     </div>
 
-                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Ficha Técnica</h3>
-                            <span id="m-sku" class="text-[9px] font-bold text-blue-300 uppercase">ID: ---</span>
+                    <div class="bg-slate-100/50 rounded-2xl p-5 border border-slate-200/60">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-200/60">
+                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ficha Técnica</h3>
+                            <span id="m-sku" class="text-[9px] font-bold text-slate-400 font-mono bg-slate-200 px-1.5 py-0.5 rounded">ID: ---</span>
                         </div>
                         
-                        <div class="mb-3">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase mb-0.5">Rendimiento</p>
-                            <p id="m-rendimiento" class="text-sm font-bold text-blue-900 flex items-start gap-2 leading-tight">
-                                <i class="fas fa-fill-drip mt-0.5 opacity-50 text-xs"></i> <span>---</span>
+                        <div class="mb-4">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Rendimiento</p>
+                            <p id="m-rendimiento" class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <span>---</span>
                             </p>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4 pt-3 border-t border-blue-100">
+                        <div class="grid grid-cols-2 gap-6">
                             <div>
-                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-0.5">Dilución</p>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Dilución</p>
                                 <p id="m-dilucion" class="text-xs font-bold text-slate-700">---</p>
                             </div>
-                            <div class="text-right">
-                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-0.5">Secado</p>
-                                <p id="m-secado" class="text-xs font-bold text-slate-700">---</p>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1 text-right">Secado</p>
+                                <p id="m-secado" class="text-xs font-bold text-slate-700 text-right">---</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="p-4 bg-white border-t border-slate-100 flex items-center justify-between shadow-[0_-5px_20px_rgba(0,0,0,0.02)] z-10">
+                <div class="p-5 bg-white border-t border-slate-100 flex items-center justify-between shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)] z-20">
                     <div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase">Precio Lista</p>
-                        <p id="m-price" class="text-2xl font-black text-slate-800 tracking-tight">---</p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio Lista</p>
+                        <p id="m-price" class="text-2xl font-black text-slate-900 tracking-tighter">---</p>
                     </div>
-                    <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-500/30 transition-transform active:scale-95 group disabled:opacity-50 disabled:pointer-events-none">
-                        <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition-transform"></i>
+                    <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-7 py-3.5 rounded-2xl font-bold flex items-center gap-2.5 shadow-lg shadow-green-500/30 transition-all active:scale-95 group hover:-translate-y-0.5">
+                        <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition-transform duration-300"></i>
                         <div class="flex flex-col items-start leading-none">
-                            <span class="text-[10px] font-medium opacity-80">Consultar</span>
-                            <span id="m-btn-text">Pedir Ahora</span>
+                            <span class="text-[9px] font-bold opacity-80 uppercase tracking-wide">Solicitar</span>
+                            <span id="m-btn-text" class="text-sm font-black">Pedir Ahora</span>
                         </div>
                     </a>
                 </div>
@@ -161,7 +178,7 @@
 
     <script>
         // ==========================================
-        // TUS LLAVES DE SUPABASE
+        // LLAVES DE SUPABASE
         // ==========================================
         const SB_URL = "https://nblkwaxgxiwpctlzwdgp.supabase.co";
         const SB_KEY = "sb_publishable_lGT51czKNSfkzH83RGvplQ_C5nlDIGX";
@@ -191,6 +208,7 @@
                     let cat = 'Al Agua';
                     if (text.includes('ciaflex') || text.includes('emborrachada')) cat = 'Emborrachada';
                     else if (text.includes('sintético') || text.includes('solvente')) cat = 'Sintético';
+                    else if (text.includes('spray')) cat = 'Spray';
 
                     p.variantes.forEach(v => {
                         const cloudInfo = dbMap[v.sku_id];
@@ -207,7 +225,7 @@
             } catch (e) {
                 console.error(e);
                 document.getElementById('catalogGrid').innerHTML = 
-                    '<div class="col-span-full text-center py-10 text-red-400 font-bold">No se pudo conectar con el inventario.</div>';
+                    '<div class="col-span-full py-20 text-center"><i class="fas fa-wifi text-4xl text-slate-300 mb-4"></i><p class="text-slate-400 font-bold">Verifica tu conexión</p></div>';
             }
         }
 
@@ -216,58 +234,56 @@
             grid.innerHTML = '';
             
             const filtered = allProducts.filter(p => p.nombre.toLowerCase().includes(search.toLowerCase()));
-            document.getElementById('counter').innerText = `${filtered.length} PRODS`;
+            document.getElementById('counter').innerText = `${filtered.length}`;
 
             filtered.forEach(p => {
                 const mainVariant = p.variantes[0];
                 const hasPrice = mainVariant.precio > 0;
                 
-                // Generar Gancho Corto (Short Hook)
-                let hookText = "Calidad Garantizada";
+                // Gancho Marketing Inteligente
+                let hookText = "Calidad Pro";
                 if(p.argumento_venta) {
-                    // Tomamos las primeras 3-4 palabras del argumento para la tarjeta
                     const words = p.argumento_venta.split(' ');
-                    if(words.length > 0) hookText = words.slice(0, 4).join(' ') + (words.length > 4 ? '...' : '');
+                    if(words.length > 0) hookText = words.slice(0, 3).join(' ') + (words.length > 3 ? '...' : '');
                 }
 
                 const card = document.createElement('div');
-                card.className = "product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col h-full relative overflow-hidden group";
+                card.className = "product-card bg-white p-5 rounded-[1.5rem] shadow-sm border border-slate-100 cursor-pointer flex flex-col h-full relative overflow-hidden group";
                 card.onclick = () => openModal(p);
 
-                const badgeColor = p.smartCategory === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : 
-                                   p.smartCategory === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
+                // Colores de Etiquetas Suaves
+                let badgeClass = 'bg-slate-100 text-slate-600';
+                if(p.smartCategory === 'Emborrachada') badgeClass = 'bg-indigo-50 text-indigo-600 border border-indigo-100';
+                if(p.smartCategory === 'Sintético') badgeClass = 'bg-orange-50 text-orange-600 border border-orange-100';
+                if(p.smartCategory === 'Spray') badgeClass = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="${badgeColor} px-2 py-1 rounded-lg text-[9px] font-black uppercase">${p.smartCategory}</span>
-                        <div class="bg-slate-50 rounded-full w-6 h-6 flex items-center justify-center text-slate-300 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                    <div class="flex justify-between items-start mb-4 z-10 relative">
+                        <span class="${badgeClass} px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wide">${p.smartCategory}</span>
+                        <div class="bg-white border border-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shadow-sm">
                             <i class="fas fa-plus text-[10px]"></i>
                         </div>
                     </div>
                     
-                    <div class="w-full h-40 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4 relative">
-                        <img src="${mainVariant.imagen}" class="max-h-full object-contain mix-blend-multiply transition-transform group-hover:scale-110 duration-300" onerror="this.src='https://via.placeholder.com/200'">
+                    <div class="w-full h-44 mb-6 flex items-center justify-center p-2 relative">
+                        <div class="absolute w-32 h-32 bg-slate-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         
-                        <div class="absolute -bottom-2 bg-white border border-blue-100 text-blue-600 text-[9px] font-bold px-2 py-1 rounded-full shadow-sm flex items-center gap-1">
-                            <i class="fas fa-star text-yellow-400 text-[8px]"></i> Destacado
-                        </div>
+                        <img src="${mainVariant.imagen}" class="max-h-full object-contain mix-blend-multiply relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-2" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
+                        
+                        ${p.variantes.length > 1 ? `<div class="absolute bottom-0 right-0 bg-slate-800 text-white text-[9px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">+${p.variantes.length - 1}</div>` : ''}
                     </div>
                     
-                    <div class="flex-1 mt-2">
+                    <div class="flex-1">
                         <span class="hook-badge">${hookText}</span>
-                        <h3 class="font-bold text-slate-800 text-sm leading-tight line-clamp-2 mb-1">${p.nombre}</h3>
-                        <p class="text-[10px] text-slate-400">${p.variantes.length} opciones disponibles</p>
+                        <h3 class="font-bold text-slate-800 text-[15px] leading-tight line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">${p.nombre}</h3>
                     </div>
                     
-                    <div class="pt-3 border-t border-slate-100 flex justify-between items-end mt-3">
+                    <div class="pt-4 mt-2 border-t border-slate-50 flex justify-between items-end">
                         <div>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Precio</p>
-                            <p class="text-lg font-black text-slate-800 tracking-tight">
-                                ${hasPrice ? '$' + mainVariant.precio : 'Consultar'}
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio</p>
+                            <p class="text-lg font-black text-slate-900 tracking-tight leading-none">
+                                ${hasPrice ? '$' + mainVariant.precio.toLocaleString('es-PY') : 'Consultar'}
                             </p>
-                        </div>
-                        <div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors">
-                            <i class="fab fa-whatsapp text-sm"></i>
                         </div>
                     </div>`;
                 grid.appendChild(card);
@@ -290,10 +306,7 @@
         function updateModalContent(variant) {
             document.getElementById('m-title').innerText = currentProductContext.nombre;
             document.getElementById('m-desc').innerText = currentProductContext.descripcion;
-            
-            // Inyectamos el Gancho Completo (Argumento de Venta)
             document.getElementById('m-hook').innerText = `"${currentProductContext.argumento_venta}"`;
-            
             document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
             document.getElementById('m-sku').innerText = `ID: ${variant.sku_id}`;
             document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
@@ -306,25 +319,24 @@
 
             if (!variant.stock) {
                 priceEl.innerText = "Agotado";
-                priceEl.className = "text-2xl font-black text-red-500 tracking-tight";
-                btnEl.classList.add('opacity-50', 'pointer-events-none', 'bg-slate-400');
-                btnEl.classList.remove('bg-green-500', 'hover:bg-green-600');
+                priceEl.className = "text-2xl font-black text-red-500 tracking-tighter";
+                btnEl.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
                 btnText.innerText = "Sin Stock";
             } else {
-                priceEl.className = "text-2xl font-black text-slate-800 tracking-tight";
-                if (variant.precio > 0) {
-                    priceEl.innerText = `$ ${variant.precio}`;
-                } else {
-                    priceEl.innerText = "Consultar";
-                }
-                btnEl.classList.remove('opacity-50', 'pointer-events-none', 'bg-slate-400');
-                btnEl.classList.add('bg-green-500', 'hover:bg-green-600');
+                priceEl.className = "text-2xl font-black text-slate-900 tracking-tighter";
+                priceEl.innerText = variant.precio > 0 ? `$ ${variant.precio.toLocaleString('es-PY')}` : "Consultar";
+                btnEl.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
                 btnText.innerText = "Pedir Ahora";
             }
 
             const img = document.getElementById('m-img');
             img.style.opacity = '0';
-            setTimeout(() => { img.src = variant.imagen; img.style.opacity = '1'; }, 150);
+            img.style.transform = 'scale(0.95)';
+            setTimeout(() => { 
+                img.src = variant.imagen; 
+                img.style.opacity = '1'; 
+                img.style.transform = 'scale(1)';
+            }, 200);
 
             const container = document.getElementById('m-variants-container');
             const title = document.getElementById('m-variants-title');
@@ -335,10 +347,10 @@
                 currentProductContext.variantes.forEach(v => {
                     const btn = document.createElement('button');
                     const isActive = v.sku_id === variant.sku_id;
-                    btn.className = `px-4 py-2 rounded-xl text-xs font-bold border transition-all ${
+                    btn.className = `px-5 py-2.5 rounded-xl text-xs font-bold border transition-all duration-300 ${
                         isActive 
-                        ? 'bg-slate-800 text-white border-slate-800 shadow-md transform scale-105' 
-                        : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105' 
+                        : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                     }`;
                     btn.innerText = v.medida;
                     btn.onclick = () => updateModalContent(v);
@@ -357,7 +369,7 @@
                 variant.galeria.forEach(foto => {
                     const imgG = document.createElement('img');
                     imgG.src = foto;
-                    imgG.className = "h-24 w-auto rounded-lg border border-slate-200 shadow-sm cursor-pointer hover:scale-105 transition-transform object-cover";
+                    imgG.className = "h-20 w-20 rounded-xl border-2 border-white shadow-md cursor-pointer hover:scale-110 hover:shadow-lg transition-all object-cover hover:z-10";
                     imgG.onclick = () => window.open(foto, '_blank');
                     galleryContainer.appendChild(imgG);
                 });
