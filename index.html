@@ -14,77 +14,69 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* CONFIGURACIÓN DE TIPOGRAFÍA GLOBAL */
         body { 
             background-color: #f8fafc; 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* CLASE PARA EL TÍTULO PRINCIPAL 'SHELI' */
-        .brush-logo {
-            font-family: 'Permanent Marker', cursive;
-        }
+        .brush-font { font-family: 'Permanent Marker', cursive; }
 
-        /* Tarjetas con efecto flotante suave */
         .product-card { transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         
-        /* Scroll invisible pero funcional */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animaciones Modal Pro */
         #modalPanel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; }
         .modal-open #modalPanel { transform: translateY(0) scale(1); opacity: 1; }
         .modal-closed #modalPanel { transform: translateY(20px) scale(0.98); opacity: 0; }
 
-        /* Badge de Marketing (El Gancho) */
         .hook-badge {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            font-size: 0.60rem;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: inline-block;
-            margin-bottom: 6px;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            color: white; font-size: 0.60rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 6px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 pb-20">
 
-    <header class="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 py-4 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
-        <div class="container mx-auto max-w-6xl">
-            <div class="flex justify-between items-start mb-5">
+    <header class="bg-white sticky top-0 z-40 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border-b border-slate-100">
+        
+        <div class="bg-gradient-to-r from-blue-50 to-white pt-6 pb-4 px-6">
+            <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 
-                <div class="flex flex-col items-start group cursor-pointer">
-                    
-                    <div class="flex items-baseline gap-3 relative -left-1">
-                        <span class="text-3xl md:text-4xl transform group-hover:rotate-12 transition-transform filter drop-shadow-sm relative top-1">🖌️</span>
-                        <h1 class="brush-logo text-4xl md:text-5xl text-blue-800 leading-none tracking-wide filter drop-shadow-sm">
-                            SHELI
-                        </h1>
+                <div class="flex flex-col group cursor-pointer select-none">
+                    <div class="flex items-center gap-3">
+                        <span class="text-4xl md:text-5xl filter drop-shadow-md transform -rotate-12 group-hover:rotate-0 transition-transform duration-500">🖌️</span>
+                        
+                        <div class="flex flex-col relative top-1">
+                            <h1 class="brush-font text-5xl md:text-6xl text-blue-900 leading-[0.8] tracking-wide filter drop-shadow-sm group-hover:text-blue-700 transition-colors">
+                                SHELI
+                            </h1>
+                            <h2 class="text-xl md:text-2xl font-black tracking-[0.35em] text-blue-950 uppercase leading-none mt-1 ml-1 opacity-90">
+                                COLOR
+                            </h2>
+                        </div>
                     </div>
                     
-                    <h2 class="text-lg md:text-xl font-black tracking-[0.3em] uppercase text-blue-900 leading-none mt-1 ml-1">
-                        COLOR
-                    </h2>
-
-                    <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-blue-400 mt-1.5 ml-1">
-                        transforma tu mundo
-                    </p>
+                    <div class="flex items-center gap-2 mt-2 ml-14 md:ml-16">
+                        <span class="h-px w-8 bg-blue-300"></span>
+                        <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-blue-500 italic">
+                            transforma tu mundo
+                        </p>
+                    </div>
                 </div>
-                <div id="counter" class="bg-slate-100 text-slate-500 text-[9px] font-black px-2.5 py-1.5 rounded-lg text-center border border-slate-200 mt-2 shadow-sm">...</div>
-            </div>
 
-            <div class="relative w-full group">
-                <input type="text" id="searchInput" placeholder="Buscar pintura, color o código..." 
-                       class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-semibold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all outline-none text-slate-700 placeholder-slate-400 shadow-sm group-hover:shadow-md">
+                <div id="counter" class="absolute top-6 right-6 md:static bg-white text-slate-400 text-[10px] font-black px-3 py-1.5 rounded-full border border-slate-100 shadow-sm">
+                    ...
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 pb-4 bg-white/50 backdrop-blur-sm">
+            <div class="container mx-auto max-w-6xl relative group">
+                <input type="text" id="searchInput" placeholder="Buscar color, tipo de pintura o código..." 
+                       class="w-full bg-slate-100 border-none rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none text-slate-700 placeholder-slate-400 shadow-inner group-hover:shadow-md group-hover:bg-white">
                 <i class="fas fa-search absolute left-4.5 top-4 text-slate-400 transition-colors group-hover:text-blue-500"></i>
             </div>
         </div>
@@ -92,10 +84,9 @@
 
     <main class="container mx-auto max-w-6xl p-4">
         <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div class="h-72 bg-white rounded-3xl border border-slate-100 shadow-sm p-4 animate-pulse flex flex-col justify-between">
-                <div class="w-full h-40 bg-slate-100 rounded-xl"></div>
-                <div class="h-4 bg-slate-100 rounded w-3/4 mt-4"></div>
-                <div class="h-4 bg-slate-100 rounded w-1/2 mt-2"></div>
+            <div class="h-80 bg-white rounded-[2rem] p-4 animate-pulse border border-slate-100">
+                <div class="w-full h-48 bg-slate-100 rounded-2xl mb-4"></div>
+                <div class="h-4 bg-slate-100 rounded w-3/4"></div>
             </div>
         </div>
     </main>
@@ -116,15 +107,12 @@
                 </div>
 
                 <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-50/50">
-                    
                     <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 hidden">Presentación</div>
                     <div id="m-variants-container" class="flex flex-wrap gap-2 mb-8"></div>
 
                     <div class="bg-white rounded-3xl p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 mb-8 flex justify-center relative group">
                         <img id="m-img" src="" class="h-56 object-contain mix-blend-multiply transition-all duration-500 group-hover:scale-105" onerror="this.src='https://via.placeholder.com/300?text=Cargando'">
-                        <div class="absolute -bottom-3 right-6 bg-yellow-400 text-yellow-950 text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg rotate-[-2deg] border-2 border-white">
-                            ¡Calidad Premium!
-                        </div>
+                        <div class="absolute -bottom-3 right-6 bg-yellow-400 text-yellow-950 text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg rotate-[-2deg] border-2 border-white">¡Calidad Premium!</div>
                     </div>
 
                     <div id="m-gallery-section" class="mb-8 hidden">
@@ -147,14 +135,10 @@
                             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ficha Técnica</h3>
                             <span id="m-sku" class="text-[9px] font-bold text-slate-400 font-mono bg-slate-200 px-1.5 py-0.5 rounded">ID: ---</span>
                         </div>
-                        
                         <div class="mb-4">
                             <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Rendimiento</p>
-                            <p id="m-rendimiento" class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <span>---</span>
-                            </p>
+                            <p id="m-rendimiento" class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <span>---</span></p>
                         </div>
-
                         <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Dilución</p>
@@ -186,114 +170,70 @@
     </div>
 
     <script>
-        // ==========================================
-        // LLAVES DE SUPABASE
-        // ==========================================
         const SB_URL = "https://nblkwaxgxiwpctlzwdgp.supabase.co";
         const SB_KEY = "sb_publishable_lGT51czKNSfkzH83RGvplQ_C5nlDIGX";
-        // ==========================================
-
-        let allProducts = [];
-        let currentProductContext = null;
+        let allProducts = [], currentProductContext = null;
 
         async function init() {
             try {
                 const [resJSON, resSB] = await Promise.all([
                     fetch('data.json'),
-                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { 
-                        headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}` }
-                    })
+                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}` } })
                 ]);
-
-                if(!resJSON.ok) throw new Error("Error cargando catálogo base");
-                
-                const rawData = await resJSON.json();
-                const cloudData = await resSB.json();
-                const dbMap = {};
+                if(!resJSON.ok) throw new Error("Error cargando catálogo");
+                const rawData = await resJSON.json(), cloudData = await resSB.json(), dbMap = {};
                 if(cloudData) cloudData.forEach(item => dbMap[item.sku_id] = item);
-
                 allProducts = rawData.map(p => {
                     const text = (p.nombre + p.descripcion).toLowerCase();
                     let cat = 'Al Agua';
                     if (text.includes('ciaflex') || text.includes('emborrachada')) cat = 'Emborrachada';
                     else if (text.includes('sintético') || text.includes('solvente')) cat = 'Sintético';
                     else if (text.includes('spray')) cat = 'Spray';
-
                     p.variantes.forEach(v => {
                         const cloudInfo = dbMap[v.sku_id];
                         v.precio = cloudInfo ? cloudInfo.precio : 0;
                         v.stock = cloudInfo ? cloudInfo.disponible : true;
                         if(!v.imagen) v.imagen = `${v.sku_id}_1.png`;
                     });
-
                     return { ...p, smartCategory: cat };
                 });
-
                 renderCatalog();
-
-            } catch (e) {
-                console.error(e);
-                document.getElementById('catalogGrid').innerHTML = 
-                    '<div class="col-span-full py-20 text-center"><i class="fas fa-wifi text-4xl text-slate-300 mb-4"></i><p class="text-slate-400 font-bold">Verifica tu conexión</p></div>';
-            }
+            } catch (e) { document.getElementById('catalogGrid').innerHTML = '<div class="col-span-full py-20 text-center"><i class="fas fa-wifi text-4xl text-slate-300 mb-4"></i><p class="text-slate-400 font-bold">Verifica tu conexión</p></div>'; }
         }
 
         function renderCatalog(search = '') {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = '';
-            
             const filtered = allProducts.filter(p => p.nombre.toLowerCase().includes(search.toLowerCase()));
             document.getElementById('counter').innerText = `${filtered.length}`;
-
             filtered.forEach(p => {
                 const mainVariant = p.variantes[0];
                 const hasPrice = mainVariant.precio > 0;
-                
-                // Gancho Marketing Inteligente
                 let hookText = "Calidad Pro";
-                if(p.argumento_venta) {
-                    const words = p.argumento_venta.split(' ');
-                    if(words.length > 0) hookText = words.slice(0, 3).join(' ') + (words.length > 3 ? '...' : '');
-                }
-
+                if(p.argumento_venta) { const words = p.argumento_venta.split(' '); hookText = words.slice(0, 3).join(' ') + (words.length > 3 ? '...' : ''); }
                 const card = document.createElement('div');
                 card.className = "product-card bg-white p-5 rounded-[1.5rem] shadow-sm border border-slate-100 cursor-pointer flex flex-col h-full relative overflow-hidden group";
                 card.onclick = () => openModal(p);
-
-                // Colores de Etiquetas Suaves
                 let badgeClass = 'bg-slate-100 text-slate-600';
                 if(p.smartCategory === 'Emborrachada') badgeClass = 'bg-indigo-50 text-indigo-600 border border-indigo-100';
                 if(p.smartCategory === 'Sintético') badgeClass = 'bg-orange-50 text-orange-600 border border-orange-100';
                 if(p.smartCategory === 'Spray') badgeClass = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
-
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4 z-10 relative">
                         <span class="${badgeClass} px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wide">${p.smartCategory}</span>
-                        <div class="bg-white border border-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shadow-sm">
-                            <i class="fas fa-plus text-[10px]"></i>
-                        </div>
+                        <div class="bg-white border border-slate-100 rounded-full w-8 h-8 flex items-center justify-center text-slate-300 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shadow-sm"><i class="fas fa-plus text-[10px]"></i></div>
                     </div>
-                    
                     <div class="w-full h-44 mb-6 flex items-center justify-center p-2 relative">
                         <div class="absolute w-32 h-32 bg-slate-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        
                         <img src="${mainVariant.imagen}" class="max-h-full object-contain mix-blend-multiply relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-2" onerror="this.src='https://via.placeholder.com/200?text=IMG'">
-                        
                         ${p.variantes.length > 1 ? `<div class="absolute bottom-0 right-0 bg-slate-800 text-white text-[9px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm">+${p.variantes.length - 1}</div>` : ''}
                     </div>
-                    
                     <div class="flex-1">
                         <span class="hook-badge">${hookText}</span>
                         <h3 class="font-bold text-slate-800 text-[15px] leading-tight line-clamp-2 mb-1 group-hover:text-blue-700 transition-colors">${p.nombre}</h3>
                     </div>
-                    
                     <div class="pt-4 mt-2 border-t border-slate-50 flex justify-between items-end">
-                        <div>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio</p>
-                            <p class="text-lg font-black text-slate-900 tracking-tight leading-none">
-                                ${hasPrice ? '$' + mainVariant.precio.toLocaleString('es-PY') : 'Consultar'}
-                            </p>
-                        </div>
+                        <div><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Precio</p><p class="text-lg font-black text-slate-900 tracking-tight leading-none">${hasPrice ? '$' + mainVariant.precio.toLocaleString('es-PY') : 'Consultar'}</p></div>
                     </div>`;
                 grid.appendChild(card);
             });
@@ -302,13 +242,8 @@
         function openModal(product) {
             currentProductContext = product;
             const modal = document.getElementById('productModal');
-            const backdrop = document.getElementById('modalBackdrop');
             modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('modal-closed');
-                modal.classList.add('modal-open');
-                backdrop.classList.remove('opacity-0');
-            }, 10);
+            setTimeout(() => { modal.classList.remove('modal-closed'); modal.classList.add('modal-open'); document.getElementById('modalBackdrop').classList.remove('opacity-0'); }, 10);
             updateModalContent(product.variantes[0]);
         }
 
@@ -321,84 +256,20 @@
             document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
             document.getElementById('m-dilucion').innerText = variant.dilucion || 'Ver ficha';
             document.getElementById('m-secado').innerText = variant.secado;
-
-            const priceEl = document.getElementById('m-price');
-            const btnEl = document.getElementById('m-whatsapp');
-            const btnText = document.getElementById('m-btn-text');
-
-            if (!variant.stock) {
-                priceEl.innerText = "Agotado";
-                priceEl.className = "text-2xl font-black text-red-500 tracking-tighter";
-                btnEl.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
-                btnText.innerText = "Sin Stock";
-            } else {
-                priceEl.className = "text-2xl font-black text-slate-900 tracking-tighter";
-                priceEl.innerText = variant.precio > 0 ? `$ ${variant.precio.toLocaleString('es-PY')}` : "Consultar";
-                btnEl.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
-                btnText.innerText = "Pedir Ahora";
-            }
-
-            const img = document.getElementById('m-img');
-            img.style.opacity = '0';
-            img.style.transform = 'scale(0.95)';
-            setTimeout(() => { 
-                img.src = variant.imagen; 
-                img.style.opacity = '1'; 
-                img.style.transform = 'scale(1)';
-            }, 200);
-
-            const container = document.getElementById('m-variants-container');
-            const title = document.getElementById('m-variants-title');
-            container.innerHTML = '';
-            
-            if (currentProductContext.variantes.length > 1) {
-                title.classList.remove('hidden');
-                currentProductContext.variantes.forEach(v => {
-                    const btn = document.createElement('button');
-                    const isActive = v.sku_id === variant.sku_id;
-                    btn.className = `px-5 py-2.5 rounded-xl text-xs font-bold border transition-all duration-300 ${
-                        isActive 
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105' 
-                        : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                    }`;
-                    btn.innerText = v.medida;
-                    btn.onclick = () => updateModalContent(v);
-                    container.appendChild(btn);
-                });
-            } else {
-                title.classList.add('hidden');
-            }
-
-            const gallerySection = document.getElementById('m-gallery-section');
-            const galleryContainer = document.getElementById('m-gallery-container');
-            galleryContainer.innerHTML = '';
-
-            if (variant.galeria && variant.galeria.length > 0) {
-                gallerySection.classList.remove('hidden');
-                variant.galeria.forEach(foto => {
-                    const imgG = document.createElement('img');
-                    imgG.src = foto;
-                    imgG.className = "h-20 w-20 rounded-xl border-2 border-white shadow-md cursor-pointer hover:scale-110 hover:shadow-lg transition-all object-cover hover:z-10";
-                    imgG.onclick = () => window.open(foto, '_blank');
-                    galleryContainer.appendChild(imgG);
-                });
-            } else {
-                gallerySection.classList.add('hidden');
-            }
-
+            const priceEl = document.getElementById('m-price'), btnEl = document.getElementById('m-whatsapp'), btnText = document.getElementById('m-btn-text');
+            if (!variant.stock) { priceEl.innerText = "Agotado"; priceEl.className = "text-2xl font-black text-red-500 tracking-tighter"; btnEl.classList.add('opacity-50', 'pointer-events-none', 'grayscale'); btnText.innerText = "Sin Stock"; } 
+            else { priceEl.className = "text-2xl font-black text-slate-900 tracking-tighter"; priceEl.innerText = variant.precio > 0 ? `$ ${variant.precio.toLocaleString('es-PY')}` : "Consultar"; btnEl.classList.remove('opacity-50', 'pointer-events-none', 'grayscale'); btnText.innerText = "Pedir Ahora"; }
+            const img = document.getElementById('m-img'); img.style.opacity = '0'; img.style.transform = 'scale(0.95)';
+            setTimeout(() => { img.src = variant.imagen; img.style.opacity = '1'; img.style.transform = 'scale(1)'; }, 200);
+            const container = document.getElementById('m-variants-container'), title = document.getElementById('m-variants-title'); container.innerHTML = '';
+            if (currentProductContext.variantes.length > 1) { title.classList.remove('hidden'); currentProductContext.variantes.forEach(v => { const btn = document.createElement('button'); const isActive = v.sku_id === variant.sku_id; btn.className = `px-5 py-2.5 rounded-xl text-xs font-bold border transition-all duration-300 ${isActive ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'}`; btn.innerText = v.medida; btn.onclick = () => updateModalContent(v); container.appendChild(btn); }); } else { title.classList.add('hidden'); }
+            const galSec = document.getElementById('m-gallery-section'), galCont = document.getElementById('m-gallery-container'); galCont.innerHTML = '';
+            if (variant.galeria && variant.galeria.length > 0) { galSec.classList.remove('hidden'); variant.galeria.forEach(foto => { const imgG = document.createElement('img'); imgG.src = foto; imgG.className = "h-20 w-20 rounded-xl border-2 border-white shadow-md cursor-pointer hover:scale-110 hover:shadow-lg transition-all object-cover hover:z-10"; imgG.onclick = () => window.open(foto, '_blank'); galCont.appendChild(imgG); }); } else { galSec.classList.add('hidden'); }
             const msg = `Hola, me interesa: ${currentProductContext.nombre} (${variant.medida}) SKU:${variant.sku_id}`;
             btnEl.href = `https://wa.me/595987212934?text=${encodeURIComponent(msg)}`;
         }
 
-        function closeModal() {
-            const modal = document.getElementById('productModal');
-            const backdrop = document.getElementById('modalBackdrop');
-            modal.classList.remove('modal-open');
-            modal.classList.add('modal-closed');
-            backdrop.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-
+        function closeModal() { const modal = document.getElementById('productModal'); modal.classList.remove('modal-open'); modal.classList.add('modal-closed'); document.getElementById('modalBackdrop').classList.add('opacity-0'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         document.getElementById('searchInput').addEventListener('input', (e) => renderCatalog(e.target.value));
         init();
     </script>
