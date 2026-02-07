@@ -6,7 +6,7 @@
     <title>Catálogo Ciacollor Profesional</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background-color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .product-card { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
@@ -14,6 +14,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Animaciones Modal */
         #modalPanel { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         .modal-open #modalPanel { transform: translateY(0); }
         .modal-closed #modalPanel { transform: translateY(100%); }
@@ -38,18 +39,10 @@
                 <div id="counter" class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded text-center min-w-[60px]">...</div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-3">
-                <div class="relative flex-1">
-                    <input type="text" id="searchInput" placeholder="Buscar pintura, código o uso..." 
-                           class="w-full bg-slate-100 border-0 rounded-xl py-3 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none">
-                    <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
-                </div>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 items-center">
-                    <button onclick="filterBy('all')" class="filter-btn active bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap shadow-md">Todo</button>
-                    <button onclick="filterBy('Emborrachada')" class="filter-btn bg-white border border-slate-200 text-slate-500 px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap">Emborrachada</button>
-                    <button onclick="filterBy('Al Agua')" class="filter-btn bg-white border border-slate-200 text-slate-500 px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap">Al Agua</button>
-                    <button onclick="filterBy('Sintético')" class="filter-btn bg-white border border-slate-200 text-slate-500 px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap">Metales</button>
-                </div>
+            <div class="relative w-full">
+                <input type="text" id="searchInput" placeholder="¿Qué estás buscando hoy?" 
+                       class="w-full bg-slate-100 border-0 rounded-xl py-3 pl-11 pr-4 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none">
+                <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
             </div>
         </div>
     </header>
@@ -61,10 +54,10 @@
         </div>
     </main>
 
-    <div id="productModal" class="fixed inset-0 z-50 hidden modal-closed" role="dialog" aria-modal="true">
+    <div id="productModal" class="fixed inset-0 z-50 hidden modal-closed" role="dialog">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] transition-opacity opacity-0 duration-300" id="modalBackdrop" onclick="closeModal()"></div>
         <div class="fixed inset-0 pointer-events-none flex items-end md:items-center justify-center p-0 md:p-4">
-            <div id="modalPanel" class="pointer-events-auto w-full md:w-[600px] h-[90vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+            <div id="modalPanel" class="pointer-events-auto w-full md:w-[550px] h-[90vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
                 
                 <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-white z-10">
                     <div>
@@ -79,18 +72,17 @@
                 <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-50/50">
                     
                     <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase mb-2 hidden">Selecciona presentación:</div>
-                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-4"></div>
+                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-6"></div>
 
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 flex justify-center relative transition-all">
-                        <img id="m-img" src="" class="h-48 object-contain transition-all duration-300 transform" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
+                        <img id="m-img" src="" class="h-48 object-contain transition-all duration-300" onerror="this.src='https://via.placeholder.com/300?text=Imagen+No+Disponible'">
                     </div>
 
                     <div id="m-gallery-section" class="mb-6 hidden">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-2 flex items-center gap-2">
-                            <i class="fas fa-palette text-blue-500"></i> Catálogo de Colores
+                            <i class="fas fa-palette text-blue-500"></i> Colores Disponibles
                         </h3>
-                        <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-                            </div>
+                        <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar"></div>
                     </div>
 
                     <div class="mb-6">
@@ -99,7 +91,7 @@
                     </div>
 
                     <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <div class="flex justify-between items-center mb-1">
+                        <div class="flex justify-between items-center mb-2">
                             <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Rendimiento</h3>
                             <span id="m-sku" class="text-[9px] font-bold text-blue-300 uppercase">ID: ---</span>
                         </div>
@@ -115,12 +107,12 @@
 
                 <div class="p-4 bg-white border-t border-slate-100 flex items-center justify-between shadow-[0_-5px_20px_rgba(0,0,0,0.02)] z-10">
                     <div>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase">Precio</p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Precio Lista</p>
                         <p id="m-price" class="text-2xl font-black text-slate-800 tracking-tight">---</p>
                     </div>
-                    <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-500/30 transition-transform active:scale-95 group">
+                    <a href="#" id="m-whatsapp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-500/30 transition-transform active:scale-95 group disabled:opacity-50 disabled:pointer-events-none">
                         <i class="fab fa-whatsapp text-xl group-hover:rotate-12 transition-transform"></i>
-                        <span>Pedir</span>
+                        <span id="m-btn-text">Pedir</span>
                     </a>
                 </div>
             </div>
@@ -128,170 +120,212 @@
     </div>
 
     <script>
+        // ==========================================
+        // 1. TUS LLAVES DE SUPABASE (IGUAL QUE EN ADMIN)
+        // ==========================================
+        const SB_URL = "TU_URL_DE_SUPABASE_AQUÍ";
+        const SB_KEY = "TU_ANON_KEY_DE_SUPABASE_AQUÍ";
+        // ==========================================
+
         let allProducts = [];
-        let db = JSON.parse(localStorage.getItem('ciacollor_db')) || {};
+        let currentProductContext = null;
 
         async function init() {
             try {
-                const response = await fetch('data.json');
-                const rawData = await response.json();
+                // Carga paralela: JSON (Datos fijos) + Supabase (Precios/Stock)
+                const [resJSON, resSB] = await Promise.all([
+                    fetch('data.json'),
+                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { 
+                        headers: { "apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}` }
+                    })
+                ]);
+
+                if(!resJSON.ok) throw new Error("Error cargando catálogo base");
                 
+                const rawData = await resJSON.json();
+                const cloudData = await resSB.json(); // Array de precios de la nube
+
+                // Crear mapa de precios para acceso rápido por SKU_ID
+                const dbMap = {};
+                if(cloudData) cloudData.forEach(item => dbMap[item.sku_id] = item);
+
+                // Cruzar datos: Unir JSON con Supabase usando SKU_ID
                 allProducts = rawData.map(p => {
                     const text = (p.nombre + p.descripcion).toLowerCase();
                     let cat = 'Al Agua';
                     if (text.includes('ciaflex') || text.includes('emborrachada')) cat = 'Emborrachada';
                     else if (text.includes('sintético') || text.includes('solvente')) cat = 'Sintético';
+
+                    p.variantes.forEach(v => {
+                        // AQUÍ OCURRE LA MAGIA DEL SKU_ID
+                        const cloudInfo = dbMap[v.sku_id];
+                        v.precio = cloudInfo ? cloudInfo.precio : 0;
+                        v.stock = cloudInfo ? cloudInfo.disponible : true;
+                        
+                        // Asegurar imagen desde raíz
+                        if(!v.imagen) v.imagen = `${v.sku_id}_1.png`;
+                    });
+
                     return { ...p, smartCategory: cat };
                 });
+
                 renderCatalog();
+
             } catch (e) {
-                document.getElementById('catalogGrid').innerHTML = '<p class="text-center col-span-full py-10 text-red-400">Error cargando inventario. Verifica data.json</p>';
+                console.error(e);
+                document.getElementById('catalogGrid').innerHTML = 
+                    '<div class="col-span-full text-center py-10 text-red-400 font-bold">No se pudo conectar con el inventario.</div>';
             }
         }
 
-        function renderCatalog(filter = 'all', search = '') {
+        function renderCatalog(search = '') {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = '';
             
-            const filtered = allProducts.filter(p => {
-                if (filter !== 'all' && p.smartCategory !== filter) return false;
-                if (search && !p.nombre.toLowerCase().includes(search.toLowerCase())) return false;
-                return true;
-            });
-
-            document.getElementById('counter').innerText = `${filtered.length} Prods`;
+            const filtered = allProducts.filter(p => p.nombre.toLowerCase().includes(search.toLowerCase()));
+            document.getElementById('counter').innerText = `${filtered.length} PRODS`;
 
             filtered.forEach(p => {
+                // Usamos la primera variante para la tarjeta
                 const mainVariant = p.variantes[0];
-                const price = db[mainVariant.sku_id]?.price || "0.00";
-                const hasStock = p.variantes.some(v => (db[v.sku_id]?.stock ?? true));
+                const hasPrice = mainVariant.precio > 0;
                 
-                const badgeClass = p.smartCategory === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : 
-                                   p.smartCategory === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
-
                 const card = document.createElement('div');
-                card.className = `product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${hasStock ? '' : 'opacity-60 grayscale'}`;
+                card.className = "product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col h-full relative overflow-hidden";
                 card.onclick = () => openModal(p);
 
-                const imgName = mainVariant.imagen || 'placeholder.png';
+                // Etiqueta de Categoría
+                const badgeColor = p.smartCategory === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : 
+                                   p.smartCategory === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
 
                 card.innerHTML = `
-                    <div class="absolute top-4 left-4 z-10">
-                        <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${badgeClass}">${p.smartCategory}</span>
+                    <span class="absolute top-4 left-4 ${badgeColor} px-2 py-1 rounded-lg text-[9px] font-black uppercase">${p.smartCategory}</span>
+                    
+                    <div class="w-full h-44 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4 mt-6">
+                        <img src="${mainVariant.imagen}" class="max-h-full object-contain mix-blend-multiply" onerror="this.src='https://via.placeholder.com/200'">
                     </div>
-                    <div class="w-full h-48 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4">
-                        <img src="${imgName}" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[10px] font-bold text-slate-300">#${mainVariant.sku_id}</span>
-                            ${!hasStock ? '<span class="text-[9px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded">AGOTADO</span>' : ''}
-                        </div>
-                        <h3 class="font-bold text-slate-800 text-sm leading-snug mb-1 line-clamp-2 min-h-[2.5rem]">${p.nombre}</h3>
-                        <div class="flex items-center gap-1 mb-3">
-                            <span class="w-2 h-2 rounded-full bg-green-400"></span>
-                            <p class="text-[10px] text-slate-400 font-bold">${p.variantes.length} presentaciones</p>
-                        </div>
-                    </div>
-                    <div class="border-t border-slate-100 pt-3 flex items-end justify-between mt-auto">
+                    
+                    <h3 class="font-bold text-slate-800 text-sm leading-tight line-clamp-2 mb-2 flex-1">${p.nombre}</h3>
+                    
+                    <div class="pt-3 border-t border-slate-100 flex justify-between items-end">
                         <div>
-                            <p class="text-[10px] font-bold text-slate-400 uppercase">Desde</p>
-                            <p class="text-xl font-black text-slate-800 tracking-tight">$${price}</p>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase">Desde</p>
+                            <p class="text-lg font-black text-slate-800 tracking-tight">
+                                ${hasPrice ? '$' + mainVariant.precio : 'Consultar'}
+                            </p>
                         </div>
                         <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <i class="fas fa-arrow-right text-xs"></i>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 grid.appendChild(card);
             });
         }
-
-        let currentProductContext = null;
 
         function openModal(product) {
             currentProductContext = product;
             const modal = document.getElementById('productModal');
             const backdrop = document.getElementById('modalBackdrop');
+            
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('modal-closed');
                 modal.classList.add('modal-open');
                 backdrop.classList.remove('opacity-0');
             }, 10);
+
+            // Cargar primera variante por defecto
             updateModalContent(product.variantes[0]);
         }
 
         function updateModalContent(variant) {
-            const sku = variant.sku_id;
-            const price = db[sku]?.price || "0.00";
-
-            // Datos básicos
+            // Textos Fijos
             document.getElementById('m-title').innerText = currentProductContext.nombre;
-            document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
             document.getElementById('m-desc').innerText = currentProductContext.descripcion;
-            document.getElementById('m-sku').innerText = `ID: ${sku}`;
+            document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
+            
+            // Datos Dinámicos (Vienen de JSON + Supabase)
+            document.getElementById('m-sku').innerText = `ID: ${variant.sku_id}`;
             document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
             document.getElementById('m-secado').innerText = variant.secado;
-            document.getElementById('m-price').innerText = `$ ${price}`;
 
-            // 1. Imagen Principal (Balde)
+            // Gestión de Precio y Stock
+            const priceEl = document.getElementById('m-price');
+            const btnEl = document.getElementById('m-whatsapp');
+            const btnText = document.getElementById('m-btn-text');
+
+            if (!variant.stock) {
+                // SIN STOCK
+                priceEl.innerText = "Agotado";
+                priceEl.className = "text-2xl font-black text-red-500 tracking-tight";
+                btnEl.classList.add('opacity-50', 'pointer-events-none', 'bg-slate-400');
+                btnEl.classList.remove('bg-green-500', 'hover:bg-green-600');
+                btnText.innerText = "Sin Stock";
+            } else {
+                // CON STOCK
+                priceEl.className = "text-2xl font-black text-slate-800 tracking-tight";
+                if (variant.precio > 0) {
+                    priceEl.innerText = `$ ${variant.precio}`;
+                } else {
+                    priceEl.innerText = "Consultar";
+                }
+                btnEl.classList.remove('opacity-50', 'pointer-events-none', 'bg-slate-400');
+                btnEl.classList.add('bg-green-500', 'hover:bg-green-600');
+                btnText.innerText = "Pedir";
+            }
+
+            // Imagen Principal
             const img = document.getElementById('m-img');
-            const imgName = variant.imagen || 'placeholder.png';
-            img.style.opacity = '0.5';
-            img.style.transform = 'scale(0.95)';
+            img.style.opacity = '0';
             setTimeout(() => {
-                img.src = `${imgName}`; 
+                img.src = variant.imagen; 
                 img.style.opacity = '1';
-                img.style.transform = 'scale(1)';
-            }, 200);
+            }, 150);
 
-            // 2. Botones de Tamaño
-            const btnContainer = document.getElementById('m-variants-container');
-            const btnTitle = document.getElementById('m-variants-title');
-            btnContainer.innerHTML = ''; 
+            // Botones de Variantes
+            const container = document.getElementById('m-variants-container');
+            const title = document.getElementById('m-variants-title');
+            container.innerHTML = '';
             
             if (currentProductContext.variantes.length > 1) {
-                btnTitle.classList.remove('hidden');
+                title.classList.remove('hidden');
                 currentProductContext.variantes.forEach(v => {
                     const btn = document.createElement('button');
-                    const isActive = v.sku_id === sku;
-                    btn.className = `flex-1 min-w-[80px] py-2 px-3 rounded-lg text-xs font-bold border transition-all ${
+                    const isActive = v.sku_id === variant.sku_id;
+                    btn.className = `px-4 py-2 rounded-xl text-xs font-bold border transition-all ${
                         isActive 
-                        ? 'bg-slate-800 text-white border-slate-800 shadow-md scale-105' 
+                        ? 'bg-slate-800 text-white border-slate-800 shadow-md transform scale-105' 
                         : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                     }`;
                     btn.innerText = v.medida;
                     btn.onclick = () => updateModalContent(v);
-                    btnContainer.appendChild(btn);
+                    container.appendChild(btn);
                 });
             } else {
-                btnTitle.classList.add('hidden');
+                title.classList.add('hidden');
             }
 
-            // 3. GALERÍA DE COLORES (NUEVO)
+            // Galería de Colores
             const gallerySection = document.getElementById('m-gallery-section');
             const galleryContainer = document.getElementById('m-gallery-container');
             galleryContainer.innerHTML = '';
 
-            // Verificamos si la variante tiene galería en el JSON
             if (variant.galeria && variant.galeria.length > 0) {
                 gallerySection.classList.remove('hidden');
                 variant.galeria.forEach(foto => {
-                    const imgGal = document.createElement('img');
-                    imgGal.src = `${foto}`;
-                    imgGal.className = "h-24 w-auto rounded-lg border border-slate-200 shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform";
-                    // Al hacer clic, abre la foto en grande en una pestaña nueva
-                    imgGal.onclick = () => window.open(`${foto}`, '_blank');
-                    galleryContainer.appendChild(imgGal);
+                    const imgG = document.createElement('img');
+                    imgG.src = foto;
+                    imgG.className = "h-24 w-auto rounded-lg border border-slate-200 shadow-sm cursor-pointer hover:scale-105 transition-transform object-cover";
+                    imgG.onclick = () => window.open(foto, '_blank');
+                    galleryContainer.appendChild(imgG);
                 });
             } else {
                 gallerySection.classList.add('hidden');
             }
 
-            // WhatsApp
-            const msg = `Hola, me interesa: ${currentProductContext.nombre} (${variant.medida}) SKU:${sku}`;
-            document.getElementById('m-whatsapp').href = `https://wa.me/595981123456?text=${encodeURIComponent(msg)}`;
+            // Link WhatsApp
+            const msg = `Hola, me interesa: ${currentProductContext.nombre} (${variant.medida}) SKU:${variant.sku_id}`;
+            btnEl.href = `https://wa.me/595981123456?text=${encodeURIComponent(msg)}`; // CAMBIA EL NUMERO AQUI
         }
 
         function closeModal() {
@@ -303,18 +337,7 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
-        function filterBy(cat) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                if(btn.innerText.includes(cat) || (cat==='all' && btn.innerText==='Todo')) {
-                    btn.className = "filter-btn bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-md";
-                } else {
-                    btn.className = "filter-btn bg-white border border-slate-200 text-slate-500 px-4 py-2.5 rounded-xl text-xs font-bold";
-                }
-            });
-            renderCatalog(cat, document.getElementById('searchInput').value);
-        }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => renderCatalog('all', e.target.value));
+        document.getElementById('searchInput').addEventListener('input', (e) => renderCatalog(e.target.value));
         init();
     </script>
 </body>
