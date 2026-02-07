@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "id": "tinta-acrilica-emborrachada-fundo-e-acabamento-ciaflex",
     "nombre": "Tinta Acrílica Emborrachada Fundo e Acabamento Ciaflex",
@@ -9,6 +9,7 @@
       {
         "sku_id": 2109,
         "medida": "20kg",
+        "imagen": "2109_1.png",
         "rendimiento": "Hasta 220 m² por mano (aprox. 80-90 m² acabado con 3 manos)",
         "dilucion": "1ª mano 20%, demas 10%",
         "secado": "4 horas entre manos"
@@ -16,6 +17,7 @@
       {
         "sku_id": 2111,
         "medida": "3,6kg",
+        "imagen": "2111_1.png",
         "rendimiento": "Hasta 40 m² por mano",
         "dilucion": "10% agua",
         "secado": "4 horas entre manos"
@@ -23,6 +25,7 @@
       {
         "sku_id": 2113,
         "medida": "0,9kg",
+        "imagen": "2113_1.png",
         "rendimiento": "Hasta 10 m² por mano",
         "dilucion": "10% agua",
         "secado": "4 horas entre manos"
@@ -39,6 +42,7 @@
       {
         "sku_id": 2153,
         "medida": "18kg",
+        "imagen": "2153_1.png",
         "rendimiento": "Hasta 150 m² por mano",
         "dilucion": "10% agua",
         "secado": "4 horas"
@@ -46,6 +50,7 @@
       {
         "sku_id": 2489,
         "medida": "3,6kg",
+        "imagen": "2489_1.png",
         "rendimiento": "Hasta 30 m² por mano",
         "dilucion": "10% agua",
         "secado": "4 horas"
@@ -62,6 +67,7 @@
       {
         "sku_id": 2155,
         "medida": "18kg",
+        "imagen": "2155_1.png",
         "rendimiento": "Hasta 150 m² por mano (Recomendado 3 manos para impermeabilizar)",
         "dilucion": "Pronto uso (o 10% 1ª mano)",
         "secado": "4 horas"
@@ -69,6 +75,7 @@
       {
         "sku_id": 2157,
         "medida": "3,6kg",
+        "imagen": "2157_1.png",
         "rendimiento": "Hasta 30 m² por mano",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
@@ -85,6 +92,7 @@
       {
         "sku_id": 2485,
         "medida": "23kg",
+        "imagen": "2485_1.png",
         "rendimiento": "30 a 70 m² (dependiendo del grosor)",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
@@ -92,6 +100,7 @@
       {
         "sku_id": 2487,
         "medida": "6kg",
+        "imagen": "2487_1.png",
         "rendimiento": "8 a 15 m²",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
@@ -108,6 +117,7 @@
       {
         "sku_id": 2091,
         "medida": "18lt",
+        "imagen": "2091_1.png",
         "rendimiento": "Hasta 380 m² por mano (aprox 120m² acabado)",
         "dilucion": "20-30% agua",
         "secado": "4 horas"
@@ -115,6 +125,7 @@
       {
         "sku_id": 2093,
         "medida": "3,6lt",
+        "imagen": "2093_1.png",
         "rendimiento": "Hasta 76 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -122,6 +133,7 @@
       {
         "sku_id": 2095,
         "medida": "0,9lt",
+        "imagen": "2095_1.png",
         "rendimiento": "Hasta 19 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -138,6 +150,7 @@
       {
         "sku_id": 2127,
         "medida": "18lt",
+        "imagen": "2127_1.png",
         "rendimiento": "Hasta 380 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -145,6 +158,7 @@
       {
         "sku_id": 2129,
         "medida": "3,6lt",
+        "imagen": "2129_2.png",
         "rendimiento": "Hasta 76 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -161,6 +175,7 @@
       {
         "sku_id": 2077,
         "medida": "18lt",
+        "imagen": "2077_1.png",
         "rendimiento": "Hasta 300 m² por mano (aprox 90-100m² acabado)",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -168,6 +183,7 @@
       {
         "sku_id": 2079,
         "medida": "3,6lt",
+        "imagen": "2079_1.png",
         "rendimiento": "Hasta 60 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -184,6 +200,7 @@
       {
         "sku_id": 2123,
         "medida": "18lt",
+        "imagen": "2123_1.png",
         "rendimiento": "Hasta 300 m² por mano",
         "dilucion": "10-20% agua",
         "secado": "4 horas"
@@ -191,6 +208,7 @@
       {
         "sku_id": 2125,
         "medida": "3,6lt",
+        "imagen": "2125_1.png",
         "rendimiento": "Hasta 60 m² por mano",
         "dilucion": "10-20% agua",
         "secado": "4 horas"
@@ -207,6 +225,7 @@
       {
         "sku_id": 2083,
         "medida": "18lt",
+        "imagen": "2083_1.png",
         "rendimiento": "Hasta 500 m² por mano (diluida)",
         "dilucion": "Hasta 80% agua",
         "secado": "Rápido (2-4h)"
@@ -214,6 +233,7 @@
       {
         "sku_id": 2087,
         "medida": "3,6lt",
+        "imagen": "2087_4.png",
         "rendimiento": "Hasta 100 m² por mano",
         "dilucion": "Hasta 80% agua",
         "secado": "Rápido"
@@ -221,6 +241,7 @@
       {
         "sku_id": 2089,
         "medida": "0,9lt",
+        "imagen": "2089_1.png",
         "rendimiento": "Hasta 25 m² por mano",
         "dilucion": "Hasta 80% agua",
         "secado": "Rápido"
@@ -237,6 +258,7 @@
       {
         "sku_id": 2073,
         "medida": "16lt",
+        "imagen": "2073_1.png",
         "rendimiento": "Hasta 250 m² por mano",
         "dilucion": "10-20% agua",
         "secado": "4 horas"
@@ -244,6 +266,7 @@
       {
         "sku_id": 2075,
         "medida": "3,6lt",
+        "imagen": "2075_3.png",
         "rendimiento": "Hasta 50 m² por mano",
         "dilucion": "10% agua",
         "secado": "4 horas"
@@ -260,6 +283,7 @@
       {
         "sku_id": 2097,
         "medida": "18lt",
+        "imagen": "2097_1.png",
         "rendimiento": "Hasta 300 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -267,6 +291,7 @@
       {
         "sku_id": 2099,
         "medida": "0,9lt",
+        "imagen": "2099_1.png",
         "rendimiento": "Hasta 15 m² por mano",
         "dilucion": "20% agua",
         "secado": "4 horas"
@@ -283,6 +308,7 @@
       {
         "sku_id": 3887,
         "medida": "3,6lt",
+        "imagen": "3887_1.png",
         "rendimiento": "Hasta 50 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -290,6 +316,7 @@
       {
         "sku_id": 3883,
         "medida": "0,9lt",
+        "imagen": "3883_2.png",
         "rendimiento": "Hasta 12 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -306,6 +333,7 @@
       {
         "sku_id": 3889,
         "medida": "3,6lt",
+        "imagen": "3889_1.png",
         "rendimiento": "Hasta 50 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -313,6 +341,7 @@
       {
         "sku_id": 3885,
         "medida": "0,9lt",
+        "imagen": "3885_1.png",
         "rendimiento": "Hasta 12 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -329,6 +358,7 @@
       {
         "sku_id": 3841,
         "medida": "3,6lt",
+        "imagen": "3841_1.png",
         "rendimiento": "Hasta 50 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -336,6 +366,7 @@
       {
         "sku_id": 3843,
         "medida": "0,9lt",
+        "imagen": "3843_1.png",
         "rendimiento": "Hasta 12 m² por mano",
         "dilucion": "10% agua",
         "secado": "30 min al tacto"
@@ -352,6 +383,7 @@
       {
         "sku_id": 2209,
         "medida": "3,6lt",
+        "imagen": "2209_1.png",
         "rendimiento": "40 a 50 m² por mano",
         "dilucion": "Aguarrás / Thinner",
         "secado": "Rápido"
@@ -359,6 +391,7 @@
       {
         "sku_id": 2211,
         "medida": "0,9lt",
+        "imagen": "2211_1.png",
         "rendimiento": "10 a 12 m² por mano",
         "dilucion": "Aguarrás / Thinner",
         "secado": "Rápido"
@@ -375,6 +408,7 @@
       {
         "sku_id": 2133,
         "medida": "3,6lt",
+        "imagen": "2133_1.png",
         "rendimiento": "40 a 50 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
@@ -382,6 +416,7 @@
       {
         "sku_id": 2135,
         "medida": "0,9lt",
+        "imagen": "2135_1.png",
         "rendimiento": "10 a 12 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
@@ -398,6 +433,7 @@
       {
         "sku_id": 2117,
         "medida": "0,9lt",
+        "imagen": "2117_1.png",
         "rendimiento": "10 a 12 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
@@ -414,6 +450,7 @@
       {
         "sku_id": 3645,
         "medida": "0,9lt",
+        "imagen": "3645_1.png",
         "rendimiento": "10 a 12 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
@@ -430,6 +467,7 @@
       {
         "sku_id": 2215,
         "medida": "0,9lt",
+        "imagen": "2215_1.png",
         "rendimiento": "10 a 12 m² por mano",
         "dilucion": "Thinner",
         "secado": "Muy rápido"
@@ -446,6 +484,7 @@
       {
         "sku_id": 4262,
         "medida": "3,6Lt",
+        "imagen": "4262_1.png",
         "rendimiento": "30 a 40 m² por mano",
         "dilucion": "Diluyente Epoxi",
         "secado": "Curado total 7 días"
@@ -462,6 +501,7 @@
       {
         "sku_id": 2177,
         "medida": "5,7kg",
+        "imagen": "2177_1.png",
         "rendimiento": "8 a 12 m²",
         "dilucion": "Pronto uso",
         "secado": "2-4 horas"
@@ -469,6 +509,7 @@
       {
         "sku_id": 2169,
         "medida": "0,9lt",
+        "imagen": "2169_1.png",
         "rendimiento": "1 a 3 m²",
         "dilucion": "Pronto uso",
         "secado": "2 horas"
@@ -485,6 +526,7 @@
       {
         "sku_id": 4092,
         "medida": "3,6lt",
+        "imagen": "4092_1.png",
         "rendimiento": "30 a 40 m² por mano",
         "dilucion": "10% agua",
         "secado": "1-2 horas"
@@ -492,6 +534,7 @@
       {
         "sku_id": 4094,
         "medida": "0,9lt",
+        "imagen": "4094_1.png",
         "rendimiento": "8 a 10 m² por mano",
         "dilucion": "10% agua",
         "secado": "1-2 horas"
@@ -508,6 +551,7 @@
       {
         "sku_id": 3637,
         "medida": "3,6lt",
+        "imagen": "3637_1.png",
         "rendimiento": "30 a 40 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "4-6 horas"
@@ -515,6 +559,7 @@
       {
         "sku_id": 3641,
         "medida": "0,9lt",
+        "imagen": "3641_1.png",
         "rendimiento": "8 a 10 m² por mano",
         "dilucion": "Aguarrás",
         "secado": "4-6 horas"
@@ -531,6 +576,7 @@
       {
         "sku_id": 4108,
         "medida": "18lt",
+        "imagen": "4108_1.png",
         "rendimiento": "Depende absorción (aprox 4-6 m² por litro)",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
@@ -538,6 +584,7 @@
       {
         "sku_id": 2159,
         "medida": "3,6lt",
+        "imagen": "2159_1.png",
         "rendimiento": "15 a 20 m²",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
@@ -545,6 +592,7 @@
       {
         "sku_id": 2161,
         "medida": "0,9lt",
+        "imagen": "2161_1.png",
         "rendimiento": "4 a 5 m²",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
@@ -561,6 +609,7 @@
       {
         "sku_id": 2163,
         "medida": "18lt",
+        "imagen": "2163_1.png",
         "rendimiento": "Hasta 180 m² por mano (tejas/piedras)",
         "dilucion": "Pronto uso / 10% agua",
         "secado": "2-4 horas"
@@ -568,6 +617,7 @@
       {
         "sku_id": 2167,
         "medida": "3,6lt",
+        "imagen": "2167_1.png",
         "rendimiento": "Hasta 35 m² por mano",
         "dilucion": "Pronto uso",
         "secado": "2-4 horas"
@@ -584,6 +634,7 @@
       {
         "sku_id": 2175,
         "medida": "18lt",
+        "imagen": "2175_1.png",
         "rendimiento": "Hasta 180 m² por mano",
         "dilucion": "Solvente específico",
         "secado": "6 horas"
@@ -591,6 +642,7 @@
       {
         "sku_id": 2183,
         "medida": "3,6lt",
+        "imagen": "2183_1.png",
         "rendimiento": "Hasta 35 m² por mano",
         "dilucion": "Solvente específico",
         "secado": "6 horas"
@@ -607,6 +659,7 @@
       {
         "sku_id": 4420,
         "medida": "16lt",
+        "imagen": "4420_1.png",
         "rendimiento": "Variable según porosidad",
         "dilucion": "Pronto uso",
         "secado": "Rápido"
@@ -614,6 +667,7 @@
       {
         "sku_id": 4418,
         "medida": "3,6lt",
+        "imagen": "4418_1.png",
         "rendimiento": "Variable",
         "dilucion": "Pronto uso",
         "secado": "Rápido"
@@ -630,6 +684,7 @@
       {
         "sku_id": 3851,
         "medida": "3,6lt",
+        "imagen": "3851_1.png",
         "rendimiento": "Variable",
         "dilucion": "Pronto uso",
         "secado": "Rápido"
@@ -646,6 +701,7 @@
       {
         "sku_id": 4065,
         "medida": "3,6lt",
+        "imagen": "4065_1.png",
         "rendimiento": "8 a 12 m² acabado (aprox)",
         "dilucion": "Pronto uso",
         "secado": "Entre manos 4h"
@@ -653,6 +709,7 @@
       {
         "sku_id": 4067,
         "medida": "0,9lt",
+        "imagen": "4067_1.png",
         "rendimiento": "2 a 3 m² acabado",
         "dilucion": "Pronto uso",
         "secado": "Entre manos 4h"
@@ -669,6 +726,7 @@
       {
         "sku_id": 2287,
         "medida": "5,8kg",
+        "imagen": "2287_1.png",
         "rendimiento": "Hasta 20 m² acabado (depende manos)",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
@@ -685,6 +743,7 @@
       {
         "sku_id": 2221,
         "medida": "400ml",
+        "imagen": "2221_1.png",
         "rendimiento": "1 a 1.5 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
@@ -701,6 +760,7 @@
       {
         "sku_id": 2801,
         "medida": "400ml",
+        "imagen": "2801_1.png",
         "rendimiento": "1 a 1.5 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
@@ -717,6 +777,7 @@
       {
         "sku_id": 2225,
         "medida": "400ml",
+        "imagen": "2225_1.png",
         "rendimiento": "1 a 1.2 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
