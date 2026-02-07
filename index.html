@@ -14,7 +14,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animaciones del Modal */
         #modalPanel { transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
         .modal-open #modalPanel { transform: translateY(0); }
         .modal-closed #modalPanel { transform: translateY(100%); }
@@ -27,7 +26,8 @@
 <body class="bg-slate-50 text-slate-800">
 
     <header class="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-40 px-4 py-3 shadow-sm">
-        <div class="container mx-auto max-w-6xl"> <div class="flex justify-between items-center mb-3">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex justify-between items-center mb-3">
                 <div class="flex items-center gap-2">
                     <div class="w-9 h-9 bg-blue-700 rounded-lg flex items-center justify-center text-white font-black italic shadow-blue-200 shadow-lg">C</div>
                     <div>
@@ -56,8 +56,6 @@
 
     <main class="container mx-auto max-w-6xl p-4 pb-24">
         <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
-            <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
             <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
             <div class="h-64 bg-slate-200 rounded-3xl animate-pulse"></div>
         </div>
@@ -130,7 +128,6 @@
                 const response = await fetch('data.json');
                 const rawData = await response.json();
                 
-                // Categorización automática
                 allProducts = rawData.map(p => {
                     const text = (p.nombre + p.descripcion).toLowerCase();
                     let cat = 'Al Agua';
@@ -145,12 +142,10 @@
             }
         }
 
-        // --- RENDERIZADO DEL HOME (AGRUPADO) ---
         function renderCatalog(filter = 'all', search = '') {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = '';
             
-            // Filtros básicos
             const filtered = allProducts.filter(p => {
                 if (filter !== 'all' && p.smartCategory !== filter) return false;
                 if (search && !p.nombre.toLowerCase().includes(search.toLowerCase())) return false;
@@ -159,33 +154,29 @@
 
             document.getElementById('counter').innerText = `${filtered.length} Prods`;
 
-            // Iteramos sobre PRODUCTOS (Padres), no variantes
             filtered.forEach(p => {
-                // Usamos la primera variante para la tarjeta principal
                 const mainVariant = p.variantes[0];
-                // Buscamos precio en LocalStorage
                 const price = db[mainVariant.sku_id]?.price || "0.00";
-                // Verificamos si alguna variante tiene stock
                 const hasStock = p.variantes.some(v => (db[v.sku_id]?.stock ?? true));
                 
-                // Colores de categoría
                 const badgeClass = p.smartCategory === 'Emborrachada' ? 'bg-purple-100 text-purple-700' : 
                                    p.smartCategory === 'Sintético' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
 
                 const card = document.createElement('div');
                 card.className = `product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${hasStock ? '' : 'opacity-60 grayscale'}`;
                 
-                // Evento Click: Abre modal con el producto completo
                 card.onclick = () => openModal(p);
 
-                // HTML de la Tarjeta Agrupada
+                // LEEMOS LA IMAGEN DESDE EL CAMPO NUEVO DEL JSON
+                const imgName = mainVariant.imagen || 'placeholder.png';
+
                 card.innerHTML = `
                     <div class="absolute top-4 left-4 z-10">
                         <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${badgeClass}">${p.smartCategory}</span>
                     </div>
                     
                     <div class="w-full h-48 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4">
-                        <img src="imagenes/${mainVariant.sku_id}.jpg" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
+                        <img src="imagenes/${imgName}" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
                     </div>
                     
                     <div>
@@ -214,8 +205,7 @@
             });
         }
 
-        // --- LÓGICA DEL MODAL ---
-        let currentProductContext = null; // Guardamos el producto actual globalmente para el modal
+        let currentProductContext = null;
 
         function openModal(product) {
             currentProductContext = product;
@@ -230,43 +220,38 @@
                 backdrop.classList.remove('opacity-0');
             }, 10);
 
-            // Al abrir, cargamos por defecto la PRIMERA variante (ej. 18L)
             updateModalContent(product.variantes[0]);
         }
 
-        // --- FUNCIÓN CLAVE: CAMBIO DINÁMICO ---
         function updateModalContent(variant) {
             const sku = variant.sku_id;
             const price = db[sku]?.price || "0.00";
 
-            // 1. Textos estáticos del Padre
             document.getElementById('m-title').innerText = currentProductContext.nombre;
             document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
             document.getElementById('m-desc').innerText = currentProductContext.descripcion;
             
-            // 2. Textos dinámicos de la variante
             document.getElementById('m-sku').innerText = `SKU: ${sku}`;
             document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
             document.getElementById('m-secado').innerText = variant.secado;
             document.getElementById('m-price').innerText = `$ ${price}`;
 
-            // 3. IMAGEN DINÁMICA (Aquí ocurre la magia)
+            // AQUÍ TAMBIÉN LEEMOS LA IMAGEN CORRECTAMENTE
             const img = document.getElementById('m-img');
-            // Efecto fade-out/fade-in
+            const imgName = variant.imagen || 'placeholder.png';
+            
             img.style.opacity = '0.5';
             img.style.transform = 'scale(0.95)';
             
             setTimeout(() => {
-                // Buscamos la imagen por ID. Si usas nombres específicos en el JSON, cambia esto por variant.imagen
-                img.src = `imagenes/${sku}.jpg`; 
+                img.src = `imagenes/${imgName}`; 
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';
             }, 200);
 
-            // 4. BOTONES DE MEDIDA
             const container = document.getElementById('m-variants-container');
             const title = document.getElementById('m-variants-title');
-            container.innerHTML = ''; // Limpiamos botones anteriores
+            container.innerHTML = ''; 
             
             if (currentProductContext.variantes.length > 1) {
                 title.classList.remove('hidden');
@@ -274,25 +259,20 @@
                     const btn = document.createElement('button');
                     const isActive = v.sku_id === sku;
                     
-                    // Estilos Activo vs Inactivo
                     btn.className = `flex-1 min-w-[80px] py-2 px-3 rounded-lg text-xs font-bold border transition-all ${
                         isActive 
                         ? 'bg-slate-800 text-white border-slate-800 shadow-md scale-105' 
                         : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                     }`;
                     btn.innerText = v.medida;
-                    
-                    // Evento Click: Recarga todo el contenido con la nueva variante
                     btn.onclick = () => updateModalContent(v);
                     
                     container.appendChild(btn);
                 });
             } else {
-                title.classList.add('hidden'); // Ocultar si es producto único
+                title.classList.add('hidden');
             }
 
-            // 5. LINK WHATSAPP DINÁMICO
-            // Incluye Nombre del producto y la medida seleccionada
             const msg = `Hola, me interesa el producto: ${currentProductContext.nombre} en presentación de ${variant.medida} (SKU: ${sku})`;
             document.getElementById('m-whatsapp').href = `https://wa.me/595981123456?text=${encodeURIComponent(msg)}`;
         }
