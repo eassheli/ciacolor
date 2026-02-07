@@ -167,7 +167,7 @@
                 
                 card.onclick = () => openModal(p);
 
-                // LEEMOS LA IMAGEN DESDE EL CAMPO NUEVO DEL JSON
+                // CORRECCIÓN: Quitamos "imagenes/" del path
                 const imgName = mainVariant.imagen || 'placeholder.png';
 
                 card.innerHTML = `
@@ -176,7 +176,7 @@
                     </div>
                     
                     <div class="w-full h-48 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4">
-                        <img src="imagenes/${imgName}" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
+                        <img src="${imgName}" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
                     </div>
                     
                     <div>
@@ -236,7 +236,7 @@
             document.getElementById('m-secado').innerText = variant.secado;
             document.getElementById('m-price').innerText = `$ ${price}`;
 
-            // AQUÍ TAMBIÉN LEEMOS LA IMAGEN CORRECTAMENTE
+            // CORRECCIÓN: Quitamos "imagenes/" del path
             const img = document.getElementById('m-img');
             const imgName = variant.imagen || 'placeholder.png';
             
@@ -244,7 +244,7 @@
             img.style.transform = 'scale(0.95)';
             
             setTimeout(() => {
-                img.src = `imagenes/${imgName}`; 
+                img.src = `${imgName}`; 
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';
             }, 200);
