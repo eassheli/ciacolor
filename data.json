@@ -3,32 +3,33 @@
     "id": "tinta-acrilica-emborrachada-fundo-e-acabamento-ciaflex",
     "nombre": "Tinta Acrílica Emborrachada Fundo e Acabamento Ciaflex",
     "categoria": "Impermeabilizante",
-    "descripcion": "Pintura elástica 3 en 1: Sella, impermeabiliza y da acabado. Cubre microfisuras de hasta 0.05mm.",
-    "argumento_venta": "Ideal para fachadas con fisuras. Forma una goma elástica que acompaña la dilatación de la pared. En techos reduce el calor y ruido.",
+    "descripcion": "Pintura elástica 3 en 1: Sella, impermeabiliza y da acabado.",
+    "argumento_venta": "Ideal para fachadas con fisuras. Forma una goma elástica que acompaña la dilatación.",
     "variantes": [
       {
         "sku_id": 2109,
         "medida": "20kg",
         "imagen": "2109_1.png",
-        "rendimiento": "Hasta 220 m² por mano (aprox. 80-90 m² acabado con 3 manos)",
-        "dilucion": "1ª mano 20%, demas 10%",
-        "secado": "4 horas entre manos"
+        "galeria": ["2109_2.png", "2109_3.png"],
+        "rendimiento": "Hasta 220 m²",
+        "dilucion": "10-20%",
+        "secado": "4 horas"
       },
       {
         "sku_id": 2111,
         "medida": "3,6kg",
         "imagen": "2111_1.png",
-        "rendimiento": "Hasta 40 m² por mano",
+        "rendimiento": "Hasta 40 m²",
         "dilucion": "10% agua",
-        "secado": "4 horas entre manos"
+        "secado": "4 horas"
       },
       {
         "sku_id": 2113,
         "medida": "0,9kg",
         "imagen": "2113_1.png",
-        "rendimiento": "Hasta 10 m² por mano",
+        "rendimiento": "Hasta 10 m²",
         "dilucion": "10% agua",
-        "secado": "4 horas entre manos"
+        "secado": "4 horas"
       }
     ]
   },
@@ -37,13 +38,14 @@
     "nombre": "Selador Emborrachado Ciaflex",
     "categoria": "Preparación",
     "descripcion": "Fondo preparador elástico de alto poder de relleno.",
-    "argumento_venta": "Paso obligatorio antes de la pintura emborrachada en paredes nuevas. Garantiza que la pintura no se desprenda.",
+    "argumento_venta": "Paso obligatorio antes de la pintura emborrachada.",
     "variantes": [
       {
         "sku_id": 2153,
         "medida": "18kg",
         "imagen": "2153_1.png",
-        "rendimiento": "Hasta 150 m² por mano",
+        "galeria": ["2153_2.webp"],
+        "rendimiento": "Hasta 150 m²",
         "dilucion": "10% agua",
         "secado": "4 horas"
       },
@@ -51,7 +53,7 @@
         "sku_id": 2489,
         "medida": "3,6kg",
         "imagen": "2489_1.png",
-        "rendimiento": "Hasta 30 m² por mano",
+        "rendimiento": "Hasta 30 m²",
         "dilucion": "10% agua",
         "secado": "4 horas"
       }
@@ -61,22 +63,22 @@
     "id": "impermeabilizante-emborrachado-paredes-ciaflex",
     "nombre": "Impermeabilizante Emborrachado Paredes Ciaflex",
     "categoria": "Impermeabilizante",
-    "descripcion": "Membrana líquida pura para máxima protección contra lluvia.",
-    "argumento_venta": "La máxima protección contra infiltraciones de lluvia. Crea una barrera de goma impenetrable.",
+    "descripcion": "Membrana líquida pura para máxima protección.",
+    "argumento_venta": "La máxima protección contra infiltraciones de lluvia.",
     "variantes": [
       {
         "sku_id": 2155,
         "medida": "18kg",
         "imagen": "2155_1.png",
-        "rendimiento": "Hasta 150 m² por mano (Recomendado 3 manos para impermeabilizar)",
-        "dilucion": "Pronto uso (o 10% 1ª mano)",
+        "rendimiento": "Hasta 150 m²",
+        "dilucion": "Pronto uso",
         "secado": "4 horas"
       },
       {
         "sku_id": 2157,
         "medida": "3,6kg",
         "imagen": "2157_1.png",
-        "rendimiento": "Hasta 30 m² por mano",
+        "rendimiento": "Hasta 30 m²",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
       }
@@ -86,14 +88,14 @@
     "id": "massa-acrilica-emborrachada-ciaflex",
     "nombre": "Massa Acrílica Emborrachada Ciaflex",
     "categoria": "Preparación",
-    "descripcion": "Masilla flexible que no se agrieta/trinca.",
-    "argumento_venta": "La única masa que no se rompe en fachadas. Ideal para alisar exteriores antes de pintar.",
+    "descripcion": "Masilla flexible que no se agrieta.",
+    "argumento_venta": "La única masa que no se rompe en fachadas.",
     "variantes": [
       {
         "sku_id": 2485,
         "medida": "23kg",
         "imagen": "2485_1.png",
-        "rendimiento": "30 a 70 m² (dependiendo del grosor)",
+        "rendimiento": "30-70 m²",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
       },
@@ -101,7 +103,7 @@
         "sku_id": 2487,
         "medida": "6kg",
         "imagen": "2487_1.png",
-        "rendimiento": "8 a 15 m²",
+        "rendimiento": "8-15 m²",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
       }
@@ -112,30 +114,31 @@
     "nombre": "Tinta Acrílica Suprema Fosco",
     "categoria": "Paredes Premium",
     "descripcion": "Super Lavable, cobertura máxima y sin olor.",
-    "argumento_venta": "La mejor pintura de la línea. Se puede lavar, rinde muchísimo y cubre con pocas manos.",
+    "argumento_venta": "La mejor pintura de la línea. Se puede lavar.",
     "variantes": [
       {
         "sku_id": 2091,
         "medida": "18lt",
         "imagen": "2091_1.png",
-        "rendimiento": "Hasta 380 m² por mano (aprox 120m² acabado)",
-        "dilucion": "20-30% agua",
+        "galeria": ["2091_2.png", "2091_3.png"],
+        "rendimiento": "Hasta 380 m²",
+        "dilucion": "20-30%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2093,
         "medida": "3,6lt",
         "imagen": "2093_1.png",
-        "rendimiento": "Hasta 76 m² por mano",
-        "dilucion": "20% agua",
+        "rendimiento": "Hasta 76 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2095,
         "medida": "0,9lt",
         "imagen": "2095_1.png",
-        "rendimiento": "Hasta 19 m² por mano",
-        "dilucion": "20% agua",
+        "rendimiento": "Hasta 19 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       }
     ]
@@ -144,23 +147,24 @@
     "id": "tinta-acrilica-suprema-acetinado",
     "nombre": "Tinta Acrílica Suprema Acetinado",
     "categoria": "Paredes Premium",
-    "descripcion": "Acabado satinado (toque de seda), brillo suave y fácil limpieza.",
-    "argumento_venta": "Acabado sofisticado que facilita la limpieza. La suciedad resbala.",
+    "descripcion": "Acabado satinado, brillo suave y fácil limpieza.",
+    "argumento_venta": "La suciedad resbala.",
     "variantes": [
       {
         "sku_id": 2127,
         "medida": "18lt",
         "imagen": "2127_1.png",
-        "rendimiento": "Hasta 380 m² por mano",
-        "dilucion": "20% agua",
+        "galeria": ["2127_2.png", "2127_3.png"],
+        "rendimiento": "Hasta 380 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2129,
         "medida": "3,6lt",
         "imagen": "2129_2.png",
-        "rendimiento": "Hasta 76 m² por mano",
-        "dilucion": "20% agua",
+        "rendimiento": "Hasta 76 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       }
     ]
@@ -170,22 +174,23 @@
     "nombre": "Tinta Acrílica Performance Fosco",
     "categoria": "Paredes Standard",
     "descripcion": "Excelente cobertura y costo-beneficio.",
-    "argumento_venta": "La elección equilibrada. Buena para exterior e interior, cubre bien y tiene precio justo.",
+    "argumento_venta": "La elección equilibrada. Buena para exterior e interior.",
     "variantes": [
       {
         "sku_id": 2077,
         "medida": "18lt",
         "imagen": "2077_1.png",
-        "rendimiento": "Hasta 300 m² por mano (aprox 90-100m² acabado)",
-        "dilucion": "20% agua",
+        "galeria": ["2077_2.png", "2077_3.png", "2077_4.png"],
+        "rendimiento": "Hasta 300 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2079,
         "medida": "3,6lt",
         "imagen": "2079_1.png",
-        "rendimiento": "Hasta 60 m² por mano",
-        "dilucion": "20% agua",
+        "rendimiento": "Hasta 60 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       }
     ]
@@ -195,22 +200,22 @@
     "nombre": "Tinta Acrílica Performance Semi-Brilho",
     "categoria": "Paredes Standard",
     "descripcion": "Acabado con brillo medio, alta resistencia al sol.",
-    "argumento_venta": "Si al cliente le gusta que la pared brille un poco y sea resistente al sol.",
+    "argumento_venta": "Si al cliente le gusta que la pared brille.",
     "variantes": [
       {
         "sku_id": 2123,
         "medida": "18lt",
         "imagen": "2123_1.png",
-        "rendimiento": "Hasta 300 m² por mano",
-        "dilucion": "10-20% agua",
+        "rendimiento": "Hasta 300 m²",
+        "dilucion": "10-20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2125,
         "medida": "3,6lt",
         "imagen": "2125_1.png",
-        "rendimiento": "Hasta 60 m² por mano",
-        "dilucion": "10-20% agua",
+        "rendimiento": "Hasta 60 m²",
+        "dilucion": "10-20%",
         "secado": "4 horas"
       }
     ]
@@ -220,30 +225,31 @@
     "nombre": "Tinta Acrílica Ciaturbo Fosco",
     "categoria": "Paredes Riu",
     "descripcion": "Pintura espesa de altísimo rendimiento. Dilución hasta 80%.",
-    "argumento_venta": "¡La que más rinde! Una lata pinta por dos. Ideal para obras grandes y pintores profesionales.",
+    "argumento_venta": "¡La que más rinde! Una lata pinta por dos.",
     "variantes": [
       {
         "sku_id": 2083,
         "medida": "18lt",
         "imagen": "2083_1.png",
-        "rendimiento": "Hasta 500 m² por mano (diluida)",
-        "dilucion": "Hasta 80% agua",
-        "secado": "Rápido (2-4h)"
+        "galeria": ["2083_2.png", "2083_3.png", "2083_4.png"],
+        "rendimiento": "Hasta 500 m²",
+        "dilucion": "80%",
+        "secado": "Rápido"
       },
       {
         "sku_id": 2087,
         "medida": "3,6lt",
         "imagen": "2087_4.png",
-        "rendimiento": "Hasta 100 m² por mano",
-        "dilucion": "Hasta 80% agua",
+        "rendimiento": "Hasta 100 m²",
+        "dilucion": "80%",
         "secado": "Rápido"
       },
       {
         "sku_id": 2089,
         "medida": "0,9lt",
         "imagen": "2089_1.png",
-        "rendimiento": "Hasta 25 m² por mano",
-        "dilucion": "Hasta 80% agua",
+        "rendimiento": "Hasta 25 m²",
+        "dilucion": "80%",
         "secado": "Rápido"
       }
     ]
@@ -253,22 +259,23 @@
     "nombre": "Tinta Acrílica Econômica Profissional Fosco",
     "categoria": "Paredes Económica",
     "descripcion": "Pintura para interiores y techos, antimofo.",
-    "argumento_venta": "La opción barata para techos, garajes o renovar color en alquileres.",
+    "argumento_venta": "La opción barata para techos y garajes.",
     "variantes": [
       {
         "sku_id": 2073,
         "medida": "16lt",
         "imagen": "2073_1.png",
-        "rendimiento": "Hasta 250 m² por mano",
-        "dilucion": "10-20% agua",
+        "galeria": ["2073_2.png", "2073_3.png", "2073_4.png"],
+        "rendimiento": "Hasta 250 m²",
+        "dilucion": "10-20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2075,
         "medida": "3,6lt",
         "imagen": "2075_3.png",
-        "rendimiento": "Hasta 50 m² por mano",
-        "dilucion": "10% agua",
+        "rendimiento": "Hasta 50 m²",
+        "dilucion": "10%",
         "secado": "4 horas"
       }
     ]
@@ -278,22 +285,23 @@
     "nombre": "Tinta Acrílica Sublime Fosco",
     "categoria": "Paredes Decorativa",
     "descripcion": "Acabado perfecto, tacto de piel de durazno.",
-    "argumento_venta": "Para quien busca lujo y estética. Disimula defectos de la pared maravillosamente.",
+    "argumento_venta": "Para quien busca lujo y estética.",
     "variantes": [
       {
         "sku_id": 2097,
         "medida": "18lt",
         "imagen": "2097_1.png",
-        "rendimiento": "Hasta 300 m² por mano",
-        "dilucion": "20% agua",
+        "galeria": ["2097_2.png", "2097_3.png"],
+        "rendimiento": "Hasta 300 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       },
       {
         "sku_id": 2099,
         "medida": "0,9lt",
         "imagen": "2099_1.png",
-        "rendimiento": "Hasta 15 m² por mano",
-        "dilucion": "20% agua",
+        "rendimiento": "Hasta 15 m²",
+        "dilucion": "20%",
         "secado": "4 horas"
       }
     ]
@@ -302,24 +310,25 @@
     "id": "esmalte-base-agua-brilhante",
     "nombre": "Esmalte Base Água Brilhante",
     "categoria": "Esmaltes",
-    "descripcion": "Ecológico, sin olor, no amarillea (blanco puro).",
-    "argumento_venta": "Pinte puertas y ventanas sin olor a aguarrás. Seca en 30 minutos.",
+    "descripcion": "Ecológico, sin olor, no amarillea.",
+    "argumento_venta": "Pinte puertas y ventanas sin olor a aguarrás.",
     "variantes": [
       {
         "sku_id": 3887,
         "medida": "3,6lt",
         "imagen": "3887_1.png",
-        "rendimiento": "Hasta 50 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "galeria": ["3887_2.png", "3887_3.png"],
+        "rendimiento": "Hasta 50 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       },
       {
         "sku_id": 3883,
         "medida": "0,9lt",
         "imagen": "3883_2.png",
-        "rendimiento": "Hasta 12 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "rendimiento": "Hasta 12 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       }
     ]
   },
@@ -328,23 +337,24 @@
     "nombre": "Esmalte Base Água Acetinado",
     "categoria": "Esmaltes",
     "descripcion": "Brillo satinado elegante, base agua.",
-    "argumento_venta": "Acabado moderno para maderas, no es ni muy brillante ni mate.",
+    "argumento_venta": "Acabado moderno para maderas.",
     "variantes": [
       {
         "sku_id": 3889,
         "medida": "3,6lt",
         "imagen": "3889_1.png",
-        "rendimiento": "Hasta 50 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "rendimiento": "Hasta 50 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       },
       {
         "sku_id": 3885,
         "medida": "0,9lt",
         "imagen": "3885_1.png",
-        "rendimiento": "Hasta 12 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "galeria": ["3885_2.png", "3885_3.png", "3885_4.png", "3885_5.png", "3885_6.png"],
+        "rendimiento": "Hasta 12 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       }
     ]
   },
@@ -353,23 +363,24 @@
     "nombre": "Esmalte Base Água Fosco",
     "categoria": "Esmaltes",
     "descripcion": "Acabado mate total, base agua.",
-    "argumento_venta": "Ideal para hierro negro mate o maderas rústicas sin olor.",
+    "argumento_venta": "Ideal para hierro negro mate o maderas rústicas.",
     "variantes": [
       {
         "sku_id": 3841,
         "medida": "3,6lt",
         "imagen": "3841_1.png",
-        "rendimiento": "Hasta 50 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "galeria": ["3841_2.png", "3841_3.png"],
+        "rendimiento": "Hasta 50 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       },
       {
         "sku_id": 3843,
         "medida": "0,9lt",
         "imagen": "3843_1.png",
-        "rendimiento": "Hasta 12 m² por mano",
-        "dilucion": "10% agua",
-        "secado": "30 min al tacto"
+        "rendimiento": "Hasta 12 m²",
+        "dilucion": "10%",
+        "secado": "30 min"
       }
     ]
   },
@@ -378,22 +389,23 @@
     "nombre": "Esmalte Sintético Industrial Brilhante",
     "categoria": "Esmaltes",
     "descripcion": "Alta resistencia mecánica, secado rápido.",
-    "argumento_venta": "Para portones pesados, maquinaria y estructuras. Aguanta golpes.",
+    "argumento_venta": "Para portones pesados, maquinaria y estructuras.",
     "variantes": [
       {
         "sku_id": 2209,
         "medida": "3,6lt",
         "imagen": "2209_1.png",
-        "rendimiento": "40 a 50 m² por mano",
-        "dilucion": "Aguarrás / Thinner",
+        "galeria": ["2209_2.jpg", "2209_3.jpg"],
+        "rendimiento": "40-50 m²",
+        "dilucion": "Aguarrás",
         "secado": "Rápido"
       },
       {
         "sku_id": 2211,
         "medida": "0,9lt",
         "imagen": "2211_1.png",
-        "rendimiento": "10 a 12 m² por mano",
-        "dilucion": "Aguarrás / Thinner",
+        "rendimiento": "10-12 m²",
+        "dilucion": "Aguarrás",
         "secado": "Rápido"
       }
     ]
@@ -403,13 +415,14 @@
     "nombre": "Esmalte Sintético Fosco",
     "categoria": "Esmaltes",
     "descripcion": "Esmalte al aceite tradicional mate.",
-    "argumento_venta": "Clásico para herrería y rejas. Protege contra óxido.",
+    "argumento_venta": "Clásico para herrería y rejas.",
     "variantes": [
       {
         "sku_id": 2133,
         "medida": "3,6lt",
         "imagen": "2133_1.png",
-        "rendimiento": "40 a 50 m² por mano",
+        "galeria": ["2133_2.jpg"],
+        "rendimiento": "40-50 m²",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
       },
@@ -417,7 +430,7 @@
         "sku_id": 2135,
         "medida": "0,9lt",
         "imagen": "2135_1.png",
-        "rendimiento": "10 a 12 m² por mano",
+        "rendimiento": "10-12 m²",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
       }
@@ -427,14 +440,15 @@
     "id": "esmalte-sintetico-brilhante",
     "nombre": "Esmalte Sintético Brilhante",
     "categoria": "Esmaltes",
-    "descripcion": "Sintético brillo espejo tamaño cuarto.",
+    "descripcion": "Sintético brillo espejo.",
     "argumento_venta": "El clásico brillante para madera y metal.",
     "variantes": [
       {
         "sku_id": 2117,
         "medida": "0,9lt",
         "imagen": "2117_1.png",
-        "rendimiento": "10 a 12 m² por mano",
+        "galeria": ["2117_2.jpg"],
+        "rendimiento": "10-12 m²",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
       }
@@ -444,14 +458,14 @@
     "id": "esmalte-sintetico-acetinado",
     "nombre": "Esmalte Sintético Acetinado",
     "categoria": "Esmaltes",
-    "descripcion": "Sintético satinado tamaño cuarto.",
-    "argumento_venta": "Acabado sedoso para muebles de madera.",
+    "descripcion": "Sintético satinado.",
+    "argumento_venta": "Acabado sedoso para muebles.",
     "variantes": [
       {
         "sku_id": 3645,
         "medida": "0,9lt",
         "imagen": "3645_1.png",
-        "rendimiento": "10 a 12 m² por mano",
+        "rendimiento": "10-12 m²",
         "dilucion": "Aguarrás",
         "secado": "8-12 horas"
       }
@@ -459,35 +473,36 @@
   },
   {
     "id": "esmalte-sintetico-automotivo-industrial-semi-brilho",
-    "nombre": "Esmalte Sintético Automotivo/Industrial Semi-Brilho",
+    "nombre": "Esmalte Sintético Automotivo/Industrial",
     "categoria": "Esmaltes",
     "descripcion": "Esmalte chasis, ultra resistente.",
-    "argumento_venta": "Para pintar chasis, partes bajas de autos o hierro muy expuesto.",
+    "argumento_venta": "Para pintar chasis y partes bajas.",
     "variantes": [
       {
         "sku_id": 2215,
         "medida": "0,9lt",
         "imagen": "2215_1.png",
-        "rendimiento": "10 a 12 m² por mano",
+        "rendimiento": "10-12 m²",
         "dilucion": "Thinner",
-        "secado": "Muy rápido"
+        "secado": "Rápido"
       }
     ]
   },
   {
     "id": "kit-esmalte-epoxi-poliamida-3x1-+-catalisador",
-    "nombre": "Kit Esmalte Epóxi Poliamida 3x1 + Catalisador",
+    "nombre": "Kit Esmalte Epóxi Poliamida 3x1",
     "categoria": "Industrial",
-    "descripcion": "Bicomponente, máxima dureza y resistencia química.",
-    "argumento_venta": "Para pisos de talleres, baños o azulejos. Es lo más duro que hay.",
+    "descripcion": "Bicomponente, máxima dureza.",
+    "argumento_venta": "Para pisos de talleres y baños.",
     "variantes": [
       {
         "sku_id": 4262,
         "medida": "3,6Lt",
         "imagen": "4262_1.png",
-        "rendimiento": "30 a 40 m² por mano",
-        "dilucion": "Diluyente Epoxi",
-        "secado": "Curado total 7 días"
+        "galeria": ["4262_2.png", "4262_3.png", "4262_4.png"],
+        "rendimiento": "30-40 m²",
+        "dilucion": "Epoxi",
+        "secado": "7 días"
       }
     ]
   },
@@ -496,13 +511,13 @@
     "nombre": "Massa Corrida Ciacollor",
     "categoria": "Preparación",
     "descripcion": "Massa PVA fácil de lijar.",
-    "argumento_venta": "Para alisar paredes interiores antes de pintar. Lijado suave.",
+    "argumento_venta": "Para alisar paredes interiores.",
     "variantes": [
       {
         "sku_id": 2177,
         "medida": "5,7kg",
         "imagen": "2177_1.png",
-        "rendimiento": "8 a 12 m²",
+        "rendimiento": "8-12 m²",
         "dilucion": "Pronto uso",
         "secado": "2-4 horas"
       },
@@ -510,7 +525,7 @@
         "sku_id": 2169,
         "medida": "0,9lt",
         "imagen": "2169_1.png",
-        "rendimiento": "1 a 3 m²",
+        "rendimiento": "1-3 m²",
         "dilucion": "Pronto uso",
         "secado": "2 horas"
       }
@@ -518,16 +533,16 @@
   },
   {
     "id": "fundo-nivelador-base-agua-fosco-cia-acqua-branco",
-    "nombre": "Fundo Nivelador Base Água Fosco Cia Acqua Branco",
+    "nombre": "Fundo Nivelador Base Água Fosco",
     "categoria": "Preparación",
     "descripcion": "Fondo blanco ecológico para madera.",
-    "argumento_venta": "Bloquea los poros de la madera y la deja blanca lista para el esmalte al agua.",
+    "argumento_venta": "Bloquea los poros de la madera.",
     "variantes": [
       {
         "sku_id": 4092,
         "medida": "3,6lt",
         "imagen": "4092_1.png",
-        "rendimiento": "30 a 40 m² por mano",
+        "rendimiento": "30-40 m²",
         "dilucion": "10% agua",
         "secado": "1-2 horas"
       },
@@ -535,7 +550,7 @@
         "sku_id": 4094,
         "medida": "0,9lt",
         "imagen": "4094_1.png",
-        "rendimiento": "8 a 10 m² por mano",
+        "rendimiento": "8-10 m²",
         "dilucion": "10% agua",
         "secado": "1-2 horas"
       }
@@ -546,13 +561,13 @@
     "nombre": "Fundo Sintético Nivelador",
     "categoria": "Preparación",
     "descripcion": "Fondo gris/blanco a base de solvente.",
-    "argumento_venta": "Uniformiza la madera o metal antes del sintético.",
+    "argumento_venta": "Uniformiza la madera o metal.",
     "variantes": [
       {
         "sku_id": 3637,
         "medida": "3,6lt",
         "imagen": "3637_1.png",
-        "rendimiento": "30 a 40 m² por mano",
+        "rendimiento": "30-40 m²",
         "dilucion": "Aguarrás",
         "secado": "4-6 horas"
       },
@@ -560,7 +575,7 @@
         "sku_id": 3641,
         "medida": "0,9lt",
         "imagen": "3641_1.png",
-        "rendimiento": "8 a 10 m² por mano",
+        "rendimiento": "8-10 m²",
         "dilucion": "Aguarrás",
         "secado": "4-6 horas"
       }
@@ -571,13 +586,13 @@
     "nombre": "Impermeabilizante Base Solvente Ciabloq",
     "categoria": "Impermeabilizante",
     "descripcion": "Bloqueador de humedad ascendente.",
-    "argumento_venta": "La cura para paredes descascaradas abajo. Penetra y bloquea la humedad del suelo.",
+    "argumento_venta": "La cura para paredes descascaradas abajo.",
     "variantes": [
       {
         "sku_id": 4108,
         "medida": "18lt",
         "imagen": "4108_1.png",
-        "rendimiento": "Depende absorción (aprox 4-6 m² por litro)",
+        "rendimiento": "4-6 m²/lt",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
       },
@@ -585,7 +600,7 @@
         "sku_id": 2159,
         "medida": "3,6lt",
         "imagen": "2159_1.png",
-        "rendimiento": "15 a 20 m²",
+        "rendimiento": "15-20 m²",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
       },
@@ -593,7 +608,7 @@
         "sku_id": 2161,
         "medida": "0,9lt",
         "imagen": "2161_1.png",
-        "rendimiento": "4 a 5 m²",
+        "rendimiento": "4-5 m²",
         "dilucion": "Pronto uso",
         "secado": "24 horas"
       }
@@ -603,22 +618,23 @@
     "id": "resina-eco-base-agua",
     "nombre": "Resina Eco Base Água",
     "categoria": "Resinas",
-    "descripcion": "Barniz acrílico incoloro para piedras y tejas. Ecológico.",
-    "argumento_venta": "Protege tejas y ladrillos dando brillo sin oscurecer mucho. Seca rápido.",
+    "descripcion": "Barniz acrílico incoloro para piedras.",
+    "argumento_venta": "Protege tejas y ladrillos dando brillo.",
     "variantes": [
       {
         "sku_id": 2163,
         "medida": "18lt",
         "imagen": "2163_1.png",
-        "rendimiento": "Hasta 180 m² por mano (tejas/piedras)",
-        "dilucion": "Pronto uso / 10% agua",
+        "galeria": ["2163_2.jpg"],
+        "rendimiento": "Hasta 180 m²",
+        "dilucion": "Pronto uso",
         "secado": "2-4 horas"
       },
       {
         "sku_id": 2167,
         "medida": "3,6lt",
         "imagen": "2167_1.png",
-        "rendimiento": "Hasta 35 m² por mano",
+        "rendimiento": "Hasta 35 m²",
         "dilucion": "Pronto uso",
         "secado": "2-4 horas"
       }
@@ -629,22 +645,23 @@
     "nombre": "Resina Multiuso Base Solvente",
     "categoria": "Resinas",
     "descripcion": "Resina potente 'efecto mojado'.",
-    "argumento_venta": "Deja las piedras y tejas brillantes y con color intenso (efecto mojado). Muy resistente.",
+    "argumento_venta": "Deja las piedras y tejas brillantes.",
     "variantes": [
       {
         "sku_id": 2175,
         "medida": "18lt",
         "imagen": "2175_1.png",
-        "rendimiento": "Hasta 180 m² por mano",
-        "dilucion": "Solvente específico",
+        "galeria": ["2175_2.jpg"],
+        "rendimiento": "Hasta 180 m²",
+        "dilucion": "Solvente",
         "secado": "6 horas"
       },
       {
         "sku_id": 2183,
         "medida": "3,6lt",
         "imagen": "2183_1.png",
-        "rendimiento": "Hasta 35 m² por mano",
-        "dilucion": "Solvente específico",
+        "rendimiento": "Hasta 35 m²",
+        "dilucion": "Solvente",
         "secado": "6 horas"
       }
     ]
@@ -654,13 +671,13 @@
     "nombre": "Revitalizador De Cristais ForteMais",
     "categoria": "Limpieza/Mantenimiento",
     "descripcion": "Renovador de piedras y texturas.",
-    "argumento_venta": "Devuelve el color a texturas viejas quemadas por el sol sin tener que pintar.",
+    "argumento_venta": "Devuelve el color a texturas viejas.",
     "variantes": [
       {
         "sku_id": 4420,
         "medida": "16lt",
         "imagen": "4420_1.png",
-        "rendimiento": "Variable según porosidad",
+        "rendimiento": "Variable",
         "dilucion": "Pronto uso",
         "secado": "Rápido"
       },
@@ -696,23 +713,23 @@
     "nombre": "Efeito Mármore Base Branco",
     "categoria": "Efectos",
     "descripcion": "Masa para efecto mármol pulido.",
-    "argumento_venta": "Crea paredes de lujo que parecen piedra pulida. Requiere técnica.",
+    "argumento_venta": "Crea paredes de lujo que parecen piedra.",
     "variantes": [
       {
         "sku_id": 4065,
         "medida": "3,6lt",
         "imagen": "4065_1.png",
-        "rendimiento": "8 a 12 m² acabado (aprox)",
+        "rendimiento": "8-12 m²",
         "dilucion": "Pronto uso",
-        "secado": "Entre manos 4h"
+        "secado": "4 horas"
       },
       {
         "sku_id": 4067,
         "medida": "0,9lt",
         "imagen": "4067_1.png",
-        "rendimiento": "2 a 3 m² acabado",
+        "rendimiento": "2-3 m²",
         "dilucion": "Pronto uso",
-        "secado": "Entre manos 4h"
+        "secado": "4 horas"
       }
     ]
   },
@@ -720,14 +737,15 @@
     "id": "efeito-cimento-queimado-exterior",
     "nombre": "Efeito Cimento Queimado Exterior",
     "categoria": "Efectos",
-    "descripcion": "Cemento quemado resistente a sol y lluvia.",
-    "argumento_venta": "Estilo industrial moderno para fachadas. No se mancha con la lluvia.",
+    "descripcion": "Cemento quemado resistente.",
+    "argumento_venta": "Estilo industrial moderno para fachadas.",
     "variantes": [
       {
         "sku_id": 2287,
         "medida": "5,8kg",
         "imagen": "2287_1.png",
-        "rendimiento": "Hasta 20 m² acabado (depende manos)",
+        "galeria": ["2287_2.jpg"],
+        "rendimiento": "Hasta 20 m²",
         "dilucion": "Pronto uso",
         "secado": "4 horas"
       }
@@ -738,13 +756,14 @@
     "nombre": "Spray Uso Geral Brilhante",
     "categoria": "Spray",
     "descripcion": "Spray multiuso secado rápido.",
-    "argumento_venta": "Para pintar bicicletas, manualidades o retoques rápidos.",
+    "argumento_venta": "Para pintar bicicletas y manualidades.",
     "variantes": [
       {
         "sku_id": 2221,
         "medida": "400ml",
         "imagen": "2221_1.png",
-        "rendimiento": "1 a 1.5 m²",
+        "galeria": ["2221_2.jpg"],
+        "rendimiento": "1-1.5 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
       }
@@ -755,13 +774,13 @@
     "nombre": "Spray Uso Geral Semi-Brilho",
     "categoria": "Spray",
     "descripcion": "Spray acabado intermedio.",
-    "argumento_venta": "Acabado discreto, ni muy brillo ni muy mate.",
+    "argumento_venta": "Acabado discreto.",
     "variantes": [
       {
         "sku_id": 2801,
         "medida": "400ml",
         "imagen": "2801_1.png",
-        "rendimiento": "1 a 1.5 m²",
+        "rendimiento": "1-1.5 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
       }
@@ -771,14 +790,15 @@
     "id": "spray-uso-geral-metalico",
     "nombre": "Spray Uso Geral Metálico",
     "categoria": "Spray",
-    "descripcion": "Colores metálicos (oro, plata, cromo).",
+    "descripcion": "Colores metálicos.",
     "argumento_venta": "Efecto decorativo brillante.",
     "variantes": [
       {
         "sku_id": 2225,
         "medida": "400ml",
         "imagen": "2225_1.png",
-        "rendimiento": "1 a 1.2 m²",
+        "galeria": ["2225_2.jpg"],
+        "rendimiento": "1-1.2 m²",
         "dilucion": "N/A",
         "secado": "Minutos"
       }
