@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo Ciacollor Profesional</title>
+    <title>Catálogo SHELI COLOR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
+
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* CONFIGURACIÓN DE TIPOGRAFÍA DE LUJO */
+        /* CONFIGURACIÓN DE TIPOGRAFÍA GLOBAL */
         body { 
             background-color: #f8fafc; 
             font-family: 'Inter', sans-serif; 
-            -webkit-font-smoothing: antialiased; /* Texto nítido en iPhone */
+            -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* CLASE PARA EL TÍTULO PRINCIPAL 'SHELI' */
+        .brush-logo {
+            font-family: 'Permanent Marker', cursive;
         }
 
         /* Tarjetas con efecto flotante suave */
@@ -52,25 +58,28 @@
 </head>
 <body class="bg-slate-50 text-slate-800 pb-20">
 
-    <header class="bg-white/90 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 py-3 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 py-4 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
         <div class="container mx-auto max-w-6xl">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-3">
-                    
-                    <img src="logo.png" 
-                         alt="Logo Ciacollor" 
-                         class="w-11 h-11 object-contain rounded-xl shadow-sm border border-slate-100 bg-white p-0.5"
-                         onerror="this.style.display='none'; document.getElementById('backup-logo').classList.remove('hidden'); document.getElementById('backup-logo').classList.add('flex');">
-                    
-                    <div id="backup-logo" class="w-10 h-10 bg-blue-700 rounded-xl hidden items-center justify-center text-white font-black italic shadow-blue-200 shadow-lg text-lg">C</div>
-
-                    <div class="flex flex-col">
-                        <h1 class="font-black text-xl leading-none tracking-tighter text-slate-900">Ciacollor</h1>
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Profesional</p>
-                    </div>
-                </div>
+            <div class="flex justify-between items-start mb-5">
                 
-                <div id="counter" class="bg-slate-100 text-slate-500 text-[9px] font-black px-2 py-1 rounded-md text-center border border-slate-200">...</div>
+                <div class="flex flex-col items-start group cursor-pointer">
+                    
+                    <div class="flex items-baseline gap-3 relative -left-1">
+                        <span class="text-3xl md:text-4xl transform group-hover:rotate-12 transition-transform filter drop-shadow-sm relative top-1">🖌️</span>
+                        <h1 class="brush-logo text-4xl md:text-5xl text-blue-800 leading-none tracking-wide filter drop-shadow-sm">
+                            SHELI
+                        </h1>
+                    </div>
+                    
+                    <h2 class="text-lg md:text-xl font-black tracking-[0.3em] uppercase text-blue-900 leading-none mt-1 ml-1">
+                        COLOR
+                    </h2>
+
+                    <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-blue-400 mt-1.5 ml-1">
+                        transforma tu mundo
+                    </p>
+                </div>
+                <div id="counter" class="bg-slate-100 text-slate-500 text-[9px] font-black px-2.5 py-1.5 rounded-lg text-center border border-slate-200 mt-2 shadow-sm">...</div>
             </div>
 
             <div class="relative w-full group">
