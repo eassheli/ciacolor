@@ -64,7 +64,7 @@
     <div id="productModal" class="fixed inset-0 z-50 hidden modal-closed" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] transition-opacity opacity-0 duration-300" id="modalBackdrop" onclick="closeModal()"></div>
         <div class="fixed inset-0 pointer-events-none flex items-end md:items-center justify-center p-0 md:p-4">
-            <div id="modalPanel" class="pointer-events-auto w-full md:w-[500px] h-[85vh] md:h-auto md:max-h-[90vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+            <div id="modalPanel" class="pointer-events-auto w-full md:w-[600px] h-[90vh] md:h-auto md:max-h-[95vh] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
                 
                 <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-start bg-white z-10">
                     <div>
@@ -77,24 +77,32 @@
                 </div>
 
                 <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-50/50">
-                    <div class="flex justify-between items-center mb-4">
-                        <p id="m-sku" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: ---</p>
-                    </div>
-
-                    <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase mb-2 hidden">Selecciona tamaño:</div>
-                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-6"></div>
+                    
+                    <div id="m-variants-title" class="text-[10px] font-bold text-slate-400 uppercase mb-2 hidden">Selecciona presentación:</div>
+                    <div id="m-variants-container" class="flex flex-wrap gap-2 mb-4"></div>
 
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 flex justify-center relative transition-all">
                         <img id="m-img" src="" class="h-48 object-contain transition-all duration-300 transform" onerror="this.src='https://via.placeholder.com/300?text=Sin+Imagen'">
                     </div>
 
+                    <div id="m-gallery-section" class="mb-6 hidden">
+                        <h3 class="text-[10px] font-bold text-slate-400 uppercase mb-2 flex items-center gap-2">
+                            <i class="fas fa-palette text-blue-500"></i> Catálogo de Colores
+                        </h3>
+                        <div id="m-gallery-container" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+                            </div>
+                    </div>
+
                     <div class="mb-6">
-                        <h3 class="text-xs font-bold text-slate-900 uppercase mb-2 flex items-center gap-2"><i class="fas fa-info-circle text-blue-500"></i> Descripción</h3>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase mb-2">Descripción</h3>
                         <p id="m-desc" class="text-sm text-slate-600 leading-relaxed">---</p>
                     </div>
 
                     <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
-                        <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Rendimiento (Cubritivo)</h3>
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Rendimiento</h3>
+                            <span id="m-sku" class="text-[9px] font-bold text-blue-300 uppercase">ID: ---</span>
+                        </div>
                         <p id="m-rendimiento" class="text-sm font-bold text-blue-900 flex items-start gap-2">
                             <i class="fas fa-fill-drip mt-1 opacity-50"></i> <span>---</span>
                         </p>
@@ -135,7 +143,6 @@
                     else if (text.includes('sintético') || text.includes('solvente')) cat = 'Sintético';
                     return { ...p, smartCategory: cat };
                 });
-                
                 renderCatalog();
             } catch (e) {
                 document.getElementById('catalogGrid').innerHTML = '<p class="text-center col-span-full py-10 text-red-400">Error cargando inventario. Verifica data.json</p>';
@@ -164,21 +171,17 @@
 
                 const card = document.createElement('div');
                 card.className = `product-card bg-white p-5 rounded-3xl shadow-sm border border-slate-100 cursor-pointer flex flex-col justify-between h-full relative overflow-hidden ${hasStock ? '' : 'opacity-60 grayscale'}`;
-                
                 card.onclick = () => openModal(p);
 
-                // CORRECCIÓN: Quitamos "imagenes/" del path
                 const imgName = mainVariant.imagen || 'placeholder.png';
 
                 card.innerHTML = `
                     <div class="absolute top-4 left-4 z-10">
                         <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${badgeClass}">${p.smartCategory}</span>
                     </div>
-                    
                     <div class="w-full h-48 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center p-4">
                         <img src="${imgName}" class="h-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-110" onerror="this.src='https://via.placeholder.com/200?text=${p.nombre.substring(0,3)}'">
                     </div>
-                    
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-[10px] font-bold text-slate-300">#${mainVariant.sku_id}</span>
@@ -190,7 +193,6 @@
                             <p class="text-[10px] text-slate-400 font-bold">${p.variantes.length} presentaciones</p>
                         </div>
                     </div>
-                    
                     <div class="border-t border-slate-100 pt-3 flex items-end justify-between mt-auto">
                         <div>
                             <p class="text-[10px] font-bold text-slate-400 uppercase">Desde</p>
@@ -209,17 +211,14 @@
 
         function openModal(product) {
             currentProductContext = product;
-            
             const modal = document.getElementById('productModal');
             const backdrop = document.getElementById('modalBackdrop');
-            
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('modal-closed');
                 modal.classList.add('modal-open');
                 backdrop.classList.remove('opacity-0');
             }, 10);
-
             updateModalContent(product.variantes[0]);
         }
 
@@ -227,38 +226,36 @@
             const sku = variant.sku_id;
             const price = db[sku]?.price || "0.00";
 
+            // Datos básicos
             document.getElementById('m-title').innerText = currentProductContext.nombre;
             document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
             document.getElementById('m-desc').innerText = currentProductContext.descripcion;
-            
-            document.getElementById('m-sku').innerText = `SKU: ${sku}`;
+            document.getElementById('m-sku').innerText = `ID: ${sku}`;
             document.getElementById('m-rendimiento').innerHTML = `<span>${variant.rendimiento}</span>`;
             document.getElementById('m-secado').innerText = variant.secado;
             document.getElementById('m-price').innerText = `$ ${price}`;
 
-            // CORRECCIÓN: Quitamos "imagenes/" del path
+            // 1. Imagen Principal (Balde)
             const img = document.getElementById('m-img');
             const imgName = variant.imagen || 'placeholder.png';
-            
             img.style.opacity = '0.5';
             img.style.transform = 'scale(0.95)';
-            
             setTimeout(() => {
                 img.src = `${imgName}`; 
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';
             }, 200);
 
-            const container = document.getElementById('m-variants-container');
-            const title = document.getElementById('m-variants-title');
-            container.innerHTML = ''; 
+            // 2. Botones de Tamaño
+            const btnContainer = document.getElementById('m-variants-container');
+            const btnTitle = document.getElementById('m-variants-title');
+            btnContainer.innerHTML = ''; 
             
             if (currentProductContext.variantes.length > 1) {
-                title.classList.remove('hidden');
+                btnTitle.classList.remove('hidden');
                 currentProductContext.variantes.forEach(v => {
                     const btn = document.createElement('button');
                     const isActive = v.sku_id === sku;
-                    
                     btn.className = `flex-1 min-w-[80px] py-2 px-3 rounded-lg text-xs font-bold border transition-all ${
                         isActive 
                         ? 'bg-slate-800 text-white border-slate-800 shadow-md scale-105' 
@@ -266,25 +263,43 @@
                     }`;
                     btn.innerText = v.medida;
                     btn.onclick = () => updateModalContent(v);
-                    
-                    container.appendChild(btn);
+                    btnContainer.appendChild(btn);
                 });
             } else {
-                title.classList.add('hidden');
+                btnTitle.classList.add('hidden');
             }
 
-            const msg = `Hola, me interesa el producto: ${currentProductContext.nombre} en presentación de ${variant.medida} (SKU: ${sku})`;
+            // 3. GALERÍA DE COLORES (NUEVO)
+            const gallerySection = document.getElementById('m-gallery-section');
+            const galleryContainer = document.getElementById('m-gallery-container');
+            galleryContainer.innerHTML = '';
+
+            // Verificamos si la variante tiene galería en el JSON
+            if (variant.galeria && variant.galeria.length > 0) {
+                gallerySection.classList.remove('hidden');
+                variant.galeria.forEach(foto => {
+                    const imgGal = document.createElement('img');
+                    imgGal.src = `${foto}`;
+                    imgGal.className = "h-24 w-auto rounded-lg border border-slate-200 shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform";
+                    // Al hacer clic, abre la foto en grande en una pestaña nueva
+                    imgGal.onclick = () => window.open(`${foto}`, '_blank');
+                    galleryContainer.appendChild(imgGal);
+                });
+            } else {
+                gallerySection.classList.add('hidden');
+            }
+
+            // WhatsApp
+            const msg = `Hola, me interesa: ${currentProductContext.nombre} (${variant.medida}) SKU:${sku}`;
             document.getElementById('m-whatsapp').href = `https://wa.me/595981123456?text=${encodeURIComponent(msg)}`;
         }
 
         function closeModal() {
             const modal = document.getElementById('productModal');
             const backdrop = document.getElementById('modalBackdrop');
-            
             modal.classList.remove('modal-open');
             modal.classList.add('modal-closed');
             backdrop.classList.add('opacity-0');
-
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
