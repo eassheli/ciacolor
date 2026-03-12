@@ -181,39 +181,55 @@
         });
 
         async function init() {
+            // 1. CARGA DE PRODUCTOS (Resistente)
             try {
-                // El Date.now() evita que el navegador guarde una version vieja del JSON
-                const [resJSON, resSB] = await Promise.all([
-                    fetch('data.json?v=' + Date.now()), 
-                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} })
-                ]);
-                
+                const resJSON = await fetch('data.json?v=' + Date.now());
                 const rawData = await resJSON.json();
-                const cloudData = await resSB.json();
-                const dbMap = {};
-                if(cloudData) cloudData.forEach(item => dbMap[item.sku_id] = item);
                 
                 allProducts = rawData.map(p => {
-                    // Lógica mejorada: Usa la categoría del JSON
                     let cat = p.categoria || 'Otros';
-                    
-                    // Ajuste para que coincida con tus botones actuales
                     if (cat.includes('Impermeabilizante')) cat = 'Emborrachada';
                     if (cat.includes('Esmaltes')) cat = 'Sintético';
                     if (cat.includes('Spray')) cat = 'Spray';
 
                     p.variantes.forEach(v => {
-                        const info = dbMap[v.sku_id];
-                        v.precio = info ? info.precio : 0;
-                        v.stock = info ? info.disponible : true;
+                        v.precio = 0; 
+                        v.stock = true;
                         if(!v.imagen) v.imagen = `${v.sku_id}_1.png`;
                     });
                     return { ...p, smartCategory: cat };
                 });
                 applyFilters();
+
             } catch (e) { 
-                console.error(e);
-                document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-10 text-center text-slate-400 font-bold">Sin conexión</div>'; 
+                console.error("Error cargando JSON:", e);
+                document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-10 text-center text-slate-400 font-bold">Error de datos</div>'; 
+                return;
+            }
+
+            // 2. CARGA DE PRECIOS DESDE SUPABASE (Segundo plano)
+            try {
+                const resSB = await fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { 
+                    headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} 
+                });
+                
+                if (resSB.ok) {
+                    const cloudData = await resSB.json();
+                    const dbMap = {};
+                    cloudData.forEach(item => dbMap[item.sku_id] = item);
+                    
+                    allProducts.forEach(p => {
+                        p.variantes.forEach(v => {
+                            if (dbMap[v.sku_id]) {
+                                v.precio = dbMap[v.sku_id].precio;
+                                v.stock = dbMap[v.sku_id].disponible;
+                            }
+                        });
+                    });
+                    renderGrid(); 
+                }
+            } catch (e) {
+                console.warn("Supabase no disponible, usando precios por defecto.");
             }
         }
 
