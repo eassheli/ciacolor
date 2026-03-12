@@ -23,7 +23,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Header Animado - Más rápido y suave */
         #main-header { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
         
@@ -116,13 +115,6 @@
                         <div class="absolute -bottom-2 right-4 bg-yellow-400 text-yellow-950 text-[9px] font-black px-2 py-1 rounded-full shadow-sm rotate-[-2deg] border-2 border-white">¡Premium!</div>
                     </div>
 
-                    <div id="m-gallery-section" class="mb-6 hidden">
-                        <h3 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-                            <i class="fas fa-palette text-blue-500"></i> Colores
-                        </h3>
-                        <div id="m-gallery-container" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar"></div>
-                    </div>
-
                     <div class="mb-6">
                         <div class="bg-blue-50/50 rounded-lg p-3 border border-blue-100/50 mb-2">
                             <p id="m-hook" class="text-xs font-bold text-blue-700 italic leading-snug">---</p>
@@ -167,7 +159,6 @@
         let allProducts = [], currentFiltered = [], currentProductContext = null, activeCategory = 'all';
         let itemsToShow = 10, LOAD_STEP = 10;
 
-        // SCROLL INTELIGENTE PARA HEADER
         window.addEventListener('scroll', () => {
             const h = document.getElementById('main-header');
             const s = document.getElementById('sticky-bar');
@@ -180,7 +171,6 @@
             }
         });
 
-        // SINCRONIZAR BUSCADORES (Grande y Pegajoso)
         document.getElementById('searchInputMain').addEventListener('input', (e) => {
             document.getElementById('searchInputSticky').value = e.target.value;
             itemsToShow = LOAD_STEP; applyFilters();
@@ -192,17 +182,26 @@
 
         async function init() {
             try {
-                const [resJSON, resSB] = await Promise.all([fetch('data.json'), fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} })]);
-                const rawData = await resJSON.json(), cloudData = await resSB.json(), dbMap = {};
+                // El Date.now() evita que el navegador guarde una version vieja del JSON
+                const [resJSON, resSB] = await Promise.all([
+                    fetch('data.json?v=' + Date.now()), 
+                    fetch(`${SB_URL}/rest/v1/precios_stock?select=*`, { headers: {"apikey": SB_KEY, "Authorization": `Bearer ${SB_KEY}`} })
+                ]);
+                
+                const rawData = await resJSON.json();
+                const cloudData = await resSB.json();
+                const dbMap = {};
                 if(cloudData) cloudData.forEach(item => dbMap[item.sku_id] = item);
                 
                 allProducts = rawData.map(p => {
-                    const txt = (p.nombre + p.descripcion).toLowerCase();
-                    let cat = 'Otros';
-                    if (txt.includes('ciaflex') || txt.includes('emborrachada')) cat = 'Emborrachada';
-                    else if (txt.includes('sintético') || txt.includes('solvente')) cat = 'Sintético';
-                    else if (txt.includes('spray')) cat = 'Spray';
+                    // Lógica mejorada: Usa la categoría del JSON
+                    let cat = p.categoria || 'Otros';
                     
+                    // Ajuste para que coincida con tus botones actuales
+                    if (cat.includes('Impermeabilizante')) cat = 'Emborrachada';
+                    if (cat.includes('Esmaltes')) cat = 'Sintético';
+                    if (cat.includes('Spray')) cat = 'Spray';
+
                     p.variantes.forEach(v => {
                         const info = dbMap[v.sku_id];
                         v.precio = info ? info.precio : 0;
@@ -212,7 +211,10 @@
                     return { ...p, smartCategory: cat };
                 });
                 applyFilters();
-            } catch (e) { document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-10 text-center text-slate-400 font-bold">Sin conexión</div>'; }
+            } catch (e) { 
+                console.error(e);
+                document.getElementById('catalogGrid').innerHTML='<div class="col-span-full py-10 text-center text-slate-400 font-bold">Sin conexión</div>'; 
+            }
         }
 
         function filterCategory(cat) {
@@ -226,7 +228,11 @@
 
         function applyFilters() {
             const search = document.getElementById('searchInputMain').value.toLowerCase();
-            currentFiltered = allProducts.filter(p => p.nombre.toLowerCase().includes(search) && (activeCategory === 'all' || p.smartCategory === activeCategory));
+            currentFiltered = allProducts.filter(p => {
+                const matchesSearch = p.nombre.toLowerCase().includes(search);
+                const matchesCategory = (activeCategory === 'all' || p.smartCategory === activeCategory);
+                return matchesSearch && matchesCategory;
+            });
             renderGrid();
         }
 
@@ -242,7 +248,8 @@
 
             visible.forEach(p => {
                 const v = p.variantes[0], hasPrice = v.precio > 0;
-                let hook = "Calidad Pro"; if(p.argumento_venta) hook = p.argumento_venta.split(' ').slice(0,3).join(' ') + '...';
+                let hook = "Calidad Pro"; 
+                if(p.argumento_venta) hook = p.argumento_venta.split(' ').slice(0,3).join(' ') + '...';
                 
                 let badgeClass = 'bg-slate-100 text-slate-600';
                 if(p.smartCategory === 'Emborrachada') badgeClass = 'bg-indigo-50 text-indigo-600 border border-indigo-100';
@@ -272,28 +279,64 @@
             });
         }
 
-        // --- FUNCIONES MODAL ---
-        function openModal(p) { currentProductContext=p; document.getElementById('productModal').classList.remove('hidden'); setTimeout(()=>{document.getElementById('productModal').classList.remove('modal-closed');document.getElementById('productModal').classList.add('modal-open');document.getElementById('modalBackdrop').classList.remove('opacity-0');},10); updateModalContent(p.variantes[0]); }
-        function closeModal() { document.getElementById('productModal').classList.remove('modal-open'); document.getElementById('productModal').classList.add('modal-closed'); document.getElementById('modalBackdrop').classList.add('opacity-0'); setTimeout(()=>{document.getElementById('productModal').classList.add('hidden');},300); }
+        function openModal(p) { 
+            currentProductContext = p; 
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden'); 
+            setTimeout(() => {
+                modal.classList.remove('modal-closed');
+                modal.classList.add('modal-open');
+                document.getElementById('modalBackdrop').classList.remove('opacity-0');
+            }, 10); 
+            updateModalContent(p.variantes[0]); 
+        }
+
+        function closeModal() { 
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('modal-open'); 
+            modal.classList.add('modal-closed'); 
+            document.getElementById('modalBackdrop').classList.add('opacity-0'); 
+            setTimeout(() => { modal.classList.add('hidden'); }, 300); 
+        }
+
         function updateModalContent(v) {
-            document.getElementById('m-title').innerText=currentProductContext.nombre;
-            document.getElementById('m-desc').innerText=currentProductContext.descripcion;
-            document.getElementById('m-hook').innerText=`"${currentProductContext.argumento_venta}"`;
-            document.getElementById('m-tag').innerText=currentProductContext.smartCategory;
-            document.getElementById('m-sku').innerText=`ID: ${v.sku_id}`;
-            document.getElementById('m-rendimiento').innerHTML=`<span>${v.rendimiento}</span>`;
-            document.getElementById('m-dilucion').innerText=v.dilucion||'Ver ficha';
-            document.getElementById('m-secado').innerText=v.secado;
-            const pEl=document.getElementById('m-price'), bEl=document.getElementById('m-whatsapp');
-            if(!v.stock){pEl.innerText="Agotado";pEl.className="text-xl font-black text-red-500";bEl.classList.add('grayscale','opacity-50','pointer-events-none');}
-            else{pEl.innerText=v.precio>0?`$ ${v.precio.toLocaleString('es-PY')}`:"Consultar";pEl.className="text-xl font-black text-slate-900";bEl.classList.remove('grayscale','opacity-50','pointer-events-none');}
-            document.getElementById('m-img').src=v.imagen;
-            bEl.href=`https://wa.me/595987212934?text=${encodeURIComponent('Hola, me interesa: '+currentProductContext.nombre)}`;
-            const c=document.getElementById('m-variants-container'); c.innerHTML='';
-            if(currentProductContext.variantes.length>1){ document.getElementById('m-variants-title').classList.remove('hidden'); currentProductContext.variantes.forEach(va=>{
-                const b=document.createElement('button'); b.className=`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${va.sku_id===v.sku_id?'bg-slate-900 text-white':'bg-white text-slate-500'}`;
-                b.innerText=va.medida; b.onclick=()=>updateModalContent(va); c.appendChild(b);
-            });} else { document.getElementById('m-variants-title').classList.add('hidden'); }
+            document.getElementById('m-title').innerText = currentProductContext.nombre;
+            document.getElementById('m-desc').innerText = currentProductContext.descripcion;
+            document.getElementById('m-hook').innerText = `"${currentProductContext.argumento_venta}"`;
+            document.getElementById('m-tag').innerText = currentProductContext.smartCategory;
+            document.getElementById('m-sku').innerText = `ID: ${v.sku_id}`;
+            document.getElementById('m-rendimiento').innerHTML = `<span>${v.rendimiento}</span>`;
+            document.getElementById('m-dilucion').innerText = v.dilucion || 'Ver ficha';
+            document.getElementById('m-secado').innerText = v.secado;
+            
+            const pEl = document.getElementById('m-price'), bEl = document.getElementById('m-whatsapp');
+            if(!v.stock) {
+                pEl.innerText = "Agotado";
+                pEl.className = "text-xl font-black text-red-500";
+                bEl.classList.add('grayscale','opacity-50','pointer-events-none');
+            } else {
+                pEl.innerText = v.precio > 0 ? `$ ${v.precio.toLocaleString('es-PY')}` : "Consultar";
+                pEl.className = "text-xl font-black text-slate-900";
+                bEl.classList.remove('grayscale','opacity-50','pointer-events-none');
+            }
+            
+            document.getElementById('m-img').src = v.imagen;
+            bEl.href = `https://wa.me/595987212934?text=${encodeURIComponent('Hola, me interesa: ' + currentProductContext.nombre + ' (ID: ' + v.sku_id + ')')}`;
+            
+            const c = document.getElementById('m-variants-container'); 
+            c.innerHTML = '';
+            if(currentProductContext.variantes.length > 1) { 
+                document.getElementById('m-variants-title').classList.remove('hidden'); 
+                currentProductContext.variantes.forEach(va => {
+                    const b = document.createElement('button'); 
+                    b.className = `px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${va.sku_id === v.sku_id ? 'bg-slate-900 text-white' : 'bg-white text-slate-500'}`;
+                    b.innerText = va.medida; 
+                    b.onclick = () => updateModalContent(va); 
+                    c.appendChild(b);
+                });
+            } else { 
+                document.getElementById('m-variants-title').classList.add('hidden'); 
+            }
         }
 
         init();
